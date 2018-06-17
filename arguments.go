@@ -118,22 +118,6 @@ type SendLocationArguments struct {
 	LivePeriod int     `parameter:"live_period"`
 }
 
-type EditMessageLiveLocationArguments struct {
-	ChatId          string      `parameter:"chat_id"`
-	MessageId       int         `parameter:"message_id"`
-	InlineMessageId string      `parameter:"inline_message_id"`
-	Latitude        float64     `parameter:"latitude"`
-	Longitude       float64     `parameter:"longitude"`
-	ReplyMarkup     interface{} `parameter:"reply_markup"`
-}
-
-type StopMessageLiveLocationArguments struct {
-	ChatId          string      `parameter:"chat_id"`
-	MessageId       int         `parameter:"message_id"`
-	InlineMessageId string      `parameter:"inline_message_id"`
-	ReplyMarkup     interface{} `parameter:"reply_markup"`
-}
-
 type SendVenueArguments struct {
 	AbstractSendArguments
 	Latitude     float64 `parameter:"latitude"`
@@ -163,6 +147,118 @@ type GetUserProfilePhotosArguments struct {
 
 type GetFileArguments struct {
 	FileId string `parameter:"file_id"`
+}
+
+type ChatArguments struct {
+	ChatId string `parameter:"chat_id"`
+}
+
+type ChatMemberArguments struct {
+	ChatId string `parameter:"chat_id"`
+	UserId int    `parameter:"user_id"`
+}
+
+type KickChatMemberArguments struct {
+	ChatId    string `parameter:"chat_id"`
+	UserId    int    `parameter:"user_id"`
+	UntilDate int    `parameter:"until_date"`
+}
+
+type RestrictChatMemberArguments struct {
+	ChatId                string `parameter:"chat_id"`
+	UserId                int    `parameter:"user_id"`
+	UntilDate             int    `parameter:"until_date"`
+	CanSendMessages       bool   `parameter:"can_send_messages"`
+	CanSendMediaMessages  bool   `parameter:"can_send_media_messages"`
+	CanSendOtherMessages  bool   `parameter:"can_send_other_messages"`
+	CanAddWebPagePreviews bool   `parameter:"can_add_web_page_previews"`
+}
+
+type PromoteChatMemberArguments struct {
+	ChatId             string `parameter:"chat_id"`
+	UserId             int    `parameter:"user_id"`
+	CanChangeInfo      bool   `parameter:"can_change_info"`
+	CanPostMessages    bool   `parameter:"can_post_messages"`
+	CanEditMessages    bool   `parameter:"can_edit_messages"`
+	CanDeleteMessages  bool   `parameter:"can_delete_messages"`
+	CanInviteUsers     bool   `parameter:"can_invite_users"`
+	CanRestrictMembers bool   `parameter:"can_restrict_members"`
+	CanPinMessages     bool   `parameter:"can_pin_messages"`
+	CanPromoteMembers  bool   `parameter:"can_promote_members"`
+}
+
+type SetChatPhotoArguments struct {
+	ChatId string    `parameter:"chat_id"`
+	Photo  InputFile `parameter:"photo"`
+}
+
+type SetChatTitleArguments struct {
+	ChatId string `parameter:"chat_id"`
+	Title  string `parameter:"title"`
+}
+
+type SetChatDescriptionArguments struct {
+	ChatId      string `parameter:"chat_id"`
+	Description string `parameter:"description"`
+}
+
+type PinChatMessageArguments struct {
+	ChatId              string `parameter:"chat_id"`
+	MessageId           int    `parameter:"message_id"`
+	DisableNotification bool   `parameter:"disable_notification"`
+}
+
+type SetChatStickerSetArguments struct {
+	ChatId         string `parameter:"chat_id"`
+	StickerSetName string `parameter:"sticker_set_name"`
+}
+
+type AnwserCallbackQueryArguments struct {
+	CallbackQueryId string `parameter:"callback_query_id"`
+	Text            string `parameter:"text"`
+	ShowAlert       bool   `parameter:"show_alert"`
+	Url             string `parameter:"url"`
+	CacheTime       int    `parameter:"cache_time"`
+}
+
+type EditMessageTextArguments struct {
+	ChatId                string               `parameter:"chat_id"`
+	MessageId             int                  `parameter:"message_id"`
+	InlineMessageId       string               `parameter:"inline_message_id"`
+	Text                  string               `parameter:"text"`
+	ParseMode             ParseMode            `parameter:"parse_mode"`
+	DisableWebPagePreview bool                 `parameter:"disable_web_page_preview"`
+	ReplyMarkup           InlineKeyboardMarkup `parameter:"reply_markup"`
+}
+
+type EditMessageCaptionArguments struct {
+	ChatId          string               `parameter:"chat_id"`
+	MessageId       int                  `parameter:"message_id"`
+	InlineMessageId string               `parameter:"inline_message_id"`
+	Caption         string               `parameter:"caption"`
+	ParseMode       ParseMode            `parameter:"parse_mode"`
+	ReplyMarkup     InlineKeyboardMarkup `parameter:"reply_markup"`
+}
+
+type DeleteMessageArguments struct {
+	ChatId    string `parameter:"chat_id"`
+	MessageId int    `parameter:"message_id"`
+}
+
+type EditMessageLiveLocationArguments struct {
+	ChatId          string      `parameter:"chat_id"`
+	MessageId       int         `parameter:"message_id"`
+	InlineMessageId string      `parameter:"inline_message_id"`
+	Latitude        float64     `parameter:"latitude"`
+	Longitude       float64     `parameter:"longitude"`
+	ReplyMarkup     interface{} `parameter:"reply_markup"`
+}
+
+type StopMessageLiveLocationArguments struct {
+	ChatId          string      `parameter:"chat_id"`
+	MessageId       int         `parameter:"message_id"`
+	InlineMessageId string      `parameter:"inline_message_id"`
+	ReplyMarkup     interface{} `parameter:"reply_markup"`
 }
 
 type ChatOperationArguments struct {

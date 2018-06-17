@@ -1,5 +1,21 @@
 package telegroid
 
+type EntityType string
+
+const (
+	MentionEntity     EntityType = "mention"
+	HashTagEntity     EntityType = "hashtag"
+	BotCommandEntity  EntityType = "bot_command"
+	UrlEntity         EntityType = "url"
+	EmailEntity       EntityType = "email"
+	BoldEntity        EntityType = "bold"
+	ItalicEntity      EntityType = "italic"
+	CodeEntity        EntityType = "code"
+	PreEntity         EntityType = "pre"
+	TextLinkEntity    EntityType = "text_link"
+	TextMentionEntity EntityType = "text_mention"
+)
+
 type WebhookInfo struct {
 	Url                  string    `json:"url"`
 	HasCustomCertificate bool      `json:"has_custom_certificate"`
@@ -36,55 +52,55 @@ type Chat struct {
 }
 
 type Message struct {
-	MessageId            int              `json:"message_id"`
-	From                 *User            `json:"from"`
-	Date                 int              `json:"date"`
-	Chat                 *Chat            `json:"chat"`
-	ForwardFrom          *User            `json:"forward_from"`
-	ForwardFromChat      *Chat            `json:"forward_from_chat"`
-	ForwardFromMessageId int              `json:"forward_from_message_id"`
-	ForwardSignature     string           `json:"forward_signature"`
-	ForwardDate          int              `json:"forward_date"`
-	ReplyToMessage       *Message         `json:"reply_to_message"`
-	EditDate             int              `json:"edit_date"`
-	MediaGroupId         string           `json:"media_group_id"`
-	AuthorSignature      string           `json:"author_signature"`
-	Text                 string           `json:"text"`
-	Entities             *[]MessageEntity `json:"entities"`
-	CaptionEntities      *[]MessageEntity `json:"caption_entities"`
-	Audio                *Audio           `json:"audio"`
-	Document             *Document        `json:"document"`
-	Game                 *Game            `json:"game"`
-	Photo                *[]PhotoSize     `json:"photo"`
-	Sticker              *Sticker         `json:"sticker"`
-	Video                *Video           `json:"video"`
-	Voice                *Voice           `json:"voice"`
-	VideoNote            *VideoNote       `json:"video_note"`
-	Caption              *string          `json:"caption"`
-	//Location
-	//Venue
-	NewChatMembers        *[]User
-	LeftChatMember        *User
-	NewChatTitle          *string
-	NewChatPhoto          *[]PhotoSize
-	DeleteChatPhoto       bool
-	GroupChatCreated      bool
-	SupergroupChatCreated bool
-	ChannelChatCreated    bool
-	MigrateToChatId       int
-	MigrateFromChatId     int
-	PinnedMessage         *Message
-	//Invooice
-	//SuccessfulPayment
-	ConnectedWebsite *string
+	MessageId             int                `json:"message_id"`
+	From                  *User              `json:"from"`
+	Date                  int                `json:"date"`
+	Chat                  *Chat              `json:"chat"`
+	ForwardFrom           *User              `json:"forward_from"`
+	ForwardFromChat       *Chat              `json:"forward_from_chat"`
+	ForwardFromMessageId  int                `json:"forward_from_message_id"`
+	ForwardSignature      *string            `json:"forward_signature"`
+	ForwardDate           int                `json:"forward_date"`
+	ReplyToMessage        *Message           `json:"reply_to_message"`
+	EditDate              int                `json:"edit_date"`
+	MediaGroupId          *string            `json:"media_group_id"`
+	AuthorSignature       *string            `json:"author_signature"`
+	Text                  *string            `json:"text"`
+	Entities              *[]MessageEntity   `json:"entities"`
+	CaptionEntities       *[]MessageEntity   `json:"caption_entities"`
+	Audio                 *Audio             `json:"audio"`
+	Document              *Document          `json:"document"`
+	Game                  *Game              `json:"game"`
+	Photo                 *[]PhotoSize       `json:"photo"`
+	Sticker               *Sticker           `json:"sticker"`
+	Video                 *Video             `json:"video"`
+	Voice                 *Voice             `json:"voice"`
+	VideoNote             *VideoNote         `json:"video_note"`
+	Caption               *string            `json:"caption"`
+	Location              Location           `json:"location"`
+	Venue                 Venue              `json:"venue"`
+	NewChatMembers        *[]User            `json:"new_chat_members"`
+	LeftChatMember        *User              `json:"left_chat_member"`
+	NewChatTitle          *string            `json:"new_chat_title"`
+	NewChatPhoto          *[]PhotoSize       `json:"new_chat_photo"`
+	DeleteChatPhoto       bool               `json:"delete_chat_photo"`
+	GroupChatCreated      bool               `json:"group_chat_created"`
+	SupergroupChatCreated bool               `json:"supergroup_chat_created"`
+	ChannelChatCreated    bool               `json:"channel_chat_created"`
+	MigrateToChatId       int                `json:"migrate_to_chat_id"`
+	MigrateFromChatId     int                `json:"migrate_from_chat_id"`
+	PinnedMessage         *Message           `json:"pinned_message"`
+	Invoice               *Invoice           `json:"invoice"`
+	SuccessfulPayment     *SuccessfulPayment `json:"successful_payment"`
+	ConnectedWebsite      *string            `json:"connected_website"`
 }
 
 type MessageEntity struct {
-	Type   string  `json:"type"`
-	Offset int     `json:"offset"`
-	Length int     `json:"length"`
-	Url    *string `json:"url"`
-	User   *User   `json:"user"`
+	Type   EntityType `json:"type"`
+	Offset int        `json:"offset"`
+	Length int        `json:"length"`
+	Url    *string    `json:"url"`
+	User   *User      `json:"user"`
 }
 
 type PhotoSize struct {
@@ -92,50 +108,6 @@ type PhotoSize struct {
 	Width    int    `json:"width"`
 	Height   int    `json:"height"`
 	FileSize int    `json:"file_size"`
-}
-
-type UserProfilePhotos struct {
-	TotalCount int          `parameter:"total_count"`
-	Photos     *[]PhotoSize `parameter:"photos"`
-}
-
-type File struct {
-	FileId   string `parameter:"file_id"`
-	FileSize int    `parameter:"file_size"`
-	FilePath string `parameter:"file_path"`
-}
-
-type KeyboardButton struct {
-	Text            string `json:"text"`
-	RequestContact  bool   `json:"request_contact"`
-	RequestLocation bool   `json:"request_location"`
-}
-
-type ReplyKeyboardMarkup struct {
-	Keyboard        *[][]KeyboardButton `json:"keyboard"`
-	ResizeKeyboard  bool                `json:"resize_keyboard"`
-	OneTimeKeyboard bool                `json:"one_time_keyboard"`
-	Selective       bool                `json:"selective"`
-}
-
-type ReplyKeyboardRemove struct {
-	RemoveKeyboard bool `json:"remove_keyboard"`
-	Selective      bool `json:"selective"`
-}
-
-type InlineKeyboardButton struct {
-	Text                         string        `json:"text"`
-	Url                          *string       `json:"url,omitempty"`
-	CallbackData                 *string       `json:"callback_data,omitempty"`
-	SwitchInlineQuery            *string       `json:"switch_inline_query,omitempty"`
-	SwitchInlineQueryCurrentChat *string       `json:"switch_inline_query_current_chat,omitempty"`
-	CallbackGame                 *CallbackGame `json:"callback_game,omitempty"`
-	Pay                          bool          `json:"pay,omitempty"`
-}
-
-type ChatPhoto struct {
-	SmallFileId string `json:"small_file_id"`
-	BigFileId   string `json:"big_file_id"`
 }
 
 type MimeFile struct {
@@ -178,9 +150,90 @@ type VideoNote struct {
 	FileSize int        `json:"file_size"`
 }
 
+type Contact struct {
+	PhoneNumber string `json:"phone_number"`
+	FirstName   string `json:"first_name"`
+	LastName    string `json:"last_name"`
+	UserId      int    `json:"user_id"`
+}
+
 type Location struct {
 	Longitude float64 `json:"longitude"`
 	Latitude  float64 `json:"latitude"`
+}
+
+type Venue struct {
+	Location     Location `json:"location"`
+	Title        string   `json:"title"`
+	Address      string   `json:"address"`
+	FoursquareId string   `json:"foursquare_id"`
+}
+
+type UserProfilePhotos struct {
+	TotalCount int          `parameter:"total_count"`
+	Photos     *[]PhotoSize `parameter:"photos"`
+}
+
+type File struct {
+	FileId   string `parameter:"file_id"`
+	FileSize int    `parameter:"file_size"`
+	FilePath string `parameter:"file_path"`
+}
+
+type ReplyKeyboardMarkup struct {
+	Keyboard        *[][]KeyboardButton `json:"keyboard"`
+	ResizeKeyboard  bool                `json:"resize_keyboard"`
+	OneTimeKeyboard bool                `json:"one_time_keyboard"`
+	Selective       bool                `json:"selective"`
+}
+
+type KeyboardButton struct {
+	Text            string `json:"text"`
+	RequestContact  bool   `json:"request_contact"`
+	RequestLocation bool   `json:"request_location"`
+}
+
+type ReplyKeyboardRemove struct {
+	RemoveKeyboard bool `json:"remove_keyboard"`
+	Selective      bool `json:"selective"`
+}
+
+type InlineKeyboardMarkup struct {
+	InlineKeyboard *[][]InlineKeyboardButton `json:"inline_keyboard"`
+}
+
+type InlineKeyboardButton struct {
+	Text                         string        `json:"text"`
+	Url                          *string       `json:"url"`
+	CallbackData                 *string       `json:"callback_data"`
+	SwitchInlineQuery            *string       `json:"switch_inline_query"`
+	SwitchInlineQueryCurrentChat *string       `json:"switch_inline_query_current_chat"`
+	CallbackGame                 *CallbackGame `json:"callback_game"`
+	Pay                          bool          `json:"pay"`
+}
+
+type ChatPhoto struct {
+	SmallFileId string `json:"small_file_id"`
+	BigFileId   string `json:"big_file_id"`
+}
+
+type ChatMember struct {
+	User                  User   `json:"user"`
+	Status                string `json:"status"`
+	UntilDate             int    `json:"until_date"`
+	CanBeEdited           bool   `json:"can_be_edited"`
+	CanChangeInfo         bool   `json:"can_change_info"`
+	CanPostMessages       bool   `json:"can_post_messages"`
+	CanEditMessages       bool   `json:"can_edit_messages"`
+	CanDeleteMessages     bool   `json:"can_delete_messages"`
+	CanPinMessages        bool   `json:"can_pin_messages"`
+	CanInviteUsers        bool   `json:"can_invite_users"`
+	CanRestrictMembers    bool   `json:"can_restrict_members"`
+	CanPromoteMembers     bool   `json:"can_promote_members"`
+	CanSendMessages       bool   `json:"can_send_messages"`
+	CanSendMediaMessages  bool   `json:"can_send_media_messages"`
+	CanSendOtherMessages  bool   `json:"can_send_other_messages"`
+	CanAddWebPagePreviews bool   `json:"can_add_web_page_previews"`
 }
 
 type Sticker struct {
@@ -243,3 +296,7 @@ type Update struct {
 	InlineQuery        *InlineQuery        `json:"inline_query"`
 	ChosenInlineResult *ChosenInlineResult `json:"chosen_inline_result"`
 }
+
+type Invoice struct{}
+
+type SuccessfulPayment struct{}
