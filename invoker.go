@@ -24,18 +24,18 @@ func (d *Telegroid) bindInvoker() {
 	rt := reflect.TypeOf(d).Elem()
 	// search api function
 	for i := 0; i < rv.NumField(); i++ {
-		methodName := rt.Field(i).Tag.Get(TagMethod)
+		fv, ft := rv.Field(i), rt.Field(i)
+		if fv.Kind() != reflect.Func {
+			continue
+		}
+		methodName := ft.Tag.Get(TagMethod)
 		if len(methodName) == 0 {
 			continue
 		}
-		field := rv.Field(i)
-		if field.Kind() != reflect.Func {
-			continue
-		}
 		// bind invoker
-		funcType := field.Type()
+		funcType := fv.Type()
 		invoker := d.createInvoker(methodName, funcType.Out(0))
-		field.Set(reflect.MakeFunc(field.Type(), invoker))
+		fv.Set(reflect.MakeFunc(funcType, invoker))
 	}
 }
 
