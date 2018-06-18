@@ -51,6 +51,7 @@ type Telegroid struct {
 	AddStickerToSet         func(args AddStickerToSetArguments) bool                    `method:"addStickerToSet"`
 	SetStickerPositionInSet func(args SetStickerPositionInSetArguments) bool            `method:"setStickerPositionInSet"`
 	DeleteStickerFromSet    func(args DeleteStickerFromSetArguments) bool               `method:"deleteStickerFromSet"`
+	DeleteMessage           func(args DeleteMessageArguments) bool                      `method:"deleteMessage"`
 }
 
 func NewTelegroid(token string) *Telegroid {
