@@ -16,32 +16,68 @@ args.Text = "Hello, world!"
 tgroid.SendMessage(args)
 ```
 
-# Supported Methods
+# Methods
 
 | Method | Supported | Tested |
 |--------|-----------|--------|
-| getMe | Yes | Yes |
-| getUpdates | Yes | Yes |
-| setWebhook | Yes | No |
-| deleteWebhook | Yes | No |
-| getWebhookInfo | Yes | No |
-| forwardMessage | Yes | No |
-| sendMessage | Yes | Yes |
-| sendPhoto | Yes | Yes |
-| sendAudio | Yes | No |
-| sendDocument | Yes | No |
-| sendVideo | Yes | No |
-| sendVoice | Yes | No |
-| sendVideoNote | Yes | No |
-| sendMediaGroup | Yes | No |
-| sendLocation | Yes | No |
-| sendVenue | Yes | No |
-| sendContact | Yes | No |
-| sendChatAction | Yes | No |
+| getMe | √ | √ |
+| getUpdates | √ | √ |
+| setWebhook | √ | × |
+| deleteWebhook | √ | × |
+| getWebhookInfo | √ | × |
+| forwardMessage | √ | × |
+| sendMessage | √ | √ |
+| sendPhoto | √ | √ |
+| sendAudio | √ | × |
+| sendDocument | √ | × |
+| sendVideo | √ | × |
+| sendVoice | √ | × |
+| sendVideoNote | √ | × |
+| sendMediaGroup | √ | × |
+| sendLocation | √ | × |
+| sendVenue | √ | × |
+| sendContact | √ | × |
+| sendChatAction | √ | × |
+| getUserProfilePhotos | √ | × |
+| getFile | √ | × |
+| kickChatMember | √ | × |
+| unbanChatMember | √ | × |
+| restrictChatMember | √ | × |
+| promoteChatMember | √ | × |
+| exportChatInviteLink | √ | × |
+| setChatPhoto | √ | × |
+| deleteChatPhoto | √ | × |
+| setChatTitle | √ | × |
+| setChatDescription | √ | × |
+| pinChatMessage | √ | × |
+| unpinChatMessage | √ | × |
+| leaveChat | √ | × |
+| getChat | √ | × |
+| getChatAdministrators | √ | × |
+| getChatMembersCount | √ | × |
+| getChatMember | √ | × |
+| setChatStickerSet | √ | × |
+| deleteChatStickerSet | √ | × |
+| sendSticker | √ | × |
+| getStickerSet | √ | × |
+| uploadStickerFile | √ | × |
+| createNewStickerSet | √ | × |
+| addStickerToSet | √ | × |
+| setStickerPositionInSet | √ | × |
+| deleteStickerFromSet | √ | × |
+| answerCallbackQuery | × | × |
+| answerInlineQuery | × | × |
+| editMessageText | × | × |
+| editMessageCaption | × | × |
+| editMessageReplyMarkup | × | × |
+| deleteMessage | √ | × |
+| editMessageLiveLocation | × | × |
+| stopMessageLiveLocation | × | × |
+| Payment methods | × | × |
+| Game methods | × | × |
 
-
-# TODO List
-* Support all methods
+# TODO list
+* Support more methods
 * Add error handling
 * Add utils for building arguments
 * emmm...
