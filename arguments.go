@@ -261,6 +261,47 @@ type StopMessageLiveLocationArguments struct {
 	ReplyMarkup     interface{} `parameter:"reply_markup"`
 }
 
+type SendStickerArguments struct {
+	AbstractSendArguments
+	Sticker InputFile `parameter:"sticker"`
+}
+
+type GetStickerSetArguments struct {
+	Name string `parameter:"name"`
+}
+
+type UploadStickerFileArguments struct {
+	UserId     int       `parameter:"user_id"`
+	PngSticker InputFile `parameter:"png_sticker"`
+}
+
+type CreateNewStickerSetArguments struct {
+	UserId        int           `json:"user_id"`
+	Name          string        `json:"name"`
+	Title         string        `json:"title"`
+	PngStricker   InputFile     `json:"png_stricker"`
+	Emojis        string        `json:"emojis"`
+	ContainsMasks bool          `json:"contains_masks"`
+	MaskPosition  *MaskPosition `json:"mask_position"`
+}
+
+type AddStickerToSetArguments struct {
+	UserId       int          `parameter:"user_id"`
+	Name         string       `json:"name"`
+	PngSticker   InputFile    `json:"png_sticker"`
+	Emojis       string       `json:"emojis"`
+	MaskPosition MaskPosition `json:"mask_position"`
+}
+
+type SetStickerPositionInSetArguments struct {
+	Sticker  string `parameter:"sticker"`
+	Position int    `parameter:"position"`
+}
+
+type DeleteStickerFromSetArguments struct {
+	Sticker string `parameter:"sticker"`
+}
+
 type ChatOperationArguments struct {
 	ChatId string `parameter:"chat_id"`
 }

@@ -1,6 +1,7 @@
 package telegroid
 
 type EntityType string
+type MediaType string
 
 const (
 	MentionEntity     EntityType = "mention"
@@ -14,6 +15,9 @@ const (
 	PreEntity         EntityType = "pre"
 	TextLinkEntity    EntityType = "text_link"
 	TextMentionEntity EntityType = "text_mention"
+
+	PhotoMedia MediaType = "photo"
+	VideoMedia MediaType = "video"
 )
 
 type WebhookInfo struct {
@@ -170,8 +174,8 @@ type Venue struct {
 }
 
 type UserProfilePhotos struct {
-	TotalCount int          `parameter:"total_count"`
-	Photos     *[]PhotoSize `parameter:"photos"`
+	TotalCount int            `parameter:"total_count"`
+	Photos     *[][]PhotoSize `parameter:"photos"`
 }
 
 type File struct {
@@ -181,10 +185,10 @@ type File struct {
 }
 
 type ReplyKeyboardMarkup struct {
-	Keyboard        *[][]KeyboardButton `json:"keyboard"`
-	ResizeKeyboard  bool                `json:"resize_keyboard"`
-	OneTimeKeyboard bool                `json:"one_time_keyboard"`
-	Selective       bool                `json:"selective"`
+	Keyboard        [][]KeyboardButton `json:"keyboard"`
+	ResizeKeyboard  bool               `json:"resize_keyboard"`
+	OneTimeKeyboard bool               `json:"one_time_keyboard"`
+	Selective       bool               `json:"selective"`
 }
 
 type KeyboardButton struct {
@@ -199,7 +203,7 @@ type ReplyKeyboardRemove struct {
 }
 
 type InlineKeyboardMarkup struct {
-	InlineKeyboard *[][]InlineKeyboardButton `json:"inline_keyboard"`
+	InlineKeyboard [][]InlineKeyboardButton `json:"inline_keyboard"`
 }
 
 type InlineKeyboardButton struct {
@@ -210,6 +214,21 @@ type InlineKeyboardButton struct {
 	SwitchInlineQueryCurrentChat *string       `json:"switch_inline_query_current_chat"`
 	CallbackGame                 *CallbackGame `json:"callback_game"`
 	Pay                          bool          `json:"pay"`
+}
+
+type CallbackQuery struct {
+	Id              string   `json:"id"`
+	From            User     `json:"from"`
+	Message         *Message `json:"message"`
+	InlineMessageId *string  `json:"inline_message_id"`
+	ChatInstance    string   `json:"chat_instance"`
+	Data            *string  `json:"data"`
+	GameShortName   *string  `json:"game_short_name"`
+}
+
+type ForceReply struct {
+	ForceReply bool `json:"force_reply"`
+	Selective  bool `json:"selective"`
 }
 
 type ChatPhoto struct {
@@ -236,6 +255,24 @@ type ChatMember struct {
 	CanAddWebPagePreviews bool   `json:"can_add_web_page_previews"`
 }
 
+type InputMediaPhoto struct {
+	Type      MediaType  `json:"type"`
+	Media     string     `json:"media"`
+	Caption   *string    `json:"caption"`
+	ParseMode *ParseMode `json:"parse_mode"`
+}
+
+type InputMediaVideo struct {
+	Type              MediaType  `json:"type"`
+	Media             string     `json:"media"`
+	Caption           *string    `json:"caption"`
+	ParseMode         *ParseMode `json:"parse_mode"`
+	Width             int        `json:"width"`
+	Height            int        `json:"height"`
+	Duration          int        `json:"duration"`
+	SupportsStreaming bool       `json:"supports_streaming"`
+}
+
 type Sticker struct {
 	FileId       int           `json:"file_id"`
 	Width        int           `json:"width"`
@@ -252,6 +289,13 @@ type MaskPosition struct {
 	XShift float64 `json:"x_shift"`
 	YShift float64 `json:"y_shift"`
 	Scale  float64 `json:"scale"`
+}
+
+type StickerSet struct {
+	Name         string    `json:"name"`
+	Title        string    `json:"title"`
+	ContainsMask bool      `json:"contains_mask"`
+	Stickers     []Sticker `json:"stickers"`
 }
 
 type Game struct {
