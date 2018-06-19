@@ -140,14 +140,14 @@ func getStringValue(value reflect.Value) string {
 		result = strconv.FormatFloat(value.Float(), 'f', -1, 64)
 	case reflect.String:
 		result = value.String()
-	case reflect.Map, reflect.Slice, reflect.Interface:
+	case reflect.Slice, reflect.Interface:
 		if !value.IsNil() {
 			jv, err := json.Marshal( value.Interface() )
 			if err != nil {
 				result = string(jv)
 			}
 		}
-	case reflect.Array, reflect.Struct:
+	case reflect.Struct:
 		jv, err := json.Marshal(value.Interface())
 		if err == nil {
 			result = string(jv)
