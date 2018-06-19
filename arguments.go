@@ -227,22 +227,22 @@ type AnwserCallbackQueryArguments struct {
 }
 
 type EditMessageTextArguments struct {
-	ChatId                string               `parameter:"chat_id"`
-	MessageId             int                  `parameter:"message_id"`
-	InlineMessageId       string               `parameter:"inline_message_id"`
-	Text                  string               `parameter:"text"`
-	ParseMode             ParseMode            `parameter:"parse_mode"`
-	DisableWebPagePreview bool                 `parameter:"disable_web_page_preview"`
-	ReplyMarkup           InlineKeyboardMarkup `parameter:"reply_markup"`
+	ChatId                string                `parameter:"chat_id"`
+	MessageId             int                   `parameter:"message_id"`
+	InlineMessageId       string                `parameter:"inline_message_id"`
+	Text                  string                `parameter:"text"`
+	ParseMode             ParseMode             `parameter:"parse_mode"`
+	DisableWebPagePreview bool                  `parameter:"disable_web_page_preview"`
+	ReplyMarkup           *InlineKeyboardMarkup `parameter:"reply_markup"`
 }
 
 type EditMessageCaptionArguments struct {
-	ChatId          string               `parameter:"chat_id"`
-	MessageId       int                  `parameter:"message_id"`
-	InlineMessageId string               `parameter:"inline_message_id"`
-	Caption         string               `parameter:"caption"`
-	ParseMode       ParseMode            `parameter:"parse_mode"`
-	ReplyMarkup     InlineKeyboardMarkup `parameter:"reply_markup"`
+	ChatId          string                `parameter:"chat_id"`
+	MessageId       int                   `parameter:"message_id"`
+	InlineMessageId string                `parameter:"inline_message_id"`
+	Caption         string                `parameter:"caption"`
+	ParseMode       ParseMode             `parameter:"parse_mode"`
+	ReplyMarkup     *InlineKeyboardMarkup `parameter:"reply_markup"`
 }
 
 type DeleteMessageArguments struct {
@@ -291,11 +291,11 @@ type CreateNewStickerSetArguments struct {
 }
 
 type AddStickerToSetArguments struct {
-	UserId       int          `parameter:"user_id"`
-	Name         string       `parameter:"name"`
-	PngSticker   InputFile    `parameter:"png_sticker"`
-	Emojis       string       `parameter:"emojis"`
-	MaskPosition MaskPosition `parameter:"mask_position"`
+	UserId       int           `parameter:"user_id"`
+	Name         string        `parameter:"name"`
+	PngSticker   InputFile     `parameter:"png_sticker"`
+	Emojis       string        `parameter:"emojis"`
+	MaskPosition *MaskPosition `parameter:"mask_position"`
 }
 
 type SetStickerPositionInSetArguments struct {
