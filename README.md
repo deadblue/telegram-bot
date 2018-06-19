@@ -11,10 +11,9 @@ tgroid := telegroid.NewTelegroid("your_bot_token")
 // Get bot information
 me := tgroid.GetMe()
 
-// Send message
-args := telegroid.SendMessageArguments{}
-args.ChatId = "@deadblue9"
-args.Text = "Hello, world!"
+// Build text message and send
+args := telegroid.NewMessageBuilder().ChatId(12345678).
+	ForText().Text("Hello, telegram!").Done()
 tgroid.SendMessage(args)
 ```
 
@@ -79,7 +78,7 @@ tgroid.SendMessage(args)
 | Game methods | ✗ | ✗ |
 
 # TODO list
-* Support more methods
-* Add error handling
-* Add utils for building arguments
-* emmm...
+- [x] Add utils for building arguments
+- [ ] Support more methods
+- [ ] Add error handling
+- [ ] emmmmm...
