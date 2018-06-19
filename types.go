@@ -81,8 +81,8 @@ type Message struct {
 	Voice                 *Voice             `json:"voice"`
 	VideoNote             *VideoNote         `json:"video_note"`
 	Caption               *string            `json:"caption"`
-	Location              *Location           `json:"location"`
-	Venue                 *Venue              `json:"venue"`
+	Location              *Location          `json:"location"`
+	Venue                 *Venue             `json:"venue"`
 	NewChatMembers        *[]User            `json:"new_chat_members"`
 	LeftChatMember        *User              `json:"left_chat_member"`
 	NewChatTitle          *string            `json:"new_chat_title"`
@@ -174,14 +174,14 @@ type Venue struct {
 }
 
 type UserProfilePhotos struct {
-	TotalCount int            `parameter:"total_count"`
-	Photos     *[][]PhotoSize `parameter:"photos"`
+	TotalCount int            `json:"total_count"`
+	Photos     *[][]PhotoSize `json:"photos"`
 }
 
 type File struct {
-	FileId   string `parameter:"file_id"`
-	FileSize int    `parameter:"file_size"`
-	FilePath string `parameter:"file_path"`
+	FileId   string `json:"file_id"`
+	FileSize int    `json:"file_size"`
+	FilePath string `json:"file_path"`
 }
 
 type ReplyKeyboardMarkup struct {
@@ -339,6 +339,7 @@ type Update struct {
 	EditedChannelPost  *Message            `json:"edited_channel_post"`
 	InlineQuery        *InlineQuery        `json:"inline_query"`
 	ChosenInlineResult *ChosenInlineResult `json:"chosen_inline_result"`
+	CallbackQuery      *CallbackQuery      `json:"callback_query"`
 }
 
 type Invoice struct{}
