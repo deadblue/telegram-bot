@@ -58,21 +58,13 @@ func (b *MessageBuilder) ForText() *textMessageBuilder {
 	}
 }
 func (tb *textMessageBuilder) Text(text string) *textMessageBuilder {
+	tb.args.ParseMode = ""
 	tb.args.Text = text
 	return tb
 }
-func (tb *textMessageBuilder) Markdown(text string) *textMessageBuilder {
+func (tb *textMessageBuilder) Markdown(markdown string) *textMessageBuilder {
 	tb.args.ParseMode = ParseModeMarkdown
-	tb.args.Text = text
-	return tb
-}
-func (tb *textMessageBuilder) HTML(text string) *textMessageBuilder {
-	tb.args.ParseMode = ParseModeHTML
-	tb.args.Text = text
-	return tb
-}
-func (tb *textMessageBuilder) ParseMode(mode ParseMode) *textMessageBuilder {
-	tb.args.ParseMode = mode
+	tb.args.Text = markdown
 	return tb
 }
 func (tb *textMessageBuilder) Done() SendMessageArguments {
@@ -89,15 +81,15 @@ func (b *MessageBuilder) ForPhoto() *photoMessaageBuilder {
 		},
 	}
 }
-func (pb *photoMessaageBuilder) PhotoFileId(fileId string) *photoMessaageBuilder {
+func (pb *photoMessaageBuilder) FileId(fileId string) *photoMessaageBuilder {
 	pb.args.Photo = InputFileOrString{ StringValue:fileId }
 	return pb
 }
-func (pb *photoMessaageBuilder) PhotoUrl(url string) *photoMessaageBuilder {
+func (pb *photoMessaageBuilder) Url(url string) *photoMessaageBuilder {
 	pb.args.Photo = InputFileOrString{ StringValue:url }
 	return pb
 }
-func (pb *photoMessaageBuilder) PhotoFile(filepath string) *photoMessaageBuilder {
+func (pb *photoMessaageBuilder) LocalFile(filepath string) *photoMessaageBuilder {
 	file, err := FromFile(filepath)
 	if err == nil {
 		pb.args.Photo = InputFileOrString{ FileValue:&file }
@@ -105,9 +97,33 @@ func (pb *photoMessaageBuilder) PhotoFile(filepath string) *photoMessaageBuilder
 	return pb
 }
 func (pb *photoMessaageBuilder) Caption(caption string) *photoMessaageBuilder {
+	pb.args.ParseMode = ""
 	pb.args.Caption = caption
+	return pb
+}
+func (pb *photoMessaageBuilder) MarkdownCaption(markdown string) *photoMessaageBuilder {
+	pb.args.ParseMode = ParseModeMarkdown
+	pb.args.Caption = markdown
 	return pb
 }
 func (pb *photoMessaageBuilder) Done() SendPhotoArguments {
 	return pb.args
+}
+
+type stickerMessageBuilder struct {
+	args SendStickerArguments
+}
+func (b *MessageBuilder) ForSticker() *stickerMessageBuilder {
+	return &stickerMessageBuilder{
+		args: SendStickerArguments{
+			AbstractSendArguments: b.args,
+		},
+	}
+}
+func (sb *stickerMessageBuilder) FileId(fileId string) *stickerMessageBuilder {
+	sb.args.Sticker = InputFileOrString{ StringValue:fileId }
+	return sb
+}
+func (sb *stickerMessageBuilder) Done() SendStickerArguments {
+	return sb.args
 }
