@@ -61,6 +61,16 @@ func (tb *textMessageBuilder) Text(text string) *textMessageBuilder {
 	tb.args.Text = text
 	return tb
 }
+func (tb *textMessageBuilder) Markdown(text string) *textMessageBuilder {
+	tb.args.ParseMode = ParseModeMarkdown
+	tb.args.Text = text
+	return tb
+}
+func (tb *textMessageBuilder) HTML(text string) *textMessageBuilder {
+	tb.args.ParseMode = ParseModeHTML
+	tb.args.Text = text
+	return tb
+}
 func (tb *textMessageBuilder) ParseMode(mode ParseMode) *textMessageBuilder {
 	tb.args.ParseMode = mode
 	return tb
