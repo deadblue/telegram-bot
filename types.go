@@ -81,8 +81,8 @@ type Message struct {
 	Voice                 *Voice             `json:"voice"`
 	VideoNote             *VideoNote         `json:"video_note"`
 	Caption               *string            `json:"caption"`
-	Location              Location           `json:"location"`
-	Venue                 Venue              `json:"venue"`
+	Location              *Location           `json:"location"`
+	Venue                 *Venue              `json:"venue"`
 	NewChatMembers        *[]User            `json:"new_chat_members"`
 	LeftChatMember        *User              `json:"left_chat_member"`
 	NewChatTitle          *string            `json:"new_chat_title"`
