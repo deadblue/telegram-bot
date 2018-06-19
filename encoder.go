@@ -17,10 +17,11 @@ const (
 
 var (
 	InputFileType = reflect.TypeOf(InputFile{})
+	InputFileOrStringType = reflect.TypeOf(InputFileOrString{})
 )
 
 type holder struct {
-	Parameters map[string]reflect.Value
+	Parameters map[string]string
 	Files      map[string]InputFile
 }
 
@@ -65,7 +66,7 @@ func (e *encoder) Finish() []byte {
 
 func newHolder() holder {
 	return holder{
-		Parameters: make(map[string]reflect.Value),
+		Parameters: make(map[string]string),
 		Files:      make(map[string]InputFile),
 	}
 }
@@ -81,62 +82,6 @@ func newEncoder(isMultipart bool) encoder {
 	return encoder
 }
 
-func encodeArguments(args interface{}) (string, io.ReadCloser) {
-	// scan parameters
-	holder := newHolder()
-	scanParameters(holder, args)
-	// create encoder
-	encoder := newEncoder( len(holder.Files) != 0 )
-	// add files
-	for pn, pv := range holder.Files {
-		encoder.AddFile(pn, pv.Name, pv.Reader)
-	}
-	// add parameters
-	for pn, pv := range holder.Parameters {
-		for pv.Kind() == reflect.Ptr {
-			pv = pv.Elem()
-		}
-		switch pv.Kind() {
-		case reflect.Bool:
-			boolVal := pv.Bool()
-			if boolVal {
-				encoder.AddString(pn, strconv.FormatBool(boolVal))
-			}
-		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-			intVal := pv.Int()
-			if intVal != 0 {
-				encoder.AddString(pn, strconv.FormatInt(intVal, 10))
-			}
-		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-			uintVal := pv.Uint()
-			if uintVal != 0 {
-				encoder.AddString(pn, strconv.FormatUint(uintVal, 10))
-			}
-		case reflect.Float32, reflect.Float64:
-			encoder.AddString(pn, strconv.FormatFloat(pv.Float(), 'f', -1, 64))
-		case reflect.String:
-			strVal := pv.String()
-			if len(strVal) > 0 {
-				encoder.AddString(pn, strVal)
-			}
-		case reflect.Map, reflect.Slice, reflect.Interface:
-			if !pv.IsNil() {
-				jv, err := json.Marshal(pv.Interface())
-				if err != nil {
-					encoder.AddString(pn, string(jv))
-				}
-			}
-		case reflect.Array, reflect.Struct:
-			jv, err := json.Marshal(pv.Interface())
-			if err == nil {
-				encoder.AddString(pn, string(jv))
-			}
-		}
-	}
-	data := encoder.Finish()
-	return encoder.ContentType(), ioutil.NopCloser(bytes.NewReader(data))
-}
-
 func scanParameters(holder holder, entity interface{}) {
 	rv, rt := reflect.ValueOf(entity), reflect.TypeOf(entity)
 	if rv.Kind() != reflect.Struct {
@@ -150,14 +95,83 @@ func scanParameters(holder holder, entity interface{}) {
 		} else {
 			pn := ft.Tag.Get(TagParameter)
 			if len(pn) == 0 { continue }
-			if ft.Type == InputFileType {
+			if ft.Type == InputFileOrStringType {
+				pv := fv.Interface().(InputFileOrString)
+				if pv.UploadFile && pv.FileValue != nil {
+					holder.Files[pn] = *pv.FileValue
+				} else {
+					holder.Parameters[pn] = pv.StringValue
+				}
+			} else if ft.Type == InputFileType {
 				file := fv.Interface().(InputFile)
 				if file.Reader != nil {
 					holder.Files[pn] = file
 				}
 			} else {
-				holder.Parameters[pn] = fv
+				holder.Parameters[pn] = getStringValue(fv)
 			}
 		}
 	}
+}
+
+func getStringValue(value reflect.Value) string {
+	result := ""
+	for value.Kind() == reflect.Ptr {
+		value = value.Elem()
+	}
+
+	switch value.Kind() {
+	case reflect.Bool:
+		boolVal := value.Bool()
+		if boolVal {
+			result = strconv.FormatBool(boolVal)
+		}
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		intVal := value.Int()
+		if intVal != 0 {
+			result = strconv.FormatInt(intVal, 10)
+		}
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		uintVal := value.Uint()
+		if uintVal != 0 {
+			result = strconv.FormatUint(uintVal, 10)
+		}
+	case reflect.Float32, reflect.Float64:
+		result = strconv.FormatFloat(value.Float(), 'f', -1, 64)
+	case reflect.String:
+		result = value.String()
+	case reflect.Map, reflect.Slice, reflect.Interface:
+		if !value.IsNil() {
+			jv, err := json.Marshal( value.Interface() )
+			if err != nil {
+				result = string(jv)
+			}
+		}
+	case reflect.Array, reflect.Struct:
+		jv, err := json.Marshal(value.Interface())
+		if err == nil {
+			result = string(jv)
+		}
+	}
+	return result
+}
+
+func encodeArguments(args interface{}) (string, io.ReadCloser) {
+	// scan parameters
+	holder := newHolder()
+	scanParameters(holder, args)
+	// create encoder
+	encoder := newEncoder( len(holder.Files) != 0 )
+	// add files
+	for pn, pv := range holder.Files {
+		encoder.AddFile(pn, pv.Name, pv.Reader)
+	}
+	// add parameters
+	for pn, pv := range holder.Parameters {
+		if len(pv) != 0 {
+			encoder.AddString(pn, pv)
+		}
+	}
+	data := encoder.Finish()
+	return encoder.ContentType(), ioutil.NopCloser(bytes.NewReader(data))
 }

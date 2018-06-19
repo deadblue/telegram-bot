@@ -19,6 +19,11 @@ const (
 	ChatActionUploadVideoNote ChatAction = "upload_video_note"
 )
 
+type InputFileOrString struct {
+	FileValue   *InputFile
+	StringValue string
+}
+
 type SetWebhookArguments struct {
 	Url            string    `parameter:"url"`
 	Certificate    InputFile `parameter:"certificate"`
@@ -56,52 +61,52 @@ type SendMessageArguments struct {
 
 type SendPhotoArguments struct {
 	AbstractSendArguments
-	Photo     InputFile `parameter:"photo"`
-	Caption   string    `parameter:"caption"`
-	ParseMode ParseMode `parameter:"parse_mode"`
+	Photo     InputFileOrString `parameter:"photo"`
+	Caption   string            `parameter:"caption"`
+	ParseMode ParseMode         `parameter:"parse_mode"`
 }
 
 type SendAudioArguments struct {
 	AbstractSendArguments
-	Audio     InputFile `parameter:"audio"`
-	Caption   string    `parameter:"caption"`
-	ParseMode ParseMode `parameter:"parse_mode"`
-	Duration  int       `parameter:"duration"`
-	Performer string    `parameter:"performer"`
-	Title     string    `parameter:"title"`
+	Audio     InputFileOrString `parameter:"audio"`
+	Caption   string            `parameter:"caption"`
+	ParseMode ParseMode         `parameter:"parse_mode"`
+	Duration  int               `parameter:"duration"`
+	Performer string            `parameter:"performer"`
+	Title     string            `parameter:"title"`
 }
 
 type SendDocumentArguments struct {
 	AbstractSendArguments
-	Document  InputFile `parameter:"document"`
-	Caption   string    `parameter:"caption"`
-	ParseMode ParseMode `parameter:"parse_mode"`
+	Document  InputFileOrString `parameter:"document"`
+	Caption   string            `parameter:"caption"`
+	ParseMode ParseMode         `parameter:"parse_mode"`
 }
 
 type SendVideoArguments struct {
 	AbstractSendArguments
-	Video             string    `parameter:"video"`
-	Duration          int       `parameter:"duration"`
-	Width             int       `parameter:"width"`
-	Height            int       `parameter:"height"`
-	Caption           string    `parameter:"caption"`
-	ParseMode         ParseMode `parameter:"parse_mode"`
-	SupportsStreaming bool      `parameter:"supports_streaming"`
+	Video             InputFileOrString `parameter:"video"`
+	Duration          int               `parameter:"duration"`
+	Width             int               `parameter:"width"`
+	Height            int               `parameter:"height"`
+	Caption           string            `parameter:"caption"`
+	ParseMode         ParseMode         `parameter:"parse_mode"`
+	SupportsStreaming bool              `parameter:"supports_streaming"`
 }
 
 type SendVoiceArguments struct {
 	AbstractSendArguments
-	Voice     InputFile `parameter:"voice"`
-	Caption   string    `parameter:"caption"`
-	ParseMode ParseMode `parameter:"parse_mode"`
-	Duration  int       `parameter:"duration"`
+	Voice     InputFileOrString `parameter:"voice"`
+	Caption   string            `parameter:"caption"`
+	ParseMode ParseMode         `parameter:"parse_mode"`
+	Duration  int               `parameter:"duration"`
 }
 
 type SendVideoNoteArguments struct {
 	AbstractSendArguments
-	VideoNote InputFile `parameter:"video_note"`
-	Duration  int       `parameter:"duration"`
-	Length    int       `parameter:"length"`
+	VideoNote InputFileOrString `parameter:"video_note"`
+	Duration  int               `parameter:"duration"`
+	Length    int               `parameter:"length"`
 }
 
 type SendMediaGroupArguments struct {
@@ -263,7 +268,7 @@ type StopMessageLiveLocationArguments struct {
 
 type SendStickerArguments struct {
 	AbstractSendArguments
-	Sticker InputFile `parameter:"sticker"`
+	Sticker InputFileOrString `parameter:"sticker"`
 }
 
 type GetStickerSetArguments struct {
@@ -276,21 +281,21 @@ type UploadStickerFileArguments struct {
 }
 
 type CreateNewStickerSetArguments struct {
-	UserId        int           `json:"user_id"`
-	Name          string        `json:"name"`
-	Title         string        `json:"title"`
-	PngStricker   InputFile     `json:"png_stricker"`
-	Emojis        string        `json:"emojis"`
-	ContainsMasks bool          `json:"contains_masks"`
-	MaskPosition  *MaskPosition `json:"mask_position"`
+	UserId        int           `parameter:"user_id"`
+	Name          string        `parameter:"name"`
+	Title         string        `parameter:"title"`
+	PngStricker   InputFile     `parameter:"png_stricker"`
+	Emojis        string        `parameter:"emojis"`
+	ContainsMasks bool          `parameter:"contains_masks"`
+	MaskPosition  *MaskPosition `parameter:"mask_position"`
 }
 
 type AddStickerToSetArguments struct {
 	UserId       int          `parameter:"user_id"`
-	Name         string       `json:"name"`
-	PngSticker   InputFile    `json:"png_sticker"`
-	Emojis       string       `json:"emojis"`
-	MaskPosition MaskPosition `json:"mask_position"`
+	Name         string       `parameter:"name"`
+	PngSticker   InputFile    `parameter:"png_sticker"`
+	Emojis       string       `parameter:"emojis"`
+	MaskPosition MaskPosition `parameter:"mask_position"`
 }
 
 type SetStickerPositionInSetArguments struct {
@@ -300,8 +305,4 @@ type SetStickerPositionInSetArguments struct {
 
 type DeleteStickerFromSetArguments struct {
 	Sticker string `parameter:"sticker"`
-}
-
-type ChatOperationArguments struct {
-	ChatId string `parameter:"chat_id"`
 }
