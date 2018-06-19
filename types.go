@@ -274,7 +274,7 @@ type InputMediaVideo struct {
 }
 
 type Sticker struct {
-	FileId       int           `json:"file_id"`
+	FileId       string        `json:"file_id"`
 	Width        int           `json:"width"`
 	Height       int           `json:"height"`
 	Thumb        *PhotoSize    `json:"thumb"`
