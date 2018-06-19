@@ -59,8 +59,8 @@ tgroid.SendMessage(args)
 | getChatMember | ✓ | ✗ |
 | setChatStickerSet | ✓ | ✗ |
 | deleteChatStickerSet | ✓ | ✗ |
-| sendSticker | ✓ | ✗ |
-| getStickerSet | ✓ | ✗ |
+| sendSticker | ✓ | ✓ |
+| getStickerSet | ✓ | ✓ |
 | uploadStickerFile | ✓ | ✗ |
 | createNewStickerSet | ✓ | ✗ |
 | addStickerToSet | ✓ | ✗ |
