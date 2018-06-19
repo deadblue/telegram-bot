@@ -97,7 +97,7 @@ func scanParameters(holder holder, entity interface{}) {
 			if len(pn) == 0 { continue }
 			if ft.Type == InputFileOrStringType {
 				pv := fv.Interface().(InputFileOrString)
-				if pv.UploadFile && pv.FileValue != nil {
+				if pv.FileValue != nil {
 					holder.Files[pn] = *pv.FileValue
 				} else {
 					holder.Parameters[pn] = pv.StringValue
