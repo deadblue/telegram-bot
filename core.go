@@ -32,7 +32,7 @@ type Telegroid struct {
 	UnbanChatMember         func(args ChatMemberArguments) bool                         `method:"unbanChatMember"`
 	RestrictChatMember      func(args RestrictChatMemberArguments) bool                 `method:"restrictChatMember"`
 	PromoteChatMember       func(args PromoteChatMemberArguments) bool                  `method:"promoteChatMember"`
-	ExportChatLink          func(args ChatArguments) string                             `method:"exportChatInviteLink"`
+	ExportChatInviteLink    func(args ChatArguments) *string                            `method:"exportChatInviteLink"`
 	SetChatPhoto            func(args SetChatPhotoArguments) bool                       `method:"setChatPhoto"`
 	DeleteChatPhoto         func(args ChatArguments) bool                               `method:"deleteChatPhoto"`
 	SetChatTitle            func(args SetChatTitleArguments) bool                       `method:"setChatTitle"`
