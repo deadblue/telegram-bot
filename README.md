@@ -26,11 +26,11 @@ tgroid.SendMessage(args)
 | setWebhook | ✓ | ✗ |
 | deleteWebhook | ✓ | ✗ |
 | getWebhookInfo | ✓ | ✗ |
-| forwardMessage | ✓ | ✗ |
+| forwardMessage | ✓ | ✓ |
 | sendMessage | ✓ | ✓ |
 | sendPhoto | ✓ | ✓ |
-| sendAudio | ✓ | ✗ |
-| sendDocument | ✓ | ✗ |
+| sendAudio | ✓ | ✓ |
+| sendDocument | ✓ | ✓ |
 | sendVideo | ✓ | ✗ |
 | sendVoice | ✓ | ✗ |
 | sendVideoNote | ✓ | ✗ |
@@ -38,9 +38,9 @@ tgroid.SendMessage(args)
 | sendLocation | ✓ | ✗ |
 | sendVenue | ✓ | ✗ |
 | sendContact | ✓ | ✗ |
-| sendChatAction | ✓ | ✗ |
+| sendChatAction | ✓ | ✓ |
 | getUserProfilePhotos | ✓ | ✗ |
-| getFile | ✓ | ✗ |
+| getFile | ✓ | ✓ |
 | kickChatMember | ✓ | ✗ |
 | unbanChatMember | ✓ | ✗ |
 | restrictChatMember | ✓ | ✗ |
