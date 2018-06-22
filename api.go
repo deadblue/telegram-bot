@@ -55,10 +55,10 @@ type Telegroid struct {
 }
 
 func NewTelegroid(token string) *Telegroid {
-	var td = &Telegroid{
+	var t = &Telegroid{
 		token:  token,
 		client: &http.Client{},
 	}
-	td.bindInvoker()
-	return td
+	t.bindInvoker()
+	return t
 }

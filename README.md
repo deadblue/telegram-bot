@@ -4,7 +4,9 @@ A Telegram Bot API wrapper
 
 # Basic usage
 
-```
+```Go
+import "github.com/deadblue/telegroid"
+
 // Create a bot instance
 tgroid := telegroid.NewTelegroid("your_bot_token")
 
@@ -52,10 +54,10 @@ tgroid.SendMessage(args)
 | setChatDescription | ✓ | ✓ |
 | pinChatMessage | ✓ | ✗ |
 | unpinChatMessage | ✓ | ✗ |
-| leaveChat | ✓ | ✗ |
-| getChat | ✓ | ✗ |
-| getChatAdministrators | ✓ | ✗ |
-| getChatMembersCount | ✓ | ✗ |
+| leaveChat | ✓ | ✓ |
+| getChat | ✓ | ✓ |
+| getChatAdministrators | ✓ | ✓ |
+| getChatMembersCount | ✓ | ✓ |
 | getChatMember | ✓ | ✗ |
 | setChatStickerSet | ✓ | ✗ |
 | deleteChatStickerSet | ✓ | ✗ |
