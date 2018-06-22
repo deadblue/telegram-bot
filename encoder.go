@@ -143,7 +143,7 @@ func getStringValue(value reflect.Value) string {
 	case reflect.Slice, reflect.Interface:
 		if !value.IsNil() {
 			jv, err := json.Marshal( value.Interface() )
-			if err != nil {
+			if err == nil {
 				result = string(jv)
 			}
 		}
