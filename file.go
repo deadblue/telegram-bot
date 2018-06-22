@@ -28,3 +28,10 @@ func FromData(name string, data []byte) InputFile {
 		Reader: bytes.NewReader(data),
 	}
 }
+
+func FromReader(name string, reader io.Reader) InputFile {
+	return InputFile{
+		Name: name,
+		Reader: reader,
+	}
+}
