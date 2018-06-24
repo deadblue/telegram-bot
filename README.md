@@ -11,7 +11,7 @@ import "github.com/deadblue/telegroid"
 tgroid := telegroid.NewTelegroid("your_bot_token")
 
 // Get bot information
-me := tgroid.GetMe()
+me, err := tgroid.GetMe()
 
 // Build text message and send
 args := telegroid.NewMessageBuilder().ChatId(12345678).
