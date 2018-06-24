@@ -4,6 +4,7 @@ type ParseMode string
 type ChatAction string
 
 const (
+	ParseModeNormal   ParseMode = ""
 	ParseModeMarkdown ParseMode = "Markdown"
 	ParseModeHTML     ParseMode = "HTML"
 
@@ -110,10 +111,11 @@ type SendVideoNoteArguments struct {
 }
 
 type SendMediaGroupArguments struct {
-	ChatId              string        `parameter:"chat_id"`
-	Media               []interface{} `parameter:"media"`
-	DisableNotification bool          `parameter:"disable_notification"`
-	ReplyToMessageId    int           `parameter:"reply_to_message_id"`
+	ChatId              string               `parameter:"chat_id"`
+	Media               []interface{}        `parameter:"media"`
+	DisableNotification bool                 `parameter:"disable_notification"`
+	ReplyToMessageId    int                  `parameter:"reply_to_message_id"`
+	Attachments         map[string]InputFile
 }
 
 type SendLocationArguments struct {
