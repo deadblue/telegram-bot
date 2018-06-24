@@ -8,50 +8,50 @@ type Telegroid struct {
 	token  string
 	client *http.Client
 
-	GetMe                   func() *User                                                `method:"getMe"`
-	GetUpdates              func(request GetUpdatesArguments) *[]Update                 `method:"getUpdates"`
-	SetWebhook              func(args SetWebhookArguments) bool                         `method:"setWebhook"`
-	DeleteWebhook           func() bool                                                 `method:"deleteWebhook"`
-	GetWebhookInfo          func() *WebhookInfo                                         `method:"getWebhookInfo"`
-	ForwardMessage          func(args ForwardMessageArguments) *Message                 `method:"forwardMessage"`
-	SendMessage             func(args SendMessageArguments) *Message                    `method:"sendMessage"`
-	SendPhoto               func(args SendPhotoArguments) *Message                      `method:"sendPhoto"`
-	SendAudio               func(args SendAudioArguments) *Message                      `method:"sendAudio"`
-	SendDocument            func(args SendDocumentArguments) *Message                   `method:"sendDocument"`
-	SendVideo               func(args SendVideoArguments) *Message                      `method:"sendVideo"`
-	SendVoice               func(args SendVoiceArguments) *Message                      `method:"sendVoice"`
-	SendVideoNote           func(args SendVideoNoteArguments) *Message                  `method:"sendVideoNote"`
-	SendMediaGroup          func(args SendMediaGroupArguments) *Message                 `method:"sendMediaGroup"`
-	SendLocation            func(args SendLocationArguments) *Message                   `method:"sendLocation"`
-	SendVenue               func(args SendVenueArguments) *Message                      `method:"sendVenue"`
-	SendContact             func(args SendContentArguments) *Message                    `method:"sendContact"`
-	SendChatAction          func(args SendChatActionArguments) bool                     `method:"sendChatAction"`
-	GetUserProfilePhotos    func(args GetUserProfilePhotosArguments) *UserProfilePhotos `method:"getUserProfilePhotos"`
-	GetFile                 func(args GetFileArguments) *File                           `method:"getFile"`
-	KickChatMember          func(args KickChatMemberArguments) bool                     `method:"kickChatMember"`
-	UnbanChatMember         func(args ChatMemberArguments) bool                         `method:"unbanChatMember"`
-	RestrictChatMember      func(args RestrictChatMemberArguments) bool                 `method:"restrictChatMember"`
-	PromoteChatMember       func(args PromoteChatMemberArguments) bool                  `method:"promoteChatMember"`
-	ExportChatInviteLink    func(args ChatArguments) *string                            `method:"exportChatInviteLink"`
-	SetChatPhoto            func(args SetChatPhotoArguments) bool                       `method:"setChatPhoto"`
-	DeleteChatPhoto         func(args ChatArguments) bool                               `method:"deleteChatPhoto"`
-	SetChatTitle            func(args SetChatTitleArguments) bool                       `method:"setChatTitle"`
-	SetChatDescription      func(args SetChatDescriptionArguments) bool                 `method:"setChatDescription"`
-	PinChatMessage          func(args PinChatMessageArguments) bool                     `method:"pinChatMessage"`
-	UnpinChatMessage        func(args ChatArguments) bool                               `method:"unpinChatMessage"`
-	LeaveChat               func(args ChatArguments) bool                               `method:"leaveChat"`
-	GetChat                 func(args ChatArguments) *Chat                              `method:"getChat"`
-	GetChatAdministrators   func(args ChatArguments) *[]ChatMember                      `method:"getChatAdministrators"`
-	GetChatMembersCount     func(args ChatArguments) int                                `method:"getChatMembersCount"`
-	GetChatMember           func(args ChatMemberArguments) *ChatMember                  `method:"getChatMember"`
-	SendSticker             func(args SendStickerArguments) *Message                    `method:"sendSticker"`
-	GetStickerSet           func(args GetStickerSetArguments) *StickerSet               `method:"getStickerSet"`
-	UploadStickerFile       func(args UploadStickerFileArguments) *File                 `method:"uploadStickerFile"`
-	CreateNewStickerSet     func(args CreateNewStickerSetArguments) bool                `method:"createNewStickerSet"`
-	AddStickerToSet         func(args AddStickerToSetArguments) bool                    `method:"addStickerToSet"`
-	SetStickerPositionInSet func(args SetStickerPositionInSetArguments) bool            `method:"setStickerPositionInSet"`
-	DeleteStickerFromSet    func(args DeleteStickerFromSetArguments) bool               `method:"deleteStickerFromSet"`
-	DeleteMessage           func(args DeleteMessageArguments) bool                      `method:"deleteMessage"`
+	GetMe                   func() (*User, error)
+	GetUpdates              func(request GetUpdatesArguments) (*[]Update, error)
+	SetWebhook              func(args SetWebhookArguments) (bool, error)
+	DeleteWebhook           func() (bool, error)
+	GetWebhookInfo          func() (*WebhookInfo, error)
+	ForwardMessage          func(args ForwardMessageArguments) (*Message, error)
+	SendMessage             func(args SendMessageArguments) (*Message, error)
+	SendPhoto               func(args SendPhotoArguments) (*Message, error)
+	SendAudio               func(args SendAudioArguments) (*Message, error)
+	SendDocument            func(args SendDocumentArguments) (*Message, error)
+	SendVideo               func(args SendVideoArguments) (*Message, error)
+	SendVoice               func(args SendVoiceArguments) (*Message, error)
+	SendVideoNote           func(args SendVideoNoteArguments) (*Message, error)
+	SendMediaGroup          func(args SendMediaGroupArguments) (*Message, error)
+	SendLocation            func(args SendLocationArguments) (*Message, error)
+	SendVenue               func(args SendVenueArguments) (*Message, error)
+	SendContact             func(args SendContentArguments) (*Message, error)
+	SendChatAction          func(args SendChatActionArguments) (bool, error)
+	GetUserProfilePhotos    func(args GetUserProfilePhotosArguments) (*UserProfilePhotos, error)
+	GetFile                 func(args GetFileArguments) (*File, error)
+	KickChatMember          func(args KickChatMemberArguments) (bool, error)
+	UnbanChatMember         func(args ChatMemberArguments) (bool, error)
+	RestrictChatMember      func(args RestrictChatMemberArguments) (bool, error)
+	PromoteChatMember       func(args PromoteChatMemberArguments) (bool, error)
+	ExportChatInviteLink    func(args ChatArguments) (*string, error)
+	SetChatPhoto            func(args SetChatPhotoArguments) (bool, error)
+	DeleteChatPhoto         func(args ChatArguments) (bool, error)
+	SetChatTitle            func(args SetChatTitleArguments) (bool, error)
+	SetChatDescription      func(args SetChatDescriptionArguments) (bool, error)
+	PinChatMessage          func(args PinChatMessageArguments) (bool, error)
+	UnpinChatMessage        func(args ChatArguments) (bool, error)
+	LeaveChat               func(args ChatArguments) (bool, error)
+	GetChat                 func(args ChatArguments) (*Chat, error)
+	GetChatAdministrators   func(args ChatArguments) (*[]ChatMember, error)
+	GetChatMembersCount     func(args ChatArguments) (int, error)
+	GetChatMember           func(args ChatMemberArguments) (*ChatMember, error)
+	SendSticker             func(args SendStickerArguments) (*Message, error)
+	GetStickerSet           func(args GetStickerSetArguments) (*StickerSet, error)
+	UploadStickerFile       func(args UploadStickerFileArguments) (*File, error)
+	CreateNewStickerSet     func(args CreateNewStickerSetArguments) (bool, error)
+	AddStickerToSet         func(args AddStickerToSetArguments) (bool, error)
+	SetStickerPositionInSet func(args SetStickerPositionInSetArguments) (bool, error)
+	DeleteStickerFromSet    func(args DeleteStickerFromSetArguments) (bool, error)
+	DeleteMessage           func(args DeleteMessageArguments) (bool, error)
 }
 
 func NewTelegroid(token string) *Telegroid {
