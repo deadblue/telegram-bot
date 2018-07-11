@@ -9,7 +9,7 @@ type Telegroid struct {
 	client *http.Client
 
 	GetMe                   func() (*User, error)
-	GetUpdates              func(request GetUpdatesArguments) (*[]Update, error)
+	GetUpdates              func(args GetUpdatesArguments) ([]Update, error)
 	SetWebhook              func(args SetWebhookArguments) (bool, error)
 	DeleteWebhook           func() (bool, error)
 	GetWebhookInfo          func() (*WebhookInfo, error)
@@ -41,7 +41,7 @@ type Telegroid struct {
 	UnpinChatMessage        func(args ChatArguments) (bool, error)
 	LeaveChat               func(args ChatArguments) (bool, error)
 	GetChat                 func(args ChatArguments) (*Chat, error)
-	GetChatAdministrators   func(args ChatArguments) (*[]ChatMember, error)
+	GetChatAdministrators   func(args ChatArguments) ([]ChatMember, error)
 	GetChatMembersCount     func(args ChatArguments) (int, error)
 	GetChatMember           func(args ChatMemberArguments) (*ChatMember, error)
 	SendSticker             func(args SendStickerArguments) (*Message, error)

@@ -21,13 +21,13 @@ const (
 )
 
 type WebhookInfo struct {
-	Url                  string    `json:"url"`
-	HasCustomCertificate bool      `json:"has_custom_certificate"`
-	PendingUpdateCount   int       `json:"pending_update_count"`
-	LastErrorDate        int       `json:"last_error_date"`
-	LastErrorMessage     *string   `json:"last_error_message"`
-	MaxConnections       int       `json:"max_connections"`
-	AllowedUpdates       *[]string `json:"allowed_updates"`
+	Url                  string   `json:"url"`
+	HasCustomCertificate bool     `json:"has_custom_certificate"`
+	PendingUpdateCount   int      `json:"pending_update_count"`
+	LastErrorDate        int      `json:"last_error_date"`
+	LastErrorMessage     *string  `json:"last_error_message"`
+	MaxConnections       int      `json:"max_connections"`
+	AllowedUpdates       []string `json:"allowed_updates"`
 }
 
 type User struct {
@@ -70,12 +70,12 @@ type Message struct {
 	MediaGroupId          *string            `json:"media_group_id"`
 	AuthorSignature       *string            `json:"author_signature"`
 	Text                  *string            `json:"text"`
-	Entities              *[]MessageEntity   `json:"entities"`
-	CaptionEntities       *[]MessageEntity   `json:"caption_entities"`
+	Entities              []MessageEntity    `json:"entities"`
+	CaptionEntities       []MessageEntity    `json:"caption_entities"`
 	Audio                 *Audio             `json:"audio"`
 	Document              *Document          `json:"document"`
 	Game                  *Game              `json:"game"`
-	Photo                 *[]PhotoSize       `json:"photo"`
+	Photo                 []PhotoSize        `json:"photo"`
 	Sticker               *Sticker           `json:"sticker"`
 	Video                 *Video             `json:"video"`
 	Voice                 *Voice             `json:"voice"`
@@ -83,10 +83,10 @@ type Message struct {
 	Caption               *string            `json:"caption"`
 	Location              *Location          `json:"location"`
 	Venue                 *Venue             `json:"venue"`
-	NewChatMembers        *[]User            `json:"new_chat_members"`
+	NewChatMembers        []User             `json:"new_chat_members"`
 	LeftChatMember        *User              `json:"left_chat_member"`
 	NewChatTitle          *string            `json:"new_chat_title"`
-	NewChatPhoto          *[]PhotoSize       `json:"new_chat_photo"`
+	NewChatPhoto          []PhotoSize        `json:"new_chat_photo"`
 	DeleteChatPhoto       bool               `json:"delete_chat_photo"`
 	GroupChatCreated      bool               `json:"group_chat_created"`
 	SupergroupChatCreated bool               `json:"supergroup_chat_created"`
@@ -174,8 +174,8 @@ type Venue struct {
 }
 
 type UserProfilePhotos struct {
-	TotalCount int            `json:"total_count"`
-	Photos     *[][]PhotoSize `json:"photos"`
+	TotalCount int           `json:"total_count"`
+	Photos     [][]PhotoSize `json:"photos"`
 }
 
 type File struct {
@@ -299,12 +299,12 @@ type StickerSet struct {
 }
 
 type Game struct {
-	Title        string           `json:"title"`
-	Description  string           `json:"description"`
-	Photo        *[]PhotoSize     `json:"photo"`
-	Text         *string          `json:"text"`
-	TextEntities *[]MessageEntity `json:"text_entities"`
-	Animation    *Animation       `json:"animation"`
+	Title        string          `json:"title"`
+	Description  string          `json:"description"`
+	Photo        []PhotoSize     `json:"photo"`
+	Text         *string         `json:"text"`
+	TextEntities []MessageEntity `json:"text_entities"`
+	Animation    *Animation      `json:"animation"`
 }
 
 type Animation struct {
