@@ -26,10 +26,10 @@ type InputFileOrString struct {
 }
 
 type SetWebhookArguments struct {
-	Url            string    `parameter:"url"`
-	Certificate    InputFile `parameter:"certificate"`
-	MaxConnections int       `parameter:"max_connections"`
-	AllowedUpdates []string  `parameter:"allowed_updates"`
+	Url            string     `parameter:"url"`
+	Certificate    *InputFile `parameter:"certificate"`
+	MaxConnections int        `parameter:"max_connections"`
+	AllowedUpdates []string   `parameter:"allowed_updates"`
 }
 
 type GetUpdatesArguments struct {
@@ -111,10 +111,10 @@ type SendVideoNoteArguments struct {
 }
 
 type SendMediaGroupArguments struct {
-	ChatId              string               `parameter:"chat_id"`
-	Media               []interface{}        `parameter:"media"`
-	DisableNotification bool                 `parameter:"disable_notification"`
-	ReplyToMessageId    int                  `parameter:"reply_to_message_id"`
+	ChatId              string        `parameter:"chat_id"`
+	Media               []interface{} `parameter:"media"`
+	DisableNotification bool          `parameter:"disable_notification"`
+	ReplyToMessageId    int           `parameter:"reply_to_message_id"`
 	Attachments         map[string]InputFile
 }
 
