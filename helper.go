@@ -53,7 +53,10 @@ func (b *MessageBuilder) InlineKeyboard(buttons [][]string) *MessageBuilder {
 		row := make([]InlineKeyboardButton, colCount)
 		for j := 0; j < colCount; j++ {
 			callbackData := fmt.Sprintf("%d_%d", i, j)
-			row[j] = InlineKeyboardButton{ Text: buttons[i][j], CallbackData: &callbackData}
+			row[j] = InlineKeyboardButton{
+				Text: buttons[i][j],
+				CallbackData: callbackData,
+			}
 		}
 		rows[i] = row
 	}
