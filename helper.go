@@ -113,7 +113,7 @@ func (pb *photoMessaageBuilder) Url(url string) *photoMessaageBuilder {
 func (pb *photoMessaageBuilder) LocalFile(filepath string) *photoMessaageBuilder {
 	file, err := FromFile(filepath)
 	if err == nil {
-		pb.args.Photo = InputFileOrString{ FileValue:&file }
+		pb.args.Photo = InputFileOrString{ FileValue:file }
 	}
 	return pb
 }
@@ -164,7 +164,7 @@ func (db *documentMessageBuilder) FileId(fileId string) *documentMessageBuilder 
 func (db *documentMessageBuilder) LocalFile(filepath string) *documentMessageBuilder {
 	file, err := FromFile(filepath)
 	if err == nil {
-		db.args.Document = InputFileOrString{ FileValue: &file }
+		db.args.Document = InputFileOrString{ FileValue:file }
 	}
 	return db
 }
@@ -196,7 +196,7 @@ func (ab *audioMessageBuilder) FileId(fileId string) *audioMessageBuilder {
 func (ab *audioMessageBuilder) LocalFile(filepath string) *audioMessageBuilder {
 	file, err := FromFile(filepath)
 	if err == nil {
-		ab.args.Audio = InputFileOrString{ FileValue: &file }
+		ab.args.Audio = InputFileOrString{ FileValue:file }
 	}
 	return ab
 }
@@ -236,7 +236,7 @@ func (vb *videoMessageBuilder) FileId(fileId string) *videoMessageBuilder {
 func (vb *videoMessageBuilder) LocalFile(filepath string) *videoMessageBuilder {
 	file, err := FromFile(filepath)
 	if err == nil {
-		vb.args.Video = InputFileOrString{ FileValue:&file }
+		vb.args.Video = InputFileOrString{ FileValue:file }
 	}
 	return vb
 }

@@ -12,25 +12,23 @@ type InputFile struct {
 	Reader io.Reader
 }
 
-func FromFile(filepath string) (value InputFile, err error) {
-	value = InputFile{}
+func FromFile(filepath string) (value *InputFile, err error) {
 	file, err := os.Open(filepath)
 	if err == nil {
-		value.Name = path.Base(file.Name())
-		value.Reader = file
+		value = FromReader(path.Base(file.Name()), file)
 	}
 	return
 }
 
-func FromData(name string, data []byte) InputFile {
-	return InputFile{
+func FromData(name string, data []byte) *InputFile {
+	return &InputFile{
 		Name: name,
 		Reader: bytes.NewReader(data),
 	}
 }
 
-func FromReader(name string, reader io.Reader) InputFile {
-	return InputFile{
+func FromReader(name string, reader io.Reader) *InputFile {
+	return &InputFile{
 		Name: name,
 		Reader: reader,
 	}
