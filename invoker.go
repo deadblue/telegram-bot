@@ -81,6 +81,7 @@ func (d *Telegroid) invokeAPI(method string, argument, result interface{}) (err 
 	if err != nil {
 		return
 	}
+	defer resp.Body.Close()
 	// parse response
 	respObj := GenericResponse{}
 	err = json.NewDecoder(resp.Body).Decode(&respObj)
