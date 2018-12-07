@@ -1,14 +1,14 @@
 package telegroid
 
 import (
-	"reflect"
 	"bytes"
-	"mime/multipart"
-	"net/url"
-	"strconv"
 	"encoding/json"
 	"io"
 	"io/ioutil"
+	"mime/multipart"
+	"net/url"
+	"reflect"
+	"strconv"
 )
 
 const (
@@ -16,7 +16,7 @@ const (
 )
 
 var (
-	InputFileType = reflect.TypeOf(InputFile{})
+	InputFileType         = reflect.TypeOf(InputFile{})
 	InputFileOrStringType = reflect.TypeOf(InputFileOrString{})
 )
 
@@ -94,7 +94,9 @@ func scanParameters(holder holder, entity interface{}) {
 			scanParameters(holder, fv.Interface())
 		} else {
 			pn := ft.Tag.Get(TagParameter)
-			if len(pn) == 0 { continue }
+			if len(pn) == 0 {
+				continue
+			}
 			if ft.Type == InputFileOrStringType {
 				pv := fv.Interface().(InputFileOrString)
 				if pv.FileValue != nil {
@@ -142,7 +144,7 @@ func getStringValue(value reflect.Value) string {
 		result = value.String()
 	case reflect.Slice, reflect.Interface:
 		if !value.IsNil() {
-			jv, err := json.Marshal( value.Interface() )
+			jv, err := json.Marshal(value.Interface())
 			if err == nil {
 				result = string(jv)
 			}
@@ -161,7 +163,7 @@ func encodeArguments(args interface{}) (string, io.ReadCloser) {
 	holder := newHolder()
 	scanParameters(holder, args)
 	// create encoder
-	encoder := newEncoder( len(holder.Files) != 0 )
+	encoder := newEncoder(len(holder.Files) != 0)
 	// add files
 	for pn, pv := range holder.Files {
 		encoder.AddFile(pn, pv.Name, pv.Reader)

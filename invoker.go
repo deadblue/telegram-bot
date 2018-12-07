@@ -1,11 +1,11 @@
 package telegroid
 
 import (
-	"reflect"
-	"fmt"
 	"encoding/json"
-	"net/http"
 	"errors"
+	"fmt"
+	"net/http"
+	"reflect"
 )
 
 const (

@@ -1,9 +1,9 @@
 package telegroid
 
 import (
+	"bytes"
 	"io"
 	"os"
-	"bytes"
 	"path"
 )
 
