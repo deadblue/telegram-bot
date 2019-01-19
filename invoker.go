@@ -23,9 +23,10 @@ type GenericResponse struct {
 	Description *string         `json:"description"`
 }
 
-func (d *Telegroid) bindInvoker() {
-	rv := reflect.Indirect(reflect.ValueOf(d))
-	rt := reflect.TypeOf(d).Elem()
+func bindInvoker(tg *Telegroid, token string) {
+	rv := reflect.Indirect(reflect.ValueOf(tg))
+	rt := reflect.TypeOf(tg).Elem()
+	client := &http.Client{}
 	// search api function
 	for i := 0; i < rv.NumField(); i++ {
 		fv, ft := rv.Field(i), rt.Field(i)
@@ -33,19 +34,19 @@ func (d *Telegroid) bindInvoker() {
 			continue
 		}
 		// get method name from tag
-		method := ft.Tag.Get(TagMethod)
-		if len(method) == 0 {
+		methodName := ft.Tag.Get(TagMethod)
+		if len(methodName) == 0 {
 			// if not set, use field name
-			method = toMethodName(ft.Name)
+			methodName = toMethodName(ft.Name)
 		}
 		// bind invoker
 		funcType := fv.Type()
-		invoker := d.createInvoker(method, funcType)
+		invoker := createInvoker(client, token, methodName, funcType)
 		fv.Set(reflect.MakeFunc(funcType, invoker))
 	}
 }
 
-func (d *Telegroid) createInvoker(method string, funcType reflect.Type) InvokeFunction {
+func createInvoker(client * http.Client, token string, methodName string, funcType reflect.Type) InvokeFunction {
 	return func(args []reflect.Value) (results []reflect.Value) {
 		// API function should has two results
 		resultVal := reflect.New( funcType.Out(0) )
@@ -53,9 +54,9 @@ func (d *Telegroid) createInvoker(method string, funcType reflect.Type) InvokeFu
 		// Call API
 		var err error
 		if len(args) == 0 {
-			err = d.invokeAPI(method, nil, resultVal.Interface())
+			err = invokeAPI(client, token, methodName, nil, resultVal.Interface())
 		} else {
-			err = d.invokeAPI(method, args[0].Interface(), resultVal.Interface())
+			err = invokeAPI(client, token, methodName, args[0].Interface(), resultVal.Interface())
 		}
 		// Pass error
 		if err != nil {
@@ -65,9 +66,9 @@ func (d *Telegroid) createInvoker(method string, funcType reflect.Type) InvokeFu
 	}
 }
 
-func (d *Telegroid) invokeAPI(method string, argument, result interface{}) (err error) {
+func invokeAPI(client *http.Client, token string, methodName string, argument, result interface{}) (err error) {
 	// build URL
-	url := fmt.Sprintf(APITemplate, d.token, method)
+	url := fmt.Sprintf(APITemplate, token, methodName)
 	// build request
 	req, _ := http.NewRequest("GET", url, nil)
 	if argument != nil {
@@ -77,7 +78,7 @@ func (d *Telegroid) invokeAPI(method string, argument, result interface{}) (err 
 		req.Header.Set("Content-Type", contentType)
 	}
 	// send request
-	resp, err := d.client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return
 	}

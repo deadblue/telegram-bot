@@ -1,13 +1,6 @@
 package telegroid
 
-import (
-	"net/http"
-)
-
 type Telegroid struct {
-	token  string
-	client *http.Client
-
 	GetMe                   func() (*User, error)
 	GetUpdates              func(args *GetUpdatesArguments) ([]Update, error)
 	SetWebhook              func(args *SetWebhookArguments) (bool, error)
@@ -55,10 +48,7 @@ type Telegroid struct {
 }
 
 func NewTelegroid(token string) *Telegroid {
-	var t = &Telegroid{
-		token:  token,
-		client: &http.Client{},
-	}
-	t.bindInvoker()
-	return t
+	tg := &Telegroid{}
+	bindInvoker(tg, token)
+	return tg
 }
