@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	TagMethod   = "method"
+	TagMethod = "method"
 
 	APITemplate = "https://api.telegram.org/bot%s/%s"
 )
@@ -46,11 +46,11 @@ func bindInvoker(tg *Telegroid, token string) {
 	}
 }
 
-func createInvoker(client * http.Client, token string, methodName string, funcType reflect.Type) InvokeFunction {
+func createInvoker(client *http.Client, token string, methodName string, funcType reflect.Type) InvokeFunction {
 	return func(args []reflect.Value) (results []reflect.Value) {
 		// API function should has two results
-		resultVal := reflect.New( funcType.Out(0) )
-		errVal := reflect.New( funcType.Out(1) )
+		resultVal := reflect.New(funcType.Out(0))
+		errVal := reflect.New(funcType.Out(1))
 		// Call API
 		var err error
 		if len(args) == 0 {
@@ -60,7 +60,7 @@ func createInvoker(client * http.Client, token string, methodName string, funcTy
 		}
 		// Pass error
 		if err != nil {
-			errVal.Elem().Set( reflect.ValueOf(err) )
+			errVal.Elem().Set(reflect.ValueOf(err))
 		}
 		return []reflect.Value{resultVal.Elem(), errVal.Elem()}
 	}

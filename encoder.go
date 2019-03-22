@@ -87,7 +87,7 @@ func scanParameters(holder holder, entity interface{}) {
 	if rv.Kind() != reflect.Struct {
 		return
 	}
-	for i := 0; i < rv.NumField(); i ++ {
+	for i := 0; i < rv.NumField(); i++ {
 		fv, ft := rv.Field(i), rt.Field(i)
 		if ft.Anonymous {
 			// for embedded struct, deeply scan
