@@ -46,7 +46,7 @@ type Chat struct {
 	Username                    *string    `json:"username"`
 	FirstName                   *string    `json:"first_name"`
 	LastName                    *string    `json:"last_name"`
-	AllMembersAreAdministartors bool       `json:"all_members_are_administartors"`
+	AllMembersAreAdministrators bool       `json:"all_members_are_administrators"`
 	Photo                       *ChatPhoto `json:"photo"`
 	Description                 *string    `json:"description"`
 	InviteLink                  *string    `json:"invite_link"`
