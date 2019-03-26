@@ -83,7 +83,11 @@ func newEncoder(isMultipart bool) encoder {
 }
 
 func scanParameters(holder holder, entity interface{}) {
-	rv, rt := reflect.ValueOf(entity), reflect.TypeOf(entity)
+	rt, rv := reflect.TypeOf(entity), reflect.ValueOf(entity)
+	if rv.Kind() == reflect.Ptr {
+		rv = reflect.Indirect(rv)
+		rt = rt.Elem()
+	}
 	if rv.Kind() != reflect.Struct {
 		return
 	}
