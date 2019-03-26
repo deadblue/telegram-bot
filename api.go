@@ -1,5 +1,7 @@
 package telegroid
 
+// The main api client
+
 type Telegroid struct {
 	GetMe                   func() (*User, error)
 	GetUpdates              func(args *GetUpdatesArguments) ([]Update, error)
@@ -47,8 +49,8 @@ type Telegroid struct {
 	DeleteMessage           func(args *DeleteMessageArguments) (bool, error)
 }
 
-func NewTelegroid(token string) *Telegroid {
-	tg := &Telegroid{}
+func New(token string) *Telegroid {
+	tg := new(Telegroid)
 	bindInvoker(tg, token)
 	return tg
 }

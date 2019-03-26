@@ -8,7 +8,7 @@ A Telegram Bot API wrapper
 import "github.com/deadblue/telegroid"
 
 // Create a bot instance
-tgroid := telegroid.NewTelegroid("your_bot_token")
+tgroid := telegroid.New("your_bot_token")
 
 // Get bot information
 me, err := tgroid.GetMe()
@@ -80,7 +80,6 @@ tgroid.SendMessage(args)
 | Game methods | ✗ | ✗ |
 
 # TODO list
-- [x] Add utils for building arguments
 - [ ] Support more methods
 - [ ] Add error handling
-- [ ] emmmmm...
+- [ ] Re-define the API to avoid reflection
