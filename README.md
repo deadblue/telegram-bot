@@ -68,11 +68,11 @@ tgroid.SendMessage(args)
 | addStickerToSet | ✓ | ✗ |
 | setStickerPositionInSet | ✓ | ✗ |
 | deleteStickerFromSet | ✓ | ✗ |
-| answerCallbackQuery | ✗ | ✗ |
+| answerCallbackQuery | ✓ | ✗ |
 | answerInlineQuery | ✗ | ✗ |
-| editMessageText | ✗ | ✗ |
-| editMessageCaption | ✗ | ✗ |
-| editMessageReplyMarkup | ✗ | ✗ |
+| editMessageText | ✓ | ✗ |
+| editMessageCaption | ✓ | ✗ |
+| editMessageReplyMarkup | ✓ | ✗ |
 | deleteMessage | ✓ | ✗ |
 | editMessageLiveLocation | ✗ | ✗ |
 | stopMessageLiveLocation | ✗ | ✗ |

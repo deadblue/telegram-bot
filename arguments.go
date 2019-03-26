@@ -247,6 +247,13 @@ type EditMessageCaptionArguments struct {
 	ReplyMarkup     *InlineKeyboardMarkup `parameter:"reply_markup"`
 }
 
+type EditMessageReplyMarkupArguments struct {
+	ChatId          string                `parameter:"chat_id"`
+	MessageId       int                   `parameter:"message_id"`
+	InlineMessageId string                `parameter:"inline_message_id"`
+	ReplyMarkup     *InlineKeyboardMarkup `parameter:"reply_markup"`
+}
+
 type DeleteMessageArguments struct {
 	ChatId    string `parameter:"chat_id"`
 	MessageId int    `parameter:"message_id"`
