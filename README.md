@@ -2,10 +2,16 @@
 
 A Telegram Bot API wrapper
 
+This project is an experiment of golang's reflection, although 
+it works, but not better.
+
+The new version is designing, and may be drop the reflection.
+
 # Basic usage
 
 ```Go
 import "github.com/deadblue/telegroid"
+import "github.com/deadblue/telegroid/builder"
 
 // Create a bot instance
 tgroid := telegroid.New("your_bot_token")
@@ -14,7 +20,7 @@ tgroid := telegroid.New("your_bot_token")
 me, err := tgroid.GetMe()
 
 // Build text message and send
-args := telegroid.NewMessageBuilder().ChatId(12345678).
+args := builder.NewMessageBuilder().ChatId(12345678).
 	ForText().Text("Hello, telegram!").Done()
 tgroid.SendMessage(args)
 ```
