@@ -1,7 +1,21 @@
-package telegroid
+package deprecated
+
+import "io"
 
 type ParseMode string
 type ChatAction string
+
+type InputFile struct {
+	Name   string
+	Reader io.Reader
+}
+
+type MaskPosition struct {
+	Point  string  `json:"point"`
+	XShift float64 `json:"x_shift"`
+	YShift float64 `json:"y_shift"`
+	Scale  float64 `json:"scale"`
+}
 
 const (
 	ParseModeNormal   ParseMode = ""
@@ -93,6 +107,17 @@ type SendVideoArguments struct {
 	Caption           string            `parameter:"caption"`
 	ParseMode         ParseMode         `parameter:"parse_mode"`
 	SupportsStreaming bool              `parameter:"supports_streaming"`
+}
+
+type SendAnimationArguments struct {
+	AbstractSendArguments
+	Animation InputFileOrString `parameter:"animation"`
+	Duration  int               `parameter:"duration"`
+	Width     int               `parameter:"width"`
+	Height    int               `parameter:"height"`
+	Thumb     InputFileOrString `parameter:"thumb"`
+	Caption   string            `parameter:"caption"`
+	ParseMode ParseMode         `parameter:"parse_mode"`
 }
 
 type SendVoiceArguments struct {
@@ -229,29 +254,29 @@ type AnwserCallbackQueryArguments struct {
 }
 
 type EditMessageTextArguments struct {
-	ChatId                string                `parameter:"chat_id"`
-	MessageId             int                   `parameter:"message_id"`
-	InlineMessageId       string                `parameter:"inline_message_id"`
-	Text                  string                `parameter:"text"`
-	ParseMode             ParseMode             `parameter:"parse_mode"`
-	DisableWebPagePreview bool                  `parameter:"disable_web_page_preview"`
-	ReplyMarkup           *InlineKeyboardMarkup `parameter:"reply_markup"`
+	ChatId                string      `parameter:"chat_id"`
+	MessageId             int         `parameter:"message_id"`
+	InlineMessageId       string      `parameter:"inline_message_id"`
+	Text                  string      `parameter:"text"`
+	ParseMode             ParseMode   `parameter:"parse_mode"`
+	DisableWebPagePreview bool        `parameter:"disable_web_page_preview"`
+	ReplyMarkup           interface{} `parameter:"reply_markup"`
 }
 
 type EditMessageCaptionArguments struct {
-	ChatId          string                `parameter:"chat_id"`
-	MessageId       int                   `parameter:"message_id"`
-	InlineMessageId string                `parameter:"inline_message_id"`
-	Caption         string                `parameter:"caption"`
-	ParseMode       ParseMode             `parameter:"parse_mode"`
-	ReplyMarkup     *InlineKeyboardMarkup `parameter:"reply_markup"`
+	ChatId          string      `parameter:"chat_id"`
+	MessageId       int         `parameter:"message_id"`
+	InlineMessageId string      `parameter:"inline_message_id"`
+	Caption         string      `parameter:"caption"`
+	ParseMode       ParseMode   `parameter:"parse_mode"`
+	ReplyMarkup     interface{} `parameter:"reply_markup"`
 }
 
 type EditMessageReplyMarkupArguments struct {
-	ChatId          string                `parameter:"chat_id"`
-	MessageId       int                   `parameter:"message_id"`
-	InlineMessageId string                `parameter:"inline_message_id"`
-	ReplyMarkup     *InlineKeyboardMarkup `parameter:"reply_markup"`
+	ChatId          string      `parameter:"chat_id"`
+	MessageId       int         `parameter:"message_id"`
+	InlineMessageId string      `parameter:"inline_message_id"`
+	ReplyMarkup     interface{} `parameter:"reply_markup"`
 }
 
 type DeleteMessageArguments struct {

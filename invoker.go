@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"reflect"
 )
@@ -14,13 +15,13 @@ const (
 	APITemplate = "https://api.telegram.org/bot%s/%s"
 )
 
-type InvokeFunction func(args []reflect.Value) (results []reflect.Value)
+type _InvokeFunction func(args []reflect.Value) (results []reflect.Value)
 
-type GenericResponse struct {
+type _GenericResponse struct {
 	Ok          bool            `json:"ok"`
 	Result      json.RawMessage `json:"result"`
 	ErrorCode   int             `json:"error_code"`
-	Description *string         `json:"description"`
+	Description string          `json:"description"`
 }
 
 func bindInvoker(tg *Telegroid, token string) {
@@ -46,7 +47,7 @@ func bindInvoker(tg *Telegroid, token string) {
 	}
 }
 
-func createInvoker(client *http.Client, token string, methodName string, funcType reflect.Type) InvokeFunction {
+func createInvoker(client *http.Client, token string, methodName string, funcType reflect.Type) _InvokeFunction {
 	return func(args []reflect.Value) (results []reflect.Value) {
 		// API function should has two results
 		resultVal := reflect.New(funcType.Out(0))
@@ -66,15 +67,19 @@ func createInvoker(client *http.Client, token string, methodName string, funcTyp
 	}
 }
 
-func invokeAPI(client *http.Client, token string, methodName string, argument, result interface{}) (err error) {
+func invokeAPI(client *http.Client, token string, methodName string, args, result interface{}) (err error) {
 	// build URL
 	url := fmt.Sprintf(APITemplate, token, methodName)
 	// build request
-	req, _ := http.NewRequest("GET", url, nil)
-	if argument != nil {
-		// setup post
-		contentType, body := encodeArguments(argument)
-		req.Method, req.Body = "POST", body
+	method, contentType, body := http.MethodGet, "", io.Reader(nil)
+	if args != nil {
+		if ar, ok := args.(ApiRequest); ok {
+			contentType, body = ar.Done()
+			method = http.MethodPost
+		}
+	}
+	req, _ := http.NewRequest(method, url, body)
+	if contentType != "" {
 		req.Header.Set("Content-Type", contentType)
 	}
 	// send request
@@ -84,13 +89,13 @@ func invokeAPI(client *http.Client, token string, methodName string, argument, r
 	}
 	defer resp.Body.Close()
 	// parse response
-	respObj := GenericResponse{}
-	err = json.NewDecoder(resp.Body).Decode(&respObj)
+	gr := _GenericResponse{}
+	err = json.NewDecoder(resp.Body).Decode(&gr)
+	if err == nil && !gr.Ok {
+		err = errors.New(gr.Description)
+	}
 	if err != nil {
 		return
 	}
-	if !respObj.Ok {
-		return errors.New(*respObj.Description)
-	}
-	return json.Unmarshal(respObj.Result, result)
+	return json.Unmarshal(gr.Result, result)
 }
