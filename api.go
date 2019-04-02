@@ -12,12 +12,12 @@ type Telegroid struct {
 	GetWebhookInfo func() (*WebhookInfo, error)
 
 	// Send message
-	//ForwardMessage func(args *deprecated.ForwardMessageArguments) (*Message, error)
-	SendMessage func(request *SendMessageRequest) (*Message, error)
-	SendPhoto   func(request *SendPhotoRequest) (*Message, error)
-	//SendAudio      func(args *deprecated.SendAudioArguments) (*Message, error)
-	//SendDocument   func(args *deprecated.SendDocumentArguments) (*Message, error)
-	//SendVideo      func(args *deprecated.SendVideoArguments) (*Message, error)
+	ForwardMessage func(args *ForwardMessageRequest) (*Message, error)
+	SendMessage    func(request *SendMessageRequest) (*Message, error)
+	SendPhoto      func(request *SendPhotoRequest) (*Message, error)
+	SendAudio      func(args *SendAudioRequest) (*Message, error)
+	SendDocument   func(args *SendDocumentRequest) (*Message, error)
+	SendVideo      func(args *SendVideoRequest) (*Message, error)
 	//SendAnimation  func(args *deprecated.SendAnimationArguments) (*Message, error)
 	//SendVoice      func(args *deprecated.SendVoiceArguments) (*Message, error)
 	//SendVideoNote  func(args *deprecated.SendVideoNoteArguments) (*Message, error)

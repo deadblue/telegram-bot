@@ -5,12 +5,9 @@ import "fmt"
 type ChatRequest struct {
 	_BasicRequest
 }
-func (r *ChatRequest) WithChatId(chatId int) *ChatRequest {
-	r.withInt("chat_id", chatId)
-	return r
+func (r *ChatRequest) ChatId(chatId int) {
+	r._WithInt("chat_id", chatId)
 }
-func (r *ChatRequest) WithChannel(channelName string) *ChatRequest {
-	r.withString("chat_id", fmt.Sprintf("@%s", channelName))
-	return r
+func (r *ChatRequest) Channel(channelName string) {
+	r._WithString("chat_id", fmt.Sprintf("@%s", channelName))
 }
-

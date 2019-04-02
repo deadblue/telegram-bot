@@ -74,7 +74,7 @@ func invokeAPI(client *http.Client, token string, methodName string, args, resul
 	method, contentType, body := http.MethodGet, "", io.Reader(nil)
 	if args != nil {
 		if ar, ok := args.(ApiRequest); ok {
-			contentType, body = ar.Done()
+			contentType, body = ar.Finish()
 			method = http.MethodPost
 		}
 	}

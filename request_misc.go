@@ -4,31 +4,28 @@ package telegroid
 type SetWebhookRequest struct {
 	_BasicRequest
 }
-func (r *SetWebhookRequest) SetUrl(url string) {
-	r.withString("url", url)
+func (r *SetWebhookRequest) Url(url string) {
+	r._WithString("url", url)
 }
-func (r *SetWebhookRequest) SetMaxConnections(maxConns int) {
-	r.withInt("max_connections", maxConns)
+func (r *SetWebhookRequest) MaxConnections(maxConns int) {
+	r._WithInt("max_connections", maxConns)
 }
 
 
 type GetFileRequest struct {
 	_BasicRequest
 }
-func (r *GetFileRequest) WithFileId(fileId string) *GetFileRequest {
-	r.withString("file_id", fileId)
-	return r
+func (r *GetFileRequest) FileId(fileId string) {
+	r._WithString("file_id", fileId)
 }
 
 
 type GetUpdatesRequest struct {
 	_BasicRequest
 }
-func (r *GetUpdatesRequest) WithOffset(offset int) *GetUpdatesRequest {
-	r.withInt("offset", offset)
-	return r
+func (r *GetUpdatesRequest) Offset(offset int) {
+	r._WithInt("offset", offset)
 }
-func (r *GetUpdatesRequest) WithLimit(limit int) *GetUpdatesRequest {
-	r.withInt("limit", limit)
-	return r
+func (r *GetUpdatesRequest) Limit(limit int) {
+	r._WithInt("limit", limit)
 }

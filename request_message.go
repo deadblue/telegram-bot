@@ -11,115 +11,168 @@ const (
 )
 
 
+// The request entity for Forward request
 type ForwardMessageRequest struct {
-	_BasicRequest
+	ChatRequest
 }
-func (r *ForwardMessageRequest) WithChatId(chatId int) *ForwardMessageRequest {
-	r.withInt("chat_id", chatId)
-	return r
+func (r *ForwardMessageRequest) FromChatId(chatId int) {
+	r._WithInt("from_chat_id", chatId)
 }
-func (r *ForwardMessageRequest) WithChannel(channelName string) *ForwardMessageRequest {
-	r.withString("chat_id", fmt.Sprintf("@%s", channelName))
-	return r
+func (r *ForwardMessageRequest) FromChannel(channelName string) {
+	r._WithString("from_chat_id", fmt.Sprintf("@%s", channelName))
 }
-func (r *ForwardMessageRequest) WithFromChatId(chatId int) *ForwardMessageRequest {
-	r.withInt("from_chat_id", chatId)
-	return r
+func (r *ForwardMessageRequest) MessageId(messageId int) {
+	r._WithInt("message_id", messageId)
 }
-func (r *ForwardMessageRequest) WithFromChannel(channelName string) *ForwardMessageRequest {
-	r.withString("from_chat_id", fmt.Sprintf("@%s", channelName))
-	return r
-}
-func (r *ForwardMessageRequest) WithMessageId(messageId int) *ForwardMessageRequest {
-	r.withInt("message_id", messageId)
-	return r
-}
-func (r *ForwardMessageRequest) DisableNotification() *ForwardMessageRequest {
-	r.withBool("disable_notification", true)
-	return r
+func (r *ForwardMessageRequest) DisableNotification() {
+	r._WithBool("disable_notification", true)
 }
 
 
-type SendRequestBuilder struct {
-	_BasicRequest
+//
+type _BasicSendRequest struct {
+	ChatRequest
 }
-func (r *SendRequestBuilder) WithChatId(chatId int) *SendRequestBuilder {
-	r.withInt("chat_id", chatId)
-	return r
+func (r *_BasicSendRequest) ReplyToMessageId(messageId int) {
+	r._WithInt("reply_to_message_id", messageId)
 }
-func (r *SendRequestBuilder) WithChannel(channel string) *SendRequestBuilder {
-	r.withString("chat_id", fmt.Sprintf("@%s", channel))
-	return r
+func (r *_BasicSendRequest) DisableNotification() {
+	r._WithBool("disable_notification", true)
 }
-func (r *SendRequestBuilder) WithReplyToMessageId(messageId int) *SendRequestBuilder {
-	r.withInt("reply_to_message_id", messageId)
-	return r
+func (r *_BasicSendRequest) ForceReply(selective bool) {
+	markup := map[string]bool{
+		"force_reply": true, "selective": selective,
+	}
+	r._WithJson("reply_markup", markup)
 }
-func (r *SendRequestBuilder) DisableNotification() *SendRequestBuilder {
-	r.withBool("disable_notification", true)
-	return r
+func (r *_BasicSendRequest) RemoveKeyboard(selective bool) {
+	markup := map[string]bool{
+		"remove_keyboard": true, "selective": selective,
+	}
+	r._WithJson("reply_markup", markup)
 }
+// TODO: ReplyKeyboard & InlineKeyboard
 
 
 type SendMessageRequest struct {
-	_BasicRequest
+	_BasicSendRequest
 }
-func (r *SendRequestBuilder) ForText() *SendMessageRequest {
-	return &SendMessageRequest{
-		_BasicRequest: r._BasicRequest,
-	}
+func (r *SendMessageRequest) Text(text string) {
+	r._WithString("text", text)
 }
-func (r *SendMessageRequest) WithText(text string) *SendMessageRequest {
-	r.withString("text", text)
-	return r
+func (r *SendMessageRequest) Markdown(text string) {
+	r._WithString("text", text).
+		_WithString("parse_mode", parseModeMarkdown)
 }
-func (r *SendMessageRequest) WithMarkdown(text string) *SendMessageRequest {
-	r.withString("text", text).
-		withString("parse_mode", parseModeMarkdown)
-	return r
+func (r *SendMessageRequest) HTML(text string) {
+	r._WithString("text", text).
+		_WithString("parse_mode", parseModeHTML)
 }
-func (r *SendMessageRequest) WithHTML(text string) *SendMessageRequest {
-	r.withString("text", text).
-		withString("parse_mode", parseModeHTML)
-	return r
+func (r *SendMessageRequest) DisableWebPagePreview() {
+	r._WithBool("disable_web_page_preview", true)
 }
-func (r *SendMessageRequest) DisableWebPagePreview() *SendMessageRequest {
-	r.withBool("disable_web_page_preview", true)
-	return r
+
+
+type _SendMediaRequest struct {
+	_BasicSendRequest
+}
+func (r *_SendMediaRequest) Caption(caption string) {
+	r._WithString("caption", caption)
+}
+func (r *_SendMediaRequest) MarkdownCaption(caption string) {
+	r._WithString("caption", caption).
+		_WithString("parse_mode", parseModeMarkdown)
+}
+func (r *_SendMediaRequest) HTMLCaption(caption string) {
+	r._WithString("caption", caption).
+		_WithString("parse_mode", parseModeHTML)
 }
 
 
 type SendPhotoRequest struct {
-	_BasicRequest
+	_SendMediaRequest
 }
-func (r *SendRequestBuilder) ForPhoto() *SendPhotoRequest {
-	return &SendPhotoRequest{
-		_BasicRequest: r._BasicRequest,
-	}
+func (r *SendPhotoRequest) Photo(filename string, filedata io.Reader) {
+	r._WithFile("photo", filename, filedata)
 }
-func (r *SendPhotoRequest) WithCaption(caption string) *SendPhotoRequest {
-	r.withString("caption", caption)
-	return r
+func (r *SendPhotoRequest) PhotoUrl(url string) {
+	r._WithString("photo", url)
 }
-func (r *SendPhotoRequest) WithCaptionMarkdown(caption string) *SendPhotoRequest {
-	r.withString("caption", caption).
-		withString("parse_mode", parseModeMarkdown)
-	return r
+func (r *SendPhotoRequest) PhotoFileId(fileId string) {
+	r._WithString("photo", fileId)
 }
-func (r *SendPhotoRequest) WithCaptionHTML(caption string) *SendPhotoRequest {
-	r.withString("caption", caption).
-		withString("parse_mode", parseModeHTML)
-	return r
+
+
+type SendAudioRequest struct {
+	_SendMediaRequest
 }
-func (r *SendPhotoRequest) WithPhotoFile(filename string, filedata io.Reader) *SendPhotoRequest {
-	r.withFile("photo", filename, filedata)
-	return r
+func (r *SendAudioRequest) Audio(filename string, filedata io.Reader) {
+	r._WithFile("audio", filename, filedata)
 }
-func (r *SendPhotoRequest) WithPhotoFileId(fileId string) *SendPhotoRequest {
-	r.withString("photo", fileId)
-	return r
+func (r *SendAudioRequest) AudioFileId(fileId string) {
+	r._WithString("audio", fileId)
 }
-func (r *SendPhotoRequest) WithPhotoUrl(url string) *SendPhotoRequest {
-	r.withString("photo", url)
-	return r
+func (r *SendAudioRequest) AudioUrl(url string) {
+	r._WithString("audio", url)
 }
+func (r *SendAudioRequest) Duration(duration int) {
+	r._WithInt("duration", duration)
+}
+func (r *SendAudioRequest) Performer(performer string) {
+	r._WithString("performer", performer)
+}
+func (r *SendAudioRequest) Title(title string) {
+	r._WithString("title", title)
+}
+func (r *SendAudioRequest) Thumb(filename string, filedata io.Reader) {
+	r._WithFile("thumb", filename, filedata)
+}
+
+
+type SendDocumentRequest struct {
+	_SendMediaRequest
+}
+func (r *SendDocumentRequest) Document(filename string, filedata io.Reader) {
+	r._WithFile("document", filename, filedata)
+}
+func (r *SendDocumentRequest) Thumb(filename string, filedata io.Reader) {
+	r._WithFile("thumb", filename, filedata)
+}
+
+
+type SendVideoRequest struct {
+	_SendMediaRequest
+}
+func (r *SendVideoRequest) Video(filename string, filedata io.Reader)  {
+	r._WithFile("video", filename, filedata)
+}
+func (r *SendVideoRequest) Duration(duration int) {
+	r._WithInt("duration", duration)
+}
+func (r *SendVideoRequest) Size(width, height int) {
+	r._WithInt("width", width)._WithInt("height", height)
+}
+func (r *SendVideoRequest) Thumb(filename string, filedata io.Reader) {
+	r._WithFile("thumb", filename, filedata)
+}
+func (r *SendVideoRequest) SupportsStreaming() {
+	r._WithBool("supports_streaming", true)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
