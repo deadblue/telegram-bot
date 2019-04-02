@@ -160,17 +160,60 @@ func (r *SendVideoRequest) SupportsStreaming() {
 }
 
 
+type SendAnimationRequest struct {
+	_SendMediaRequest
+}
+func (r *SendAnimationRequest) Animation(filename string, filedata io.Reader) {
+	r._WithFile("animation", filename, filedata)
+}
+func (r *SendAnimationRequest) Duration(duration int) {
+	r._WithInt("duration", duration)
+}
+func (r *SendAnimationRequest) Size(width, height int) {
+	r._WithInt("width", width)._WithInt("height", height)
+}
+func (r *SendAnimationRequest) Thumb(filename string, filedata io.Reader) {
+	r._WithFile("thumb", filename, filedata)
+}
 
 
+type SendVoiceRequest struct {
+	_SendMediaRequest
+}
+func (r *SendVoiceRequest) Voice(filename string, filedata io.Reader) {
+	r._WithFile("voice", filename, filedata)
+}
+func (r *SendVoiceRequest) Duration(duration int) {
+	r._WithInt("duration", duration)
+}
 
 
+type SendVideoNoteRequest struct {
+	_SendMediaRequest
+}
+func (r *SendVideoNoteRequest) VideoNote(filename string, filedata io.Reader) {
+	r._WithFile("video_note", filename, filedata)
+}
+func (r *SendVideoNoteRequest) Duration(duration int) {
+	r._WithInt("duration", duration)
+}
+func (r *SendVideoNoteRequest) SideLength(length int) {
+	r._WithInt("length", length)
+}
+func (r *SendVideoNoteRequest) Thumb(filename string, filedata io.Reader) {
+	r._WithFile("thumb", filename, filedata)
+}
 
 
-
-
-
-
-
+type SendLocationRequest struct {
+	_BasicSendRequest
+}
+func (r *SendLocationRequest) Location(latitude, longitude float64) {
+	r._WithFloat("latitude", latitude)._WithFloat("longitude", longitude)
+}
+func (r *SendLocationRequest) LivePeriod(period int) {
+	r._WithInt("live_period", period)
+}
 
 
 

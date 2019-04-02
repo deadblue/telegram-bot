@@ -4,25 +4,25 @@ package telegroid
 
 type Telegroid struct {
 	// Get updates
-	GetUpdates func(request *GetUpdatesRequest) ([]Update, error)
+	GetUpdates func(params *GetUpdatesRequest) ([]Update, error)
 
 	// Webhook management
-	SetWebhook     func(request *SetWebhookRequest) (bool, error)
+	SetWebhook     func(params *SetWebhookRequest) (bool, error)
 	DeleteWebhook  func() (bool, error)
 	GetWebhookInfo func() (*WebhookInfo, error)
 
 	// Send message
-	ForwardMessage func(args *ForwardMessageRequest) (*Message, error)
-	SendMessage    func(request *SendMessageRequest) (*Message, error)
-	SendPhoto      func(request *SendPhotoRequest) (*Message, error)
-	SendAudio      func(args *SendAudioRequest) (*Message, error)
-	SendDocument   func(args *SendDocumentRequest) (*Message, error)
-	SendVideo      func(args *SendVideoRequest) (*Message, error)
-	//SendAnimation  func(args *deprecated.SendAnimationArguments) (*Message, error)
-	//SendVoice      func(args *deprecated.SendVoiceArguments) (*Message, error)
-	//SendVideoNote  func(args *deprecated.SendVideoNoteArguments) (*Message, error)
+	ForwardMessage func(params *ForwardMessageRequest) (*Message, error)
+	SendMessage    func(params *SendMessageRequest) (*Message, error)
+	SendPhoto      func(params *SendPhotoRequest) (*Message, error)
+	SendAudio      func(params *SendAudioRequest) (*Message, error)
+	SendDocument   func(params *SendDocumentRequest) (*Message, error)
+	SendVideo      func(params *SendVideoRequest) (*Message, error)
+	SendAnimation  func(params *SendAnimationRequest) (*Message, error)
+	SendVoice      func(params *SendVoiceRequest) (*Message, error)
+	SendVideoNote  func(params *SendVideoNoteRequest) (*Message, error)
 	//SendMediaGroup func(args *deprecated.SendMediaGroupArguments) (*Message, error)
-	//SendLocation   func(args *deprecated.SendLocationArguments) (*Message, error)
+	SendLocation   func(params *SendLocationRequest) (*Message, error)
 	//SendVenue      func(args *deprecated.SendVenueArguments) (*Message, error)
 	//SendContact    func(args *deprecated.SendContentArguments) (*Message, error)
 	//SendChatAction func(args *deprecated.SendChatActionArguments) (bool, error)

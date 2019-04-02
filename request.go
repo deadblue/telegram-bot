@@ -32,6 +32,9 @@ func (r *_BasicRequest) _WithFile(name, filename string, filedata io.Reader) *_B
 func (r *_BasicRequest) _WithInt(name string, value int) *_BasicRequest {
 	return r._WithString(name, strconv.Itoa(value))
 }
+func (r *_BasicRequest) _WithFloat(name string, value float64) *_BasicRequest {
+	return r._WithString(name, strconv.FormatFloat(value, 'f', -1, 64))
+}
 func (r *_BasicRequest) _WithBool(name string, value bool) *_BasicRequest {
 	return r._WithString(name, strconv.FormatBool(value))
 }
