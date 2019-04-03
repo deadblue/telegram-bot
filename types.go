@@ -1,7 +1,5 @@
 package telegroid
 
-import "github.com/deadblue/telegroid/deprecated"
-
 type EntityType string
 type MediaType string
 
@@ -258,21 +256,21 @@ type ChatMember struct {
 }
 
 type InputMediaPhoto struct {
-	Type      MediaType             `json:"type"`
-	Media     string                `json:"media"`
-	Caption   *string               `json:"caption"`
-	ParseMode *deprecated.ParseMode `json:"parse_mode"`
+	Type      MediaType `json:"type"`
+	Media     string    `json:"media"`
+	Caption   *string   `json:"caption"`
+	ParseMode *string   `json:"parse_mode"`
 }
 
 type InputMediaVideo struct {
-	Type              MediaType             `json:"type"`
-	Media             string                `json:"media"`
-	Caption           *string               `json:"caption"`
-	ParseMode         *deprecated.ParseMode `json:"parse_mode"`
-	Width             int                   `json:"width"`
-	Height            int                   `json:"height"`
-	Duration          int                   `json:"duration"`
-	SupportsStreaming bool                  `json:"supports_streaming"`
+	Type              MediaType `json:"type"`
+	Media             string    `json:"media"`
+	Caption           *string   `json:"caption"`
+	ParseMode         *string   `json:"parse_mode"`
+	Width             int       `json:"width"`
+	Height            int       `json:"height"`
+	Duration          int       `json:"duration"`
+	SupportsStreaming bool      `json:"supports_streaming"`
 }
 
 type Sticker struct {

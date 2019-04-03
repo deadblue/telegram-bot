@@ -30,7 +30,7 @@ type Telegroid struct {
 	// Edit own message
 	EditMessageText         func(params *EditMessageTextParameters) (*Message, error)
 	EditMessageCaption      func(params *EditMessageCaptionParameters) (*Message, error)
-	editMessageMedia        func(params *EditMessageMediaParameters) (*Message, error)
+	EditMessageMedia        func(params *EditMessageMediaParameters) (*Message, error)
 	EditMessageReplyMarkup  func(params *EditMessageReplyMarkupParameters) (*Message, error)
 	EditMessageLiveLocation func(params *EditMessageLiveLocationParameters) (*Message, error)
 	StopMessageLiveLocation func(params *EditMessageReplyMarkupParameters) (*Message, error)
