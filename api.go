@@ -5,39 +5,42 @@ package telegroid
 type Telegroid struct {
 	// Get updates
 	GetUpdates func(params *GetUpdatesRequest) ([]Update, error)
-
 	// Webhook management
 	SetWebhook     func(params *SetWebhookRequest) (bool, error)
 	DeleteWebhook  func() (bool, error)
 	GetWebhookInfo func() (*WebhookInfo, error)
-
 	// Send message
-	ForwardMessage func(params *ForwardMessageRequest) (*Message, error)
-	SendMessage    func(params *SendMessageRequest) (*Message, error)
-	SendPhoto      func(params *SendPhotoRequest) (*Message, error)
-	SendAudio      func(params *SendAudioRequest) (*Message, error)
-	SendDocument   func(params *SendDocumentRequest) (*Message, error)
-	SendVideo      func(params *SendVideoRequest) (*Message, error)
-	SendAnimation  func(params *SendAnimationRequest) (*Message, error)
-	SendVoice      func(params *SendVoiceRequest) (*Message, error)
-	SendVideoNote  func(params *SendVideoNoteRequest) (*Message, error)
+	ForwardMessage func(params *ForwardMessageParameters) (*Message, error)
+	SendMessage    func(params *SendMessageParameters) (*Message, error)
+	SendPhoto      func(params *SendPhotoParameters) (*Message, error)
+	SendAudio      func(params *SendAudioParameters) (*Message, error)
+	SendDocument   func(params *SendDocumentParameters) (*Message, error)
+	SendVideo      func(params *SendVideoParameters) (*Message, error)
+	SendAnimation  func(params *SendAnimationParameters) (*Message, error)
+	SendVoice      func(params *SendVoiceParameters) (*Message, error)
+	SendVideoNote  func(params *SendVideoNoteParameters) (*Message, error)
 	//SendMediaGroup func(args *deprecated.SendMediaGroupArguments) (*Message, error)
-	SendLocation   func(params *SendLocationRequest) (*Message, error)
-	//SendVenue      func(args *deprecated.SendVenueArguments) (*Message, error)
-	//SendContact    func(args *deprecated.SendContentArguments) (*Message, error)
-	//SendChatAction func(args *deprecated.SendChatActionArguments) (bool, error)
+	SendLocation   func(params *SendLocationParameters) (*Message, error)
+	SendVenue      func(params *SendVenueParameters) (*Message, error)
+	SendContact    func(params *SendContactParameters) (*Message, error)
+	SendChatAction func(params *SendChatActionParameters) (bool, error)
 
-	// Edit/Delete message
-	//EditMessageText              func(args *deprecated.EditMessageTextArguments) (*Message, error)
-	//EditMessageCaption           func(args *deprecated.EditMessageCaptionArguments) (*Message, error)
-	//editMessageMedia             func() (*Message, error) // TODO
-	//EditMessageReplyMarkup       func(args *deprecated.EditMessageReplyMarkupArguments) (*Message, error)
-	//EditMessageLiveLocation      func() (*Message, error) // TODO
-	//StopMessageLiveLocation      func() (*Message, error) // TODO
-	//EditOthersMessageText        func(args *deprecated.EditMessageTextArguments) (bool, error)        `method:"editMessageText"`
-	//EditOthersMessageCaption     func(args *deprecated.EditMessageCaptionArguments) (bool, error)     `method:"editMessageCaption"`
-	//EditOthersMessageReplyMarkup func(args *deprecated.EditMessageReplyMarkupArguments) (bool, error) `method:"editMessageReplyMarkup"`
-	//DeleteMessage                func(args *deprecated.DeleteMessageArguments) (bool, error)
+	// Delete message
+	DeleteMessage func(params *DeleteMessageParameters) (bool, error)
+	// Edit own message
+	EditMessageText         func(params *EditMessageTextParameters) (*Message, error)
+	EditMessageCaption      func(params *EditMessageCaptionParameters) (*Message, error)
+	editMessageMedia        func(params *EditMessageMediaParameters) (*Message, error)
+	EditMessageReplyMarkup  func(params *EditMessageReplyMarkupParameters) (*Message, error)
+	EditMessageLiveLocation func(params *EditMessageLiveLocationParameters) (*Message, error)
+	StopMessageLiveLocation func(params *EditMessageReplyMarkupParameters) (*Message, error)
+	// Edit other's message
+	EditOthersMessageText         func(params *EditMessageTextParameters) (bool, error)         `method:"editMessageText"`
+	EditOthersMessageCaption      func(params *EditMessageCaptionParameters) (bool, error)      `method:"editMessageCaption"`
+	EditOthersMessageMedia        func(params *EditMessageMediaParameters) (bool, error)        `method:"editMessageMedia"`
+	EditOthersMessageReplyMarkup  func(params *EditMessageReplyMarkupParameters) (bool, error)  `method:"editMessageReplyMarkup"`
+	EditOthersMessageLiveLocation func(params *EditMessageLiveLocationParameters) (bool, error) `method:"editMessageLiveLocation"`
+	StopOthersMessageLiveLocation func(params *EditMessageReplyMarkupParameters) (bool, error)  `method:"stopMessageLiveLocation"`
 
 	// Chat management
 	//KickChatMember       func(args *deprecated.KickChatMemberArguments) (bool, error)
@@ -59,14 +62,14 @@ type Telegroid struct {
 	//GetUserProfilePhotos func(args *deprecated.GetUserProfilePhotosArguments) (*UserProfilePhotos, error)
 
 	// Chat information
-	GetChat               func(request *ChatRequest) (*Chat, error)
-	ExportChatInviteLink  func(request *ChatRequest) (*string, error)
-	GetChatAdministrators func(request *ChatRequest) ([]ChatMember, error)
-	GetChatMembersCount   func(request *ChatRequest) (int, error)
+	GetChat               func(params *ChatParameters) (*Chat, error)
+	ExportChatInviteLink  func(params *ChatParameters) (*string, error)
+	GetChatAdministrators func(params *ChatParameters) ([]ChatMember, error)
+	GetChatMembersCount   func(params *ChatParameters) (int, error)
 	//GetChatMember         func(args *deprecated.ChatMemberArguments) (*ChatMember, error)
 
 	// Misc
-	GetFile func(request *GetFileRequest) (*File, error)
+	GetFile func(params *GetFileRequest) (*File, error)
 
 	// Sticker
 	//SendSticker             func(args *deprecated.SendStickerArguments) (*Message, error)

@@ -67,14 +67,14 @@ func createInvoker(client *http.Client, token string, methodName string, funcTyp
 	}
 }
 
-func invokeAPI(client *http.Client, token string, methodName string, args, result interface{}) (err error) {
+func invokeAPI(client *http.Client, token string, methodName string, params, result interface{}) (err error) {
 	// build URL
 	url := fmt.Sprintf(APITemplate, token, methodName)
 	// build request
 	method, contentType, body := http.MethodGet, "", io.Reader(nil)
-	if args != nil {
-		if ar, ok := args.(ApiRequest); ok {
-			contentType, body = ar.Finish()
+	if params != nil {
+		if ap, ok := params.(ApiParameters); ok {
+			contentType, body = ap.Finish()
 			method = http.MethodPost
 		}
 	}
