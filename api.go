@@ -1,8 +1,7 @@
 package telegroid
 
-// The main api client
-
-type Telegroid struct {
+// The bot API wrapper
+type Bot struct {
 	// Get me
 	GetMe func() (*User, error)
 	// Get updates
@@ -80,8 +79,8 @@ type Telegroid struct {
 	//AnswerInlineQuery   func() (bool, error) // TODO
 }
 
-func New(token string) *Telegroid {
-	tg := new(Telegroid)
+func New(token string) *Bot {
+	tg := new(Bot)
 	bindInvoker(tg, token)
 	return tg
 }

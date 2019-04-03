@@ -28,7 +28,7 @@ type _GenericResponse struct {
 	Description string          `json:"description"`
 }
 
-func bindInvoker(tg *Telegroid, token string) {
+func bindInvoker(tg *Bot, token string) {
 	rv := reflect.Indirect(reflect.ValueOf(tg))
 	rt := reflect.TypeOf(tg).Elem()
 	client := &http.Client{}
