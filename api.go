@@ -3,10 +3,12 @@ package telegroid
 // The main api client
 
 type Telegroid struct {
+	// Get me
+	GetMe func() (*User, error)
 	// Get updates
-	GetUpdates func(params *GetUpdatesRequest) ([]Update, error)
+	GetUpdates func(params *GetUpdatesParameters) ([]Update, error)
 	// Webhook management
-	SetWebhook     func(params *SetWebhookRequest) (bool, error)
+	SetWebhook     func(params *SetWebhookParameters) (bool, error)
 	DeleteWebhook  func() (bool, error)
 	GetWebhookInfo func() (*WebhookInfo, error)
 	// Send message
@@ -24,9 +26,8 @@ type Telegroid struct {
 	SendVenue      func(params *SendVenueParameters) (*Message, error)
 	SendContact    func(params *SendContactParameters) (*Message, error)
 	SendChatAction func(params *SendChatActionParameters) (bool, error)
-
 	// Delete message
-	DeleteMessage func(params *DeleteMessageParameters) (bool, error)
+	DeleteMessage func(params *ChatMessageParameters) (bool, error)
 	// Edit own message
 	EditMessageText         func(params *EditMessageTextParameters) (*Message, error)
 	EditMessageCaption      func(params *EditMessageCaptionParameters) (*Message, error)
@@ -41,46 +42,41 @@ type Telegroid struct {
 	EditOthersMessageReplyMarkup  func(params *EditMessageReplyMarkupParameters) (bool, error)  `method:"editMessageReplyMarkup"`
 	EditOthersMessageLiveLocation func(params *EditMessageLiveLocationParameters) (bool, error) `method:"editMessageLiveLocation"`
 	StopOthersMessageLiveLocation func(params *EditMessageReplyMarkupParameters) (bool, error)  `method:"stopMessageLiveLocation"`
-
-	// Chat management
-	//KickChatMember       func(args *deprecated.KickChatMemberArguments) (bool, error)
-	//UnbanChatMember      func(args *deprecated.ChatMemberArguments) (bool, error)
-	//RestrictChatMember   func(args *deprecated.RestrictChatMemberArguments) (bool, error)
-	//PromoteChatMember    func(args *deprecated.PromoteChatMemberArguments) (bool, error)
-	//SetChatPhoto         func(args *deprecated.SetChatPhotoArguments) (bool, error)
-	//DeleteChatPhoto      func(args *deprecated.ChatArguments) (bool, error)
-	//SetChatTitle         func(args *deprecated.SetChatTitleArguments) (bool, error)
-	//SetChatDescription   func(args *deprecated.SetChatDescriptionArguments) (bool, error)
-	//PinChatMessage       func(args *deprecated.PinChatMessageArguments) (bool, error)
-	//UnpinChatMessage     func(args *deprecated.ChatArguments) (bool, error)
-	//SetChatStickerSet    func() (bool, error) // TODO
-	//DeleteChatStickerSet func() (bool, error) // TODO
-	//LeaveChat            func(args *deprecated.ChatArguments) (bool, error)
-
 	// User information
-	GetMe func() (*User, error)
-	//GetUserProfilePhotos func(args *deprecated.GetUserProfilePhotosArguments) (*UserProfilePhotos, error)
-
+	GetUserProfilePhotos func(params *GetUserProfilePhotosParameters) (*UserProfilePhotos, error)
 	// Chat information
 	GetChat               func(params *ChatParameters) (*Chat, error)
-	ExportChatInviteLink  func(params *ChatParameters) (*string, error)
 	GetChatAdministrators func(params *ChatParameters) ([]ChatMember, error)
 	GetChatMembersCount   func(params *ChatParameters) (int, error)
-	//GetChatMember         func(args *deprecated.ChatMemberArguments) (*ChatMember, error)
-
+	GetChatMember         func(params *ChatMemberParameters) (*ChatMember, error)
+	// Chat management
+	KickChatMember       func(params *KickChatMemberParameters) (bool, error)
+	UnbanChatMember      func(params *ChatMemberParameters) (bool, error)
+	RestrictChatMember   func(params *RestrictChatMemberParameters) (bool, error)
+	PromoteChatMember    func(params *PromoteChatMemberParameters) (bool, error)
+	ExportChatInviteLink func(params *ChatParameters) (string, error)
+	SetChatPhoto         func(params *SetChatPhotoParameters) (bool, error)
+	DeleteChatPhoto      func(params *ChatParameters) (bool, error)
+	SetChatTitle         func(params *SetChatTitleParameters) (bool, error)
+	SetChatDescription   func(params *SetChatDescriptionParameters) (bool, error)
+	PinChatMessage       func(params *PinChatMessageParameters) (bool, error)
+	UnpinChatMessage     func(params *ChatParameters) (bool, error)
+	//SetChatStickerSet    func() (bool, error) // TODO
+	//DeleteChatStickerSet func() (bool, error) // TODO
+	LeaveChat func(params *ChatParameters) (bool, error)
 	// Misc
-	GetFile func(params *GetFileRequest) (*File, error)
+	GetFile func(params *GetFileParameters) (*File, error)
 
 	// Sticker
-	//SendSticker             func(args *deprecated.SendStickerArguments) (*Message, error)
-	//GetStickerSet           func(args *deprecated.GetStickerSetArguments) (*StickerSet, error)
+	SendSticker             func(params *SendStickerParameters) (*Message, error)
+	GetStickerSet           func(params *GetStickerSetParameters) (*StickerSet, error)
 	//UploadStickerFile       func(args *deprecated.UploadStickerFileArguments) (*File, error)
 	//CreateNewStickerSet     func(args *deprecated.CreateNewStickerSetArguments) (bool, error)
 	//AddStickerToSet         func(args *deprecated.AddStickerToSetArguments) (bool, error)
 	//SetStickerPositionInSet func(args *deprecated.SetStickerPositionInSetArguments) (bool, error)
 	//DeleteStickerFromSet    func(args *deprecated.DeleteStickerFromSetArguments) (bool, error)
 
-	//AnswerCallbackQuery func(args *deprecated.AnwserCallbackQueryArguments) (bool, error)
+	AnswerCallbackQuery func(params *AnswerCallbackQueryParameters) (bool, error)
 	//AnswerInlineQuery   func() (bool, error) // TODO
 }
 

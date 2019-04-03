@@ -5,39 +5,10 @@ import (
 	"io"
 )
 
-const (
-	// for parse mode
-	parseModeMarkdown = "Markdown"
-	parseModeHTML     = "HTML"
-
-	// chat action
-	chatActionTyping          = "typing"
-	chatActionUploadPhoto     = "upload_photo"
-	chatActionRecordVideo     = "record_video"
-	chatActionUploadVideo     = "upload_video"
-	chatActionRecordAudio     = "record_audio"
-	chatActionUploadAudio     = "upload_audio"
-	chatActionUploadDocument  = "upload_document"
-	chatActionFindLocation    = "find_location"
-	chatActionRecordVideoNote = "record_video_note"
-	chatActionUploadVideoNote = "upload_video_note"
-)
-
-type ChatParameters struct {
-	_BasicParameters
-}
-
-func (p *ChatParameters) ChatId(chatId int) {
-	p.withInt("chat_id", chatId)
-}
-func (p *ChatParameters) Channel(channelName string) {
-	p.withString("chat_id", fmt.Sprintf("@%s", channelName))
-}
-
+// The parameters for `forwardMessage`
 type ForwardMessageParameters struct {
 	ChatParameters
 }
-
 func (p *ForwardMessageParameters) FromChatId(chatId int) {
 	p.withInt("from_chat_id", chatId)
 }
@@ -51,39 +22,39 @@ func (p *ForwardMessageParameters) DisableNotification() {
 	p.withBool("disable_notification", true)
 }
 
-type _BasicSendParameters struct {
+// The common parameters for all send methods
+type _CommenSendParameters struct {
 	ChatParameters
 }
-
-func (p *_BasicSendParameters) ReplyToMessageId(messageId int) {
+func (p *_CommenSendParameters) ReplyToMessageId(messageId int) {
 	p.withInt("reply_to_message_id", messageId)
 }
-func (p *_BasicSendParameters) DisableNotification() {
+func (p *_CommenSendParameters) DisableNotification() {
 	p.withBool("disable_notification", true)
 }
-func (p *_BasicSendParameters) ForceReply(selective bool) {
+func (p *_CommenSendParameters) ForceReply(selective bool) {
 	markup := map[string]bool{
 		"force_reply": true, "selective": selective,
 	}
 	p.withJson("reply_markup", markup)
 }
-func (p *_BasicSendParameters) RemoveKeyboard(selective bool) {
+func (p *_CommenSendParameters) RemoveKeyboard(selective bool) {
 	markup := map[string]bool{
 		"remove_keyboard": true, "selective": selective,
 	}
 	p.withJson("reply_markup", markup)
 }
-func (p *_BasicSendParameters) ReplyKeyboard() {
+func (p *_CommenSendParameters) ReplyKeyboard() {
 	// TODO
 }
-func (p *_BasicSendParameters) InlineKeyboard() {
+func (p *_CommenSendParameters) InlineKeyboard() {
 	// TODO
 }
 
+// The parameters for `sendMessage`
 type SendMessageParameters struct {
-	_BasicSendParameters
+	_CommenSendParameters
 }
-
 func (p *SendMessageParameters) Text(text string) {
 	p.withString("text", text)
 }
@@ -99,26 +70,26 @@ func (p *SendMessageParameters) DisableWebPagePreview() {
 	p.withBool("disable_web_page_preview", true)
 }
 
-type _SendMediaParameters struct {
-	_BasicSendParameters
+// The common parameters for all send media method
+type _CommonSendMediaParameters struct {
+	_CommenSendParameters
 }
-
-func (p *_SendMediaParameters) Caption(caption string) {
+func (p *_CommonSendMediaParameters) Caption(caption string) {
 	p.withString("caption", caption)
 }
-func (p *_SendMediaParameters) MarkdownCaption(caption string) {
+func (p *_CommonSendMediaParameters) MarkdownCaption(caption string) {
 	p.withString("caption", caption).
 		withString("parse_mode", parseModeMarkdown)
 }
-func (p *_SendMediaParameters) HTMLCaption(caption string) {
+func (p *_CommonSendMediaParameters) HTMLCaption(caption string) {
 	p.withString("caption", caption).
 		withString("parse_mode", parseModeHTML)
 }
 
+// The parameters for `sendPhoto`
 type SendPhotoParameters struct {
-	_SendMediaParameters
+	_CommonSendMediaParameters
 }
-
 func (p *SendPhotoParameters) Photo(filename string, filedata io.Reader) {
 	p.withFile("photo", filename, filedata)
 }
@@ -129,10 +100,10 @@ func (p *SendPhotoParameters) PhotoFileId(fileId string) {
 	p.withString("photo", fileId)
 }
 
+// The parameters for `sendAudio`
 type SendAudioParameters struct {
-	_SendMediaParameters
+	_CommonSendMediaParameters
 }
-
 func (p *SendAudioParameters) Audio(filename string, filedata io.Reader) {
 	p.withFile("audio", filename, filedata)
 }
@@ -155,10 +126,10 @@ func (p *SendAudioParameters) Thumb(filename string, filedata io.Reader) {
 	p.withFile("thumb", filename, filedata)
 }
 
+// The parameters for `sendDocument`
 type SendDocumentParameters struct {
-	_SendMediaParameters
+	_CommonSendMediaParameters
 }
-
 func (p *SendDocumentParameters) Document(filename string, filedata io.Reader) {
 	p.withFile("document", filename, filedata)
 }
@@ -166,10 +137,10 @@ func (p *SendDocumentParameters) Thumb(filename string, filedata io.Reader) {
 	p.withFile("thumb", filename, filedata)
 }
 
+// The parameters for `sendVideo`
 type SendVideoParameters struct {
-	_SendMediaParameters
+	_CommonSendMediaParameters
 }
-
 func (p *SendVideoParameters) Video(filename string, filedata io.Reader) {
 	p.withFile("video", filename, filedata)
 }
@@ -189,10 +160,10 @@ func (p *SendVideoParameters) SupportsStreaming() {
 	p.withBool("supports_streaming", true)
 }
 
+// The parameters for `sendAnimation`
 type SendAnimationParameters struct {
-	_SendMediaParameters
+	_CommonSendMediaParameters
 }
-
 func (p *SendAnimationParameters) Animation(filename string, filedata io.Reader) {
 	p.withFile("animation", filename, filedata)
 }
@@ -206,10 +177,10 @@ func (p *SendAnimationParameters) Thumb(filename string, filedata io.Reader) {
 	p.withFile("thumb", filename, filedata)
 }
 
+// The parameters for `sendVoice`
 type SendVoiceParameters struct {
-	_SendMediaParameters
+	_CommonSendMediaParameters
 }
-
 func (p *SendVoiceParameters) Voice(filename string, filedata io.Reader) {
 	p.withFile("voice", filename, filedata)
 }
@@ -217,10 +188,10 @@ func (p *SendVoiceParameters) Duration(duration int) {
 	p.withInt("duration", duration)
 }
 
+// The parameters for `sendVideoNote`
 type SendVideoNoteParameters struct {
-	_SendMediaParameters
+	_CommonSendMediaParameters
 }
-
 func (p *SendVideoNoteParameters) VideoNote(filename string, filedata io.Reader) {
 	p.withFile("video_note", filename, filedata)
 }
@@ -234,10 +205,10 @@ func (p *SendVideoNoteParameters) Thumb(filename string, filedata io.Reader) {
 	p.withFile("thumb", filename, filedata)
 }
 
+// The parameters for `sendLocation`
 type SendLocationParameters struct {
-	_BasicSendParameters
+	_CommenSendParameters
 }
-
 func (p *SendLocationParameters) Location(latitude, longitude float64) {
 	p.withFloat("latitude", latitude).withFloat("longitude", longitude)
 }
@@ -245,9 +216,9 @@ func (p *SendLocationParameters) LivePeriod(period int) {
 	p.withInt("live_period", period)
 }
 
-
+// The parameters for `sendVenue`
 type SendVenueParameters struct {
-	_BasicSendParameters
+	_CommenSendParameters
 }
 func (p *SendVenueParameters) Location(latitude, longitude float64) {
 	p.withFloat("latitude", latitude).withFloat("longitude", longitude)
@@ -262,9 +233,9 @@ func (p *SendVenueParameters) Foursquare(fsId, fsType string) {
 	p.withString("foursquare_id", fsId).withString("foursquare_type", fsType)
 }
 
-
+// The parameters for `sendContact`
 type SendContactParameters struct {
-	_BasicSendParameters
+	_CommenSendParameters
 }
 func (p *SendContactParameters) PhoneNumber(phoneNumber string) {
 	p.withString("phone_number", phoneNumber)
@@ -279,11 +250,10 @@ func (p *SendContactParameters) VCard(vcard string) {
 	p.withString("vcard", vcard)
 }
 
-
+// The parameters for `sendChatAction`
 type SendChatActionParameters struct {
 	ChatParameters
 }
-
 func (p *SendChatActionParameters) Typing() {
 	p.withString("action", chatActionTyping)
 }
@@ -315,18 +285,18 @@ func (p *SendChatActionParameters) UploadVideoNote() {
 	p.withString("action", chatActionUploadVideoNote)
 }
 
-type DeleteMessageParameters struct {
+// The parameters for `deleteMessage`
+type ChatMessageParameters struct {
 	ChatParameters
 }
-
-func (p *DeleteMessageParameters) MessageId(messageId int) {
+func (p *ChatMessageParameters) MessageId(messageId int) {
 	p.withInt("message_id", messageId)
 }
 
-type EditMessageReplyMarkupParameters struct {
-	DeleteMessageParameters
-}
 
+type EditMessageReplyMarkupParameters struct {
+	ChatMessageParameters
+}
 func (p *EditMessageReplyMarkupParameters) InlineMessageId(inlineMessageId int) {
 	p.withInt("inline_message_id", inlineMessageId)
 }
@@ -334,10 +304,10 @@ func (p *EditMessageMediaParameters) InlineKeyboard() {
 	// TODO
 }
 
+
 type EditMessageTextParameters struct {
 	EditMessageReplyMarkupParameters
 }
-
 func (p *EditMessageTextParameters) Text(text string) {
 	p.withString("text", text)
 }
@@ -353,10 +323,10 @@ func (p *EditMessageTextParameters) DisableWebPagePreview() {
 	p.withBool("disable_web_page_preview", true)
 }
 
+
 type EditMessageCaptionParameters struct {
 	EditMessageReplyMarkupParameters
 }
-
 func (p *EditMessageCaptionParameters) Caption(caption string) {
 	p.withString("caption", caption)
 }
@@ -369,13 +339,14 @@ func (p *EditMessageCaptionParameters) HTMLCaption(caption string) {
 		withString("parse_mode", parseModeHTML)
 }
 
+
 type EditMessageMediaParameters struct {
 	EditMessageReplyMarkupParameters
 }
-
 func (p *EditMessageMediaParameters) Media() {
 	// TODO
 }
+
 
 type EditMessageLiveLocationParameters struct {
 	EditMessageReplyMarkupParameters
@@ -383,4 +354,3 @@ type EditMessageLiveLocationParameters struct {
 func (p *EditMessageLiveLocationParameters) Location(latitude, longitude float64) {
 	p.withFloat("latitude", latitude).withFloat("longitude", longitude)
 }
-

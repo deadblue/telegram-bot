@@ -6,11 +6,6 @@ import (
 	"strconv"
 )
 
-// The request interface
-type ApiParameters interface {
-	Finish() (string, io.Reader)
-}
-
 // The basic request struct that implements the ApiParameters
 type _BasicParameters struct {
 	form *_Form
@@ -31,6 +26,9 @@ func (p *_BasicParameters) withFile(name, filename string, filedata io.Reader) *
 }
 func (p *_BasicParameters) withInt(name string, value int) *_BasicParameters {
 	return p.withString(name, strconv.Itoa(value))
+}
+func (p *_BasicParameters) withInt64(name string, value int64) *_BasicParameters {
+	return p.withString(name, strconv.FormatInt(value, 10))
 }
 func (p *_BasicParameters) withFloat(name string, value float64) *_BasicParameters {
 	return p.withString(name, strconv.FormatFloat(value, 'f', -1, 64))

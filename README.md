@@ -16,9 +16,11 @@ bot := telegroid.New("your_bot_token")
 me, err := bot.GetMe()
 
 // Send text message
-args := (&SendRequestBuilder{}).
-	WithChatId(1234).
-	DisableNotification().
-	    ForText().WithText("Hello, world!")
-msg, err := bot.SendMessage(args)
+params := new(telegroid.SendMessageParameters)
+params.ChatId(1234)
+params.Text("Hello, world!")
+msg, err := bot.SendMessage(params)
+
+
+
 ```

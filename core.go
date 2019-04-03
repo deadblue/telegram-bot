@@ -10,10 +10,14 @@ import (
 )
 
 const (
-	TagMethod = "method"
-
-	APITemplate = "https://api.telegram.org/bot%s/%s"
+	apiTemplate = "https://api.telegram.org/bot%s/%s"
+	tagMethod = "method"
 )
+
+// The request interface
+type ApiParameters interface {
+	Finish() (string, io.Reader)
+}
 
 type _InvokeFunction func(args []reflect.Value) (results []reflect.Value)
 
@@ -35,7 +39,7 @@ func bindInvoker(tg *Telegroid, token string) {
 			continue
 		}
 		// get method name from tag
-		methodName := ft.Tag.Get(TagMethod)
+		methodName := ft.Tag.Get(tagMethod)
 		if len(methodName) == 0 {
 			// if not set, use field name
 			methodName = toMethodName(ft.Name)
@@ -69,7 +73,7 @@ func createInvoker(client *http.Client, token string, methodName string, funcTyp
 
 func invokeAPI(client *http.Client, token string, methodName string, params, result interface{}) (err error) {
 	// build URL
-	url := fmt.Sprintf(APITemplate, token, methodName)
+	url := fmt.Sprintf(apiTemplate, token, methodName)
 	// build request
 	method, contentType, body := http.MethodGet, "", io.Reader(nil)
 	if params != nil {
