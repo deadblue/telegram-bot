@@ -29,10 +29,8 @@ The goal is to support Telegram Bot API `4.0`.
 
 But following APIs are not supported yet:
 
-* Normal API
-  * sendMediaGroup - Working
-* All Payments API
-* All Passport API
+* Payments API
+* Passport API
 
 # Reference
 
