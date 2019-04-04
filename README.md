@@ -2,7 +2,7 @@
 
 A Telegram Bot API wrapper in golang
 
-Version: 1.0 (WIP)
+Version: `1.0` (WIP)
 
 # Example
 
@@ -21,6 +21,19 @@ params.ChatId(1234)
 params.Text("Hello, world!")
 msg, err := bot.SendMessage(params)
 
-
-
 ```
+
+# Features
+
+The goal is to support Telegram Bot API `4.0`.
+
+But following APIs are not supported yet:
+
+* Normal API
+  * sendMediaGroup - Working
+* All Payments API
+* All Passport API
+
+# Reference
+
+* https://core.telegram.org/bots/api
