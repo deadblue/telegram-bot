@@ -75,7 +75,7 @@ type Bot struct {
 	DeleteStickerFromSet    func(params *DeleteStickerFromSetParameters) (bool, error)
 
 	AnswerCallbackQuery func(params *AnswerCallbackQueryParameters) (bool, error)
-	//AnswerInlineQuery   func() (bool, error) // TODO
+	AnswerInlineQuery   func(params *AnswerInlineQueryParameters) (bool, error)
 }
 
 func New(token string) *Bot {
