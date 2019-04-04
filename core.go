@@ -14,10 +14,6 @@ const (
 	tagMethod = "method"
 )
 
-// The request interface
-type ApiParameters interface {
-	Finish() (string, io.Reader)
-}
 
 type _InvokeFunction func(args []reflect.Value) (results []reflect.Value)
 

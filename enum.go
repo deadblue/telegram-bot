@@ -16,4 +16,15 @@ const (
 	chatActionFindLocation    = "find_location"
 	chatActionRecordVideoNote = "record_video_note"
 	chatActionUploadVideoNote = "upload_video_note"
+
+	// update type
+	updateMessage            = "message"
+	updateEditedMessage      = "edited_message"
+	updateChannelPost        = "channel_post"
+	updateEditedChannelPost  = "edited_channel_post"
+	updateInlineQuery        = "inline_query"
+	updateChosenInlineResult = "chosen_inline_result"
+	updateCallbackQuery      = "callback_query"
+	updateShippingQuery      = "shipping_query"
+	updatePreCheckoutQuery   = "pre_checkout_query"
 )

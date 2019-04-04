@@ -2,6 +2,50 @@ package telegroid
 
 import "io"
 
+type AllowedUpdatesBuilder struct {
+	holder _BasicParameters
+	values map[string]bool
+}
+func (b *AllowedUpdatesBuilder) Message() {
+	b.values[updateMessage] = true
+}
+func (b *AllowedUpdatesBuilder) EditedMessage() {
+	b.values[updateEditedMessage] = true
+}
+func (b *AllowedUpdatesBuilder) ChannelPost() {
+	b.values[updateChannelPost] = true
+}
+func (b *AllowedUpdatesBuilder) EditedChannelPost() {
+	b.values[updateEditedMessage] = true
+}
+func (b *AllowedUpdatesBuilder) InlineQuery() {
+	b.values[updateInlineQuery] = true
+}
+func (b *AllowedUpdatesBuilder) ChosenInlineResult() {
+	b.values[updateChosenInlineResult] = true
+}
+func (b *AllowedUpdatesBuilder) CallbackQuery() {
+	b.values[updateCallbackQuery] = true
+}
+func (b *AllowedUpdatesBuilder) ShippingQuery() {
+	b.values[updateShippingQuery] = true
+}
+func (b *AllowedUpdatesBuilder) PreCheckoutQuery() {
+	b.values[updatePreCheckoutQuery] = true
+}
+// Call `Finish` to apply you choice
+func (b *AllowedUpdatesBuilder) Finish() {
+	allowed, count := make([]string, len(b.values)), 0
+	for k, v := range b.values {
+		if v {
+			allowed[count] = k
+			count += 1
+		}
+	}
+	b.holder.withJson("allowed_updates", allowed[:count])
+}
+
+
 type GetUpdatesParameters struct {
 	_BasicParameters
 }
@@ -11,9 +55,13 @@ func (p *GetUpdatesParameters) Offset(offset int) {
 func (p *GetUpdatesParameters) Limit(limit int) {
 	p.withInt("limit", limit)
 }
-func (p *GetUpdatesParameters) AllowedUpdates() {
-	// TODO
+func (p *GetUpdatesParameters) AllowedUpdates() *AllowedUpdatesBuilder {
+	return &AllowedUpdatesBuilder{
+		holder: p._BasicParameters,
+		values:  make(map[string]bool),
+	}
 }
+
 
 type SetWebhookParameters struct {
 	_BasicParameters
@@ -27,8 +75,11 @@ func (p *SetWebhookParameters) Certificate(fileName string, fileData io.Reader) 
 func (p *SetWebhookParameters) MaxConnections(maxConns int) {
 	p.withInt("max_connections", maxConns)
 }
-func (p *SetWebhookParameters) AllowedUpdates() {
-	// TODO
+func (p *SetWebhookParameters) AllowedUpdates() *AllowedUpdatesBuilder {
+	return &AllowedUpdatesBuilder{
+		holder: p._BasicParameters,
+		values:  make(map[string]bool),
+	}
 }
 
 
@@ -69,9 +120,6 @@ func (p *AnswerCallbackQueryParameters) Url(url string) {
 func (p *AnswerCallbackQueryParameters) CacheTime(seconds int) {
 	p.withInt("cache_time", seconds)
 }
-func (p *AnswerCallbackQueryParameters) ShowAlert() *SwitchParameter {
-	return &SwitchParameter{
-		holder: p._BasicParameters,
-		name: "show_alert",
-	}
+func (p *AnswerCallbackQueryParameters) ShowAlert() {
+	p.withBool("show_alert", true)
 }

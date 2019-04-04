@@ -6,6 +6,17 @@ import (
 	"strconv"
 )
 
+// The request interface
+type ApiParameters interface {
+	Finish() (string, io.Reader)
+}
+
+// Interface for boolean parameter
+type Switch interface {
+	On()
+	Off()
+}
+
 // The basic request struct that implements the ApiParameters
 type _BasicParameters struct {
 	form *_Form

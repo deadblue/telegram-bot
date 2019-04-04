@@ -20,7 +20,7 @@ type Bot struct {
 	SendAnimation  func(params *SendAnimationParameters) (*Message, error)
 	SendVoice      func(params *SendVoiceParameters) (*Message, error)
 	SendVideoNote  func(params *SendVideoNoteParameters) (*Message, error)
-	//SendMediaGroup func(args *deprecated.SendMediaGroupArguments) (*Message, error)
+	//SendMediaGroup func(params *deprecated.SendMediaGroupArguments) (*Message, error)
 	SendLocation   func(params *SendLocationParameters) (*Message, error)
 	SendVenue      func(params *SendVenueParameters) (*Message, error)
 	SendContact    func(params *SendContactParameters) (*Message, error)
@@ -60,20 +60,19 @@ type Bot struct {
 	SetChatDescription   func(params *SetChatDescriptionParameters) (bool, error)
 	PinChatMessage       func(params *PinChatMessageParameters) (bool, error)
 	UnpinChatMessage     func(params *ChatParameters) (bool, error)
-	//SetChatStickerSet    func() (bool, error) // TODO
-	//DeleteChatStickerSet func() (bool, error) // TODO
-	LeaveChat func(params *ChatParameters) (bool, error)
+	SetChatStickerSet    func(params *SetChatStickerSetParameters) (bool, error)
+	DeleteChatStickerSet func(params *ChatParameters) (bool, error)
+	LeaveChat            func(params *ChatParameters) (bool, error)
 	// Misc
 	GetFile func(params *GetFileParameters) (*File, error)
-
 	// Sticker
 	SendSticker             func(params *SendStickerParameters) (*Message, error)
 	GetStickerSet           func(params *GetStickerSetParameters) (*StickerSet, error)
-	//UploadStickerFile       func(args *deprecated.UploadStickerFileArguments) (*File, error)
-	//CreateNewStickerSet     func(args *deprecated.CreateNewStickerSetArguments) (bool, error)
-	//AddStickerToSet         func(args *deprecated.AddStickerToSetArguments) (bool, error)
-	//SetStickerPositionInSet func(args *deprecated.SetStickerPositionInSetArguments) (bool, error)
-	//DeleteStickerFromSet    func(args *deprecated.DeleteStickerFromSetArguments) (bool, error)
+	UploadStickerFile       func(params *UploadStickerFileParameters) (*File, error)
+	CreateNewStickerSet     func(params *CreateNewStickerSetParameters) (bool, error)
+	AddStickerToSet         func(params *AddStickerToSetParameters) (bool, error)
+	SetStickerPositionInSet func(params *SetStickerPositionInSetParameters) (bool, error)
+	DeleteStickerFromSet    func(params *DeleteStickerFromSetParameters) (bool, error)
 
 	AnswerCallbackQuery func(params *AnswerCallbackQueryParameters) (bool, error)
 	//AnswerInlineQuery   func() (bool, error) // TODO

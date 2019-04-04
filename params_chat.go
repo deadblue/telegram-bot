@@ -33,14 +33,14 @@ func (p *KickChatMemberParameters) UntilDate(timestamp int64) {
 }
 
 
-type SwitchParameter struct {
+type _ParameterSwitch struct {
 	holder _BasicParameters
 	name   string
 }
-func (p *SwitchParameter) On() {
+func (p *_ParameterSwitch) On() {
 	p.holder.withBool(p.name, true)
 }
-func (p *SwitchParameter) Off() {
+func (p *_ParameterSwitch) Off() {
 	p.holder.withBool(p.name, false)
 }
 
@@ -48,26 +48,26 @@ func (p *SwitchParameter) Off() {
 type RestrictChatMemberParameters struct {
 	KickChatMemberParameters
 }
-func (p *RestrictChatMemberParameters) SendMessages() *SwitchParameter {
-	return &SwitchParameter{
+func (p *RestrictChatMemberParameters) SendMessages() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_send_messages",
 	}
 }
-func (p *RestrictChatMemberParameters) SendMediaMessages() *SwitchParameter {
-	return &SwitchParameter{
+func (p *RestrictChatMemberParameters) SendMediaMessages() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_send_media_messages",
 	}
 }
-func (p *RestrictChatMemberParameters) SendOtherMessages() *SwitchParameter {
-	return &SwitchParameter{
+func (p *RestrictChatMemberParameters) SendOtherMessages() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_send_other_messages",
 	}
 }
-func (p *RestrictChatMemberParameters) AddWebPagePreviews() *SwitchParameter {
-	return &SwitchParameter{
+func (p *RestrictChatMemberParameters) AddWebPagePreviews() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_add_web_page_previews",
 	}
@@ -77,50 +77,50 @@ func (p *RestrictChatMemberParameters) AddWebPagePreviews() *SwitchParameter {
 type PromoteChatMemberParameters struct {
 	ChatMemberParameters
 }
-func (p *PromoteChatMemberParameters) ChangeInfo() *SwitchParameter {
-	return &SwitchParameter{
+func (p *PromoteChatMemberParameters) ChangeInfo() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_change_info",
 	}
 }
-func (p *PromoteChatMemberParameters) PostMessages() *SwitchParameter {
-	return &SwitchParameter{
+func (p *PromoteChatMemberParameters) PostMessages() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_post_messages",
 	}
 }
-func (p *PromoteChatMemberParameters) EditMessages() *SwitchParameter {
-	return &SwitchParameter{
+func (p *PromoteChatMemberParameters) EditMessages() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_edit_messages",
 	}
 }
-func (p *PromoteChatMemberParameters) DeleteMessages() *SwitchParameter {
-	return &SwitchParameter{
+func (p *PromoteChatMemberParameters) DeleteMessages() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_delete_messages",
 	}
 }
-func (p *PromoteChatMemberParameters) InviteUsers() *SwitchParameter {
-	return &SwitchParameter{
+func (p *PromoteChatMemberParameters) InviteUsers() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_invite_users",
 	}
 }
-func (p *PromoteChatMemberParameters) RestrictMembers() *SwitchParameter {
-	return &SwitchParameter{
+func (p *PromoteChatMemberParameters) RestrictMembers() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_restrict_members",
 	}
 }
-func (p *PromoteChatMemberParameters) PinMessages() *SwitchParameter {
-	return &SwitchParameter{
+func (p *PromoteChatMemberParameters) PinMessages() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_pin_messages",
 	}
 }
-func (p *PromoteChatMemberParameters) PromoteMembers() *SwitchParameter {
-	return &SwitchParameter{
+func (p *PromoteChatMemberParameters) PromoteMembers() Switch {
+	return &_ParameterSwitch{
 		holder: p._BasicParameters,
 		name: "can_promote_members",
 	}
@@ -159,4 +159,12 @@ func (p *PinChatMessageParameters) MessageId(messageId int) {
 }
 func (p *PinChatMessageParameters) DisableNotification() {
 	p.withBool("disable_notification", true)
+}
+
+
+type SetChatStickerSetParameters struct {
+	ChatParameters
+}
+func (p *SetChatStickerSetParameters) StickerSet(name string) {
+	p.withString("sticker_set_name", name)
 }
