@@ -22,5 +22,5 @@ func (p *AnswerInlineQueryParameters) SwitchPmParameter(parameter string) {
 	p.withString("switch_pm_parameter", parameter)
 }
 func (p *AnswerInlineQueryParameters) Results() {
-	// TODO
+	// TODO construct inline result
 }

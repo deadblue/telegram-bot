@@ -45,10 +45,10 @@ func (p *_CommenSendParameters) RemoveKeyboard(selective bool) {
 	p.withJson("reply_markup", markup)
 }
 func (p *_CommenSendParameters) ReplyKeyboard() {
-	// TODO
+	// TODO construct reply keyboard
 }
 func (p *_CommenSendParameters) InlineKeyboard() {
-	// TODO
+	// TODO construct inline keyboard
 }
 
 // The parameters for `sendMessage`
@@ -301,7 +301,7 @@ func (p *EditMessageReplyMarkupParameters) InlineMessageId(inlineMessageId int) 
 	p.withInt("inline_message_id", inlineMessageId)
 }
 func (p *EditMessageMediaParameters) InlineKeyboard() {
-	// TODO
+	// TODO construct inline keyboard
 }
 
 
@@ -337,14 +337,6 @@ func (p *EditMessageCaptionParameters) MarkdownCaption(caption string) {
 func (p *EditMessageCaptionParameters) HTMLCaption(caption string) {
 	p.withString("caption", caption).
 		withString("parse_mode", parseModeHTML)
-}
-
-
-type EditMessageMediaParameters struct {
-	EditMessageReplyMarkupParameters
-}
-func (p *EditMessageMediaParameters) Media() {
-	// TODO
 }
 
 

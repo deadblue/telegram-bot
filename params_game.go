@@ -16,7 +16,7 @@ func (p *SendGameParameters) DisableNotification() {
 	p.withBool("disable_notification", true)
 }
 func (p *SendGameParameters) InlineKeyboard() {
-	// TODO
+	// TODO construct inline keyboard
 }
 
 type GetGameHighScoresParameters struct {

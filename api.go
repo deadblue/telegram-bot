@@ -20,7 +20,7 @@ type Bot struct {
 	SendAnimation  func(params *SendAnimationParameters) (*Message, error)
 	SendVoice      func(params *SendVoiceParameters) (*Message, error)
 	SendVideoNote  func(params *SendVideoNoteParameters) (*Message, error)
-	//SendMediaGroup func(params *deprecated.SendMediaGroupArguments) (*Message, error)
+	SendMediaGroup func(params *SendMediaGroupParameters) (*Message, error)
 	SendLocation   func(params *SendLocationParameters) (*Message, error)
 	SendVenue      func(params *SendVenueParameters) (*Message, error)
 	SendContact    func(params *SendContactParameters) (*Message, error)
