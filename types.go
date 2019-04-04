@@ -315,6 +315,12 @@ type Animation struct {
 
 type CallbackGame struct{}
 
+type GameHighScore struct {
+	Position int   `json:"position"`
+	User     *User `json:"user"`
+	Score    int   `json:"score"`
+}
+
 type InlineQuery struct {
 	Id       string    `json:"id"`
 	From     User      `json:"from"`

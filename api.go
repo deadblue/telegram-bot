@@ -25,6 +25,8 @@ type Bot struct {
 	SendVenue      func(params *SendVenueParameters) (*Message, error)
 	SendContact    func(params *SendContactParameters) (*Message, error)
 	SendChatAction func(params *SendChatActionParameters) (bool, error)
+	// Inline Callback
+	AnswerCallbackQuery func(params *AnswerCallbackQueryParameters) (bool, error)
 	// Delete message
 	DeleteMessage func(params *ChatMessageParameters) (bool, error)
 	// Edit own message
@@ -73,9 +75,12 @@ type Bot struct {
 	AddStickerToSet         func(params *AddStickerToSetParameters) (bool, error)
 	SetStickerPositionInSet func(params *SetStickerPositionInSetParameters) (bool, error)
 	DeleteStickerFromSet    func(params *DeleteStickerFromSetParameters) (bool, error)
-
-	AnswerCallbackQuery func(params *AnswerCallbackQueryParameters) (bool, error)
-	AnswerInlineQuery   func(params *AnswerInlineQueryParameters) (bool, error)
+	// Inline mode
+	AnswerInlineQuery func(params *AnswerInlineQueryParameters) (bool, error)
+	// Game
+	SendGame          func(params *SendGameParameters) (*Message, error)
+	SetGameScore      func(params *SetGameScoreParameters) (bool, error)
+	GetGameHighScores func(params *GetGameHighScoresParameters) (*GameHighScore, error)
 }
 
 func New(token string) *Bot {
