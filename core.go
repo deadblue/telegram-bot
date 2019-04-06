@@ -9,6 +9,21 @@ import (
 	"reflect"
 )
 
+
+// The request interface
+type ApiParameters interface {
+
+	// When this method be called, it close the inner form,
+	// then return the content type and request data
+	// which will be used to call the telegram bot API
+	//
+	// The method is always be called by invoker function,
+	// developer can call it for debugging, but should not call
+	// when you really use the parameters object
+	Finish() (string, io.Reader)
+
+}
+
 const (
 	apiTemplate = "https://api.telegram.org/bot%s/%s"
 	tagMethod = "method"

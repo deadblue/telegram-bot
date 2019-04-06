@@ -1,4 +1,4 @@
-package telegroid
+package params
 
 import (
 	"encoding/json"
@@ -6,14 +6,14 @@ import (
 	"strconv"
 )
 
-// The request interface
-type ApiParameters interface {
-	Finish() (string, io.Reader)
-}
 
 // Interface for boolean parameter
 type Switch interface {
+
+	// Set the value to true
 	On()
+
+	// Set the value to false
 	Off()
 }
 
@@ -57,5 +57,5 @@ func (p *_BasicParameters) withJson(name string, value interface{}) *_BasicParam
 	return p
 }
 func (p *_BasicParameters) Finish() (contentType string, data io.Reader) {
-	return p.form.Finish()
+	return p.form.Close()
 }

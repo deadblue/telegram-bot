@@ -1,4 +1,4 @@
-package telegroid
+package params
 
 import (
 	"fmt"

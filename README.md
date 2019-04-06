@@ -8,6 +8,7 @@ Version: `1.0` (WIP)
 
 ```Go
 import "github.com/deadblue/telegroid"
+import "github.com/deadblue/telegroid/params"
 
 // Create a bot instance
 bot := telegroid.New("your_bot_token")
@@ -16,7 +17,7 @@ bot := telegroid.New("your_bot_token")
 me, err := bot.GetMe()
 
 // Send text message
-params := new(telegroid.SendMessageParameters)
+params := new(params.SendMessageParameters)
 params.ChatId(1234)
 params.Text("Hello, world!")
 msg, err := bot.SendMessage(params)
