@@ -1,91 +1,93 @@
 //
 package telegroid
 
-import "github.com/deadblue/telegroid/params"
+import (
+	"github.com/deadblue/telegroid/arguments"
+)
 
 // The bot API wrapper
 type Bot struct {
 	// Get me
 	GetMe func() (*User, error)
 	// Get updates
-	GetUpdates func(params *params.GetUpdatesParameters) ([]Update, error)
+	GetUpdates func(args *arguments.GetUpdatesArgs) ([]Update, error)
 	// Webhook management
-	SetWebhook     func(params *params.SetWebhookParameters) (bool, error)
+	SetWebhook     func(args *arguments.SetWebhookArgs) (bool, error)
 	DeleteWebhook  func() (bool, error)
 	GetWebhookInfo func() (*WebhookInfo, error)
 	// Send message
-	ForwardMessage func(params *params.ForwardMessageParameters) (*Message, error)
-	SendMessage    func(params *params.SendMessageParameters) (*Message, error)
-	SendPhoto      func(params *params.SendPhotoParameters) (*Message, error)
-	SendAudio      func(params *params.SendAudioParameters) (*Message, error)
-	SendDocument   func(params *params.SendDocumentParameters) (*Message, error)
-	SendVideo      func(params *params.SendVideoParameters) (*Message, error)
-	SendAnimation  func(params *params.SendAnimationParameters) (*Message, error)
-	SendVoice      func(params *params.SendVoiceParameters) (*Message, error)
-	SendVideoNote  func(params *params.SendVideoNoteParameters) (*Message, error)
-	SendMediaGroup func(params *params.SendMediaGroupParameters) (*Message, error)
-	SendLocation   func(params *params.SendLocationParameters) (*Message, error)
-	SendVenue      func(params *params.SendVenueParameters) (*Message, error)
-	SendContact    func(params *params.SendContactParameters) (*Message, error)
-	SendPoll       func(params *params.SendPollParameters) (*Message, error)
-	SendChatAction func(params *params.SendChatActionParameters) (bool, error)
+	ForwardMessage func(args *arguments.ForwardMessageArgs) (*Message, error)
+	SendMessage    func(args *arguments.SendMessageArgs) (*Message, error)
+	SendPhoto      func(args *arguments.SendPhotoArgs) (*Message, error)
+	SendAudio      func(args *arguments.SendAudioArgs) (*Message, error)
+	SendDocument   func(args *arguments.SendDocumentArgs) (*Message, error)
+	SendVideo      func(args *arguments.SendVideoArgs) (*Message, error)
+	SendAnimation  func(args *arguments.SendAnimationArgs) (*Message, error)
+	SendVoice      func(args *arguments.SendVoiceArgs) (*Message, error)
+	SendVideoNote  func(args *arguments.SendVideoNoteArgs) (*Message, error)
+	SendMediaGroup func(args *arguments.SendMediaGroupArgs) (*Message, error)
+	SendLocation   func(args *arguments.SendLocationArgs) (*Message, error)
+	SendVenue      func(args *arguments.SendVenueArgs) (*Message, error)
+	SendContact    func(args *arguments.SendContactArgs) (*Message, error)
+	SendPoll       func(args *arguments.SendPollArgs) (*Message, error)
+	SendChatAction func(args *arguments.SendChatActionArgs) (bool, error)
 	// Inline Callback
-	AnswerCallbackQuery func(params *params.AnswerCallbackQueryParameters) (bool, error)
+	AnswerCallbackQuery func(args *arguments.AnswerCallbackQueryArgs) (bool, error)
 	// Delete message
-	DeleteMessage func(params *params.ChatMessageParameters) (bool, error)
+	DeleteMessage func(args *arguments.ChatMessageArgs) (bool, error)
 	// Edit own message
-	EditMessageText         func(params *params.EditMessageTextParameters) (*Message, error)
-	EditMessageCaption      func(params *params.EditMessageCaptionParameters) (*Message, error)
-	EditMessageMedia        func(params *params.EditMessageMediaParameters) (*Message, error)
-	EditMessageReplyMarkup  func(params *params.EditMessageReplyMarkupParameters) (*Message, error)
-	EditMessageLiveLocation func(params *params.EditMessageLiveLocationParameters) (*Message, error)
-	StopMessageLiveLocation func(params *params.EditMessageReplyMarkupParameters) (*Message, error)
-	StopPoll                func(params *params.StopPollParameters) (*Poll, error)
+	EditMessageText         func(args *arguments.EditMessageTextArgs) (*Message, error)
+	EditMessageCaption      func(args *arguments.EditMessageCaptionArgs) (*Message, error)
+	EditMessageMedia        func(args *arguments.EditMessageMediaArgs) (*Message, error)
+	EditMessageReplyMarkup  func(args *arguments.EditMessageReplyMarkupArgs) (*Message, error)
+	EditMessageLiveLocation func(args *arguments.EditMessageLiveLocationArgs) (*Message, error)
+	StopMessageLiveLocation func(args *arguments.EditMessageReplyMarkupArgs) (*Message, error)
+	StopPoll                func(args *arguments.StopPollArgs) (*Poll, error)
 	// Edit other's message
-	EditOthersMessageText         func(params *params.EditMessageTextParameters) (bool, error)         `method:"editMessageText"`
-	EditOthersMessageCaption      func(params *params.EditMessageCaptionParameters) (bool, error)      `method:"editMessageCaption"`
-	EditOthersMessageMedia        func(params *params.EditMessageMediaParameters) (bool, error)        `method:"editMessageMedia"`
-	EditOthersMessageReplyMarkup  func(params *params.EditMessageReplyMarkupParameters) (bool, error)  `method:"editMessageReplyMarkup"`
-	EditOthersMessageLiveLocation func(params *params.EditMessageLiveLocationParameters) (bool, error) `method:"editMessageLiveLocation"`
-	StopOthersMessageLiveLocation func(params *params.EditMessageReplyMarkupParameters) (bool, error)  `method:"stopMessageLiveLocation"`
+	EditOthersMessageText         func(args *arguments.EditMessageTextArgs) (bool, error)         `method:"editMessageText"`
+	EditOthersMessageCaption      func(args *arguments.EditMessageCaptionArgs) (bool, error)      `method:"editMessageCaption"`
+	EditOthersMessageMedia        func(args *arguments.EditMessageMediaArgs) (bool, error)        `method:"editMessageMedia"`
+	EditOthersMessageReplyMarkup  func(args *arguments.EditMessageReplyMarkupArgs) (bool, error)  `method:"editMessageReplyMarkup"`
+	EditOthersMessageLiveLocation func(args *arguments.EditMessageLiveLocationArgs) (bool, error) `method:"editMessageLiveLocation"`
+	StopOthersMessageLiveLocation func(args *arguments.EditMessageReplyMarkupArgs) (bool, error)  `method:"stopMessageLiveLocation"`
 	// User information
-	GetUserProfilePhotos func(params *params.GetUserProfilePhotosParameters) (*UserProfilePhotos, error)
+	GetUserProfilePhotos func(args *arguments.GetUserProfilePhotosArgs) (*UserProfilePhotos, error)
 	// Chat information
-	GetChat               func(params *params.ChatParameters) (*Chat, error)
-	GetChatAdministrators func(params *params.ChatParameters) ([]ChatMember, error)
-	GetChatMembersCount   func(params *params.ChatParameters) (int, error)
-	GetChatMember         func(params *params.ChatMemberParameters) (*ChatMember, error)
+	GetChat               func(args *arguments.ChatArgs) (*Chat, error)
+	GetChatAdministrators func(args *arguments.ChatArgs) ([]ChatMember, error)
+	GetChatMembersCount   func(args *arguments.ChatArgs) (int, error)
+	GetChatMember         func(args *arguments.ChatMemberArgs) (*ChatMember, error)
 	// Chat management
-	KickChatMember       func(params *params.KickChatMemberParameters) (bool, error)
-	UnbanChatMember      func(params *params.ChatMemberParameters) (bool, error)
-	RestrictChatMember   func(params *params.RestrictChatMemberParameters) (bool, error)
-	PromoteChatMember    func(params *params.PromoteChatMemberParameters) (bool, error)
-	ExportChatInviteLink func(params *params.ChatParameters) (string, error)
-	SetChatPhoto         func(params *params.SetChatPhotoParameters) (bool, error)
-	DeleteChatPhoto      func(params *params.ChatParameters) (bool, error)
-	SetChatTitle         func(params *params.SetChatTitleParameters) (bool, error)
-	SetChatDescription   func(params *params.SetChatDescriptionParameters) (bool, error)
-	PinChatMessage       func(params *params.PinChatMessageParameters) (bool, error)
-	UnpinChatMessage     func(params *params.ChatParameters) (bool, error)
-	SetChatStickerSet    func(params *params.SetChatStickerSetParameters) (bool, error)
-	DeleteChatStickerSet func(params *params.ChatParameters) (bool, error)
-	LeaveChat            func(params *params.ChatParameters) (bool, error)
+	KickChatMember       func(args *arguments.KickChatMemberArgs) (bool, error)
+	UnbanChatMember      func(args *arguments.ChatMemberArgs) (bool, error)
+	RestrictChatMember   func(args *arguments.RestrictChatMemberArgs) (bool, error)
+	PromoteChatMember    func(args *arguments.PromoteChatMemberArgs) (bool, error)
+	ExportChatInviteLink func(args *arguments.ChatArgs) (string, error)
+	SetChatPhoto         func(args *arguments.SetChatPhotoArgs) (bool, error)
+	DeleteChatPhoto      func(args *arguments.ChatArgs) (bool, error)
+	SetChatTitle         func(args *arguments.SetChatTitleArgs) (bool, error)
+	SetChatDescription   func(args *arguments.SetChatDescriptionArgs) (bool, error)
+	PinChatMessage       func(args *arguments.PinChatMessageArgs) (bool, error)
+	UnpinChatMessage     func(args *arguments.ChatArgs) (bool, error)
+	SetChatStickerSet    func(args *arguments.SetChatStickerSetArgs) (bool, error)
+	DeleteChatStickerSet func(args *arguments.ChatArgs) (bool, error)
+	LeaveChat            func(args *arguments.ChatArgs) (bool, error)
 	// Misc
-	GetFile func(params *params.GetFileParameters) (*File, error)
+	GetFile func(args *arguments.GetFileArgs) (*File, error)
 	// Sticker
-	SendSticker             func(params *params.SendStickerParameters) (*Message, error)
-	GetStickerSet           func(params *params.GetStickerSetParameters) (*StickerSet, error)
-	UploadStickerFile       func(params *params.UploadStickerFileParameters) (*File, error)
-	CreateNewStickerSet     func(params *params.CreateNewStickerSetParameters) (bool, error)
-	AddStickerToSet         func(params *params.AddStickerToSetParameters) (bool, error)
-	SetStickerPositionInSet func(params *params.SetStickerPositionInSetParameters) (bool, error)
-	DeleteStickerFromSet    func(params *params.DeleteStickerFromSetParameters) (bool, error)
+	SendSticker             func(args *arguments.SendStickerArgs) (*Message, error)
+	GetStickerSet           func(args *arguments.GetStickerSetArgs) (*StickerSet, error)
+	UploadStickerFile       func(args *arguments.UploadStickerFileArgs) (*File, error)
+	CreateNewStickerSet     func(args *arguments.CreateNewStickerSetArgs) (bool, error)
+	AddStickerToSet         func(args *arguments.AddStickerToSetArgs) (bool, error)
+	SetStickerPositionInSet func(args *arguments.SetStickerPositionInSetArgs) (bool, error)
+	DeleteStickerFromSet    func(args *arguments.DeleteStickerFromSetArgs) (bool, error)
 	// Inline mode
-	AnswerInlineQuery func(params *params.AnswerInlineQueryParameters) (bool, error)
+	AnswerInlineQuery func(args *arguments.AnswerInlineQueryArgs) (bool, error)
 	// Game
-	SendGame          func(params *params.SendGameParameters) (*Message, error)
-	SetGameScore      func(params *params.SetGameScoreParameters) (bool, error)
-	GetGameHighScores func(params *params.GetGameHighScoresParameters) (*GameHighScore, error)
+	SendGame          func(args *arguments.SendGameArgs) (*Message, error)
+	SetGameScore      func(args *arguments.SetGameScoreArgs) (bool, error)
+	GetGameHighScores func(args *arguments.GetGameHighScoresArgs) (*GameHighScore, error)
 }
 
 func New(token string) *Bot {

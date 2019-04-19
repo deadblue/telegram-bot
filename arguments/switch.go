@@ -1,4 +1,4 @@
-package params
+package arguments
 
 // Interface for boolean parameter
 type Switch interface {
@@ -11,7 +11,7 @@ type Switch interface {
 }
 
 type _ParameterSwitch struct {
-	holder _BasicParameters
+	holder _BasicArgs
 	name   string
 }
 func (p *_ParameterSwitch) On() {

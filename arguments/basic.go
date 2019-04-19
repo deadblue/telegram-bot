@@ -1,4 +1,4 @@
-package params
+package arguments
 
 import (
 	"bytes"
@@ -74,36 +74,36 @@ func (f *_Form) Close() (contentType string, data io.Reader) {
 }
 
 // The basic request struct that implements the ApiParameters
-type _BasicParameters struct {
+type _BasicArgs struct {
 	form *_Form
 }
-func (p *_BasicParameters) withString(name, value string) *_BasicParameters {
+func (p *_BasicArgs) withString(name, value string) *_BasicArgs {
 	if p.form == nil {
 		p.form = newForm()
 	}
 	p.form.AddString(name, value)
 	return p
 }
-func (p *_BasicParameters) withFile(name, filename string, filedata io.Reader) *_BasicParameters {
+func (p *_BasicArgs) withFile(name, filename string, filedata io.Reader) *_BasicArgs {
 	if p.form == nil {
 		p.form = newForm()
 	}
 	p.form.AddFile(name, filename, filedata)
 	return p
 }
-func (p *_BasicParameters) withInt(name string, value int) *_BasicParameters {
+func (p *_BasicArgs) withInt(name string, value int) *_BasicArgs {
 	return p.withString(name, strconv.Itoa(value))
 }
-func (p *_BasicParameters) withInt64(name string, value int64) *_BasicParameters {
+func (p *_BasicArgs) withInt64(name string, value int64) *_BasicArgs {
 	return p.withString(name, strconv.FormatInt(value, 10))
 }
-func (p *_BasicParameters) withFloat(name string, value float64) *_BasicParameters {
+func (p *_BasicArgs) withFloat(name string, value float64) *_BasicArgs {
 	return p.withString(name, strconv.FormatFloat(value, 'f', -1, 64))
 }
-func (p *_BasicParameters) withBool(name string, value bool) *_BasicParameters {
+func (p *_BasicArgs) withBool(name string, value bool) *_BasicArgs {
 	return p.withString(name, strconv.FormatBool(value))
 }
-func (p *_BasicParameters) withJson(name string, value interface{}) *_BasicParameters {
+func (p *_BasicArgs) withJson(name string, value interface{}) *_BasicArgs {
 	if value != nil {
 		data, err :=json.Marshal(value)
 		if err == nil {
@@ -112,6 +112,6 @@ func (p *_BasicParameters) withJson(name string, value interface{}) *_BasicParam
 	}
 	return p
 }
-func (p *_BasicParameters) Finish() (contentType string, data io.Reader) {
+func (p *_BasicArgs) Finish() (contentType string, data io.Reader) {
 	return p.form.Close()
 }

@@ -1,4 +1,4 @@
-package params
+package arguments
 
 const (
 	// parse mode

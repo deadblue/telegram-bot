@@ -1,8 +1,8 @@
-package params
+package arguments
 
 
 type ReplyKeyboardBuilder struct {
-	holder _BasicParameters
+	holder _BasicArgs
 	name   string
 
 	resize bool
@@ -38,7 +38,7 @@ func (b *ReplyKeyboardBuilder) Finish() {
 
 // TODO: define `InlineKeyboardBuilder`
 type InlineKeyboardBuilder struct {
-	holder _BasicParameters
+	holder _BasicArgs
 	name   string
 }
 func (b *InlineKeyboardBuilder) Finish() {

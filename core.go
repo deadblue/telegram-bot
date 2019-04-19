@@ -11,7 +11,7 @@ import (
 
 
 // The request interface
-type ApiParameters interface {
+type ApiArguments interface {
 
 	// When this method be called, it close the inner form,
 	// then return the content type and request data
@@ -82,14 +82,14 @@ func createInvoker(client *http.Client, token string, methodName string, funcTyp
 	}
 }
 
-func invokeAPI(client *http.Client, token string, methodName string, params, result interface{}) (err error) {
+func invokeAPI(client *http.Client, token string, methodName string, args, result interface{}) (err error) {
 	// build URL
 	url := fmt.Sprintf(apiTemplate, token, methodName)
 	// build request
 	method, contentType, body := http.MethodGet, "", io.Reader(nil)
-	if params != nil {
-		if ap, ok := params.(ApiParameters); ok {
-			contentType, body = ap.Finish()
+	if args != nil {
+		if aa, ok := args.(ApiArguments); ok {
+			contentType, body = aa.Finish()
 			method = http.MethodPost
 		}
 	}
