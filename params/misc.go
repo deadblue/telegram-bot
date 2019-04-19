@@ -33,6 +33,9 @@ func (b *AllowedUpdatesBuilder) ShippingQuery() {
 func (b *AllowedUpdatesBuilder) PreCheckoutQuery() {
 	b.values[updatePreCheckoutQuery] = true
 }
+func (b *AllowedUpdatesBuilder) Poll() {
+	b.values[updatePoll] = true
+}
 // Call `Finish` to apply you choice
 func (b *AllowedUpdatesBuilder) Finish() {
 	allowed, count := make([]string, len(b.values)), 0

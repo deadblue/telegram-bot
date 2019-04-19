@@ -27,4 +27,5 @@ const (
 	updateCallbackQuery      = "callback_query"
 	updateShippingQuery      = "shipping_query"
 	updatePreCheckoutQuery   = "pre_checkout_query"
+	updatePoll               = "poll"
 )

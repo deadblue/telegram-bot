@@ -17,6 +17,7 @@ type _Form struct {
 	partWriter  *multipart.Writer
 	values      url.Values
 }
+// One `_Form` instance CAN NOT be used across multi-goroutines
 func newForm() *_Form {
 	// By default, consinder as a simple form
 	return &_Form{
@@ -42,7 +43,6 @@ func (f *_Form) AddFile(name, filename string, filedata io.Reader) *_Form {
 	}
 	// If this is not a multipart from, convert it
 	if !f.isMultipart {
-		// TODO: Add mutex to support multi-goroutines
 		f.isMultipart = true
 		f.partBuffer = &bytes.Buffer{}
 		f.partWriter = multipart.NewWriter(f.partBuffer)

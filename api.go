@@ -27,6 +27,7 @@ type Bot struct {
 	SendLocation   func(params *params.SendLocationParameters) (*Message, error)
 	SendVenue      func(params *params.SendVenueParameters) (*Message, error)
 	SendContact    func(params *params.SendContactParameters) (*Message, error)
+	SendPoll       func(params *params.SendPollParameters) (*Message, error)
 	SendChatAction func(params *params.SendChatActionParameters) (bool, error)
 	// Inline Callback
 	AnswerCallbackQuery func(params *params.AnswerCallbackQueryParameters) (bool, error)
@@ -39,6 +40,7 @@ type Bot struct {
 	EditMessageReplyMarkup  func(params *params.EditMessageReplyMarkupParameters) (*Message, error)
 	EditMessageLiveLocation func(params *params.EditMessageLiveLocationParameters) (*Message, error)
 	StopMessageLiveLocation func(params *params.EditMessageReplyMarkupParameters) (*Message, error)
+	StopPoll                func(params *params.StopPollParameters) (*Poll, error)
 	// Edit other's message
 	EditOthersMessageText         func(params *params.EditMessageTextParameters) (bool, error)         `method:"editMessageText"`
 	EditOthersMessageCaption      func(params *params.EditMessageCaptionParameters) (bool, error)      `method:"editMessageCaption"`

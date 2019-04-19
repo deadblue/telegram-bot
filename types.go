@@ -173,6 +173,18 @@ type Venue struct {
 	FoursquareId string   `json:"foursquare_id"`
 }
 
+type PollOption struct {
+	Text       string `json:"text"`
+	VoterCount int    `json:"voter_count"`
+}
+
+type Poll struct {
+	Id       string       `json:"id"`
+	Question string       `json:"question"`
+	Options  []PollOption `json:"options"`
+	IsClosed bool         `json:"is_closed"`
+}
+
 type UserProfilePhotos struct {
 	TotalCount int           `json:"total_count"`
 	Photos     [][]PhotoSize `json:"photos"`

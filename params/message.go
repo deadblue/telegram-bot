@@ -44,11 +44,17 @@ func (p *_CommonSendParameters) RemoveKeyboard(selective bool) {
 	}
 	p.withJson("reply_markup", markup)
 }
-func (p *_CommonSendParameters) ReplyKeyboard() {
-	// TODO construct reply keyboard
+func (p *_CommonSendParameters) ReplyKeyboard() *ReplyKeyboardBuilder {
+	return &ReplyKeyboardBuilder{
+		holder: p._BasicParameters,
+		name: "reply_markup",
+	}
 }
-func (p *_CommonSendParameters) InlineKeyboard() {
-	// TODO construct inline keyboard
+func (p *_CommonSendParameters) InlineKeyboard() *InlineKeyboardBuilder {
+	return &InlineKeyboardBuilder{
+		holder: p._BasicParameters,
+		name: "reply_markup",
+	}
 }
 
 // The parameters for `sendMessage`
@@ -250,6 +256,16 @@ func (p *SendContactParameters) VCard(vcard string) {
 	p.withString("vcard", vcard)
 }
 
+type SendPollParameters struct {
+	_CommonSendParameters
+}
+func (p *SendPollParameters) Question(questing string) {
+	p.withString("question", questing)
+}
+func (p *SendPollParameters) Options(options ...string) {
+	p.withJson("options", options)
+}
+
 // The parameters for `sendChatAction`
 type SendChatActionParameters struct {
 	ChatParameters
@@ -345,4 +361,11 @@ type EditMessageLiveLocationParameters struct {
 }
 func (p *EditMessageLiveLocationParameters) Location(latitude, longitude float64) {
 	p.withFloat("latitude", latitude).withFloat("longitude", longitude)
+}
+
+type StopPollParameters struct {
+	ChatMessageParameters
+}
+func (p *StopPollParameters) InlineKeyboard() {
+	// TODO construct inline keyboard
 }
