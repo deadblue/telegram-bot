@@ -3,7 +3,7 @@ package params
 import "io"
 
 type SendStickerParameters struct {
-	_CommenSendParameters
+	_CommonSendParameters
 }
 func (p *SendStickerParameters) StickerId(stickerId string) {
 	p.withString("sticker", stickerId)

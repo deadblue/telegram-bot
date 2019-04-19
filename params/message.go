@@ -23,37 +23,37 @@ func (p *ForwardMessageParameters) DisableNotification() {
 }
 
 // The common parameters for all send methods
-type _CommenSendParameters struct {
+type _CommonSendParameters struct {
 	ChatParameters
 }
-func (p *_CommenSendParameters) ReplyToMessageId(messageId int) {
+func (p *_CommonSendParameters) ReplyToMessageId(messageId int) {
 	p.withInt("reply_to_message_id", messageId)
 }
-func (p *_CommenSendParameters) DisableNotification() {
+func (p *_CommonSendParameters) DisableNotification() {
 	p.withBool("disable_notification", true)
 }
-func (p *_CommenSendParameters) ForceReply(selective bool) {
+func (p *_CommonSendParameters) ForceReply(selective bool) {
 	markup := map[string]bool{
 		"force_reply": true, "selective": selective,
 	}
 	p.withJson("reply_markup", markup)
 }
-func (p *_CommenSendParameters) RemoveKeyboard(selective bool) {
+func (p *_CommonSendParameters) RemoveKeyboard(selective bool) {
 	markup := map[string]bool{
 		"remove_keyboard": true, "selective": selective,
 	}
 	p.withJson("reply_markup", markup)
 }
-func (p *_CommenSendParameters) ReplyKeyboard() {
+func (p *_CommonSendParameters) ReplyKeyboard() {
 	// TODO construct reply keyboard
 }
-func (p *_CommenSendParameters) InlineKeyboard() {
+func (p *_CommonSendParameters) InlineKeyboard() {
 	// TODO construct inline keyboard
 }
 
 // The parameters for `sendMessage`
 type SendMessageParameters struct {
-	_CommenSendParameters
+	_CommonSendParameters
 }
 func (p *SendMessageParameters) Text(text string) {
 	p.withString("text", text)
@@ -72,7 +72,7 @@ func (p *SendMessageParameters) DisableWebPagePreview() {
 
 // The common parameters for all send media method
 type _CommonSendMediaParameters struct {
-	_CommenSendParameters
+	_CommonSendParameters
 }
 func (p *_CommonSendMediaParameters) Caption(caption string) {
 	p.withString("caption", caption)
@@ -207,7 +207,7 @@ func (p *SendVideoNoteParameters) Thumb(filename string, filedata io.Reader) {
 
 // The parameters for `sendLocation`
 type SendLocationParameters struct {
-	_CommenSendParameters
+	_CommonSendParameters
 }
 func (p *SendLocationParameters) Location(latitude, longitude float64) {
 	p.withFloat("latitude", latitude).withFloat("longitude", longitude)
@@ -218,7 +218,7 @@ func (p *SendLocationParameters) LivePeriod(period int) {
 
 // The parameters for `sendVenue`
 type SendVenueParameters struct {
-	_CommenSendParameters
+	_CommonSendParameters
 }
 func (p *SendVenueParameters) Location(latitude, longitude float64) {
 	p.withFloat("latitude", latitude).withFloat("longitude", longitude)
@@ -235,7 +235,7 @@ func (p *SendVenueParameters) Foursquare(fsId, fsType string) {
 
 // The parameters for `sendContact`
 type SendContactParameters struct {
-	_CommenSendParameters
+	_CommonSendParameters
 }
 func (p *SendContactParameters) PhoneNumber(phoneNumber string) {
 	p.withString("phone_number", phoneNumber)
