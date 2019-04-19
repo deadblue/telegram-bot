@@ -33,18 +33,6 @@ func (p *KickChatMemberParameters) UntilDate(timestamp int64) {
 }
 
 
-type _ParameterSwitch struct {
-	holder _BasicParameters
-	name   string
-}
-func (p *_ParameterSwitch) On() {
-	p.holder.withBool(p.name, true)
-}
-func (p *_ParameterSwitch) Off() {
-	p.holder.withBool(p.name, false)
-}
-
-
 type RestrictChatMemberParameters struct {
 	KickChatMemberParameters
 }

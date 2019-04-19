@@ -16,7 +16,7 @@ func (b *AllowedUpdatesBuilder) ChannelPost() {
 	b.values[updateChannelPost] = true
 }
 func (b *AllowedUpdatesBuilder) EditedChannelPost() {
-	b.values[updateEditedMessage] = true
+	b.values[updateEditedChannelPost] = true
 }
 func (b *AllowedUpdatesBuilder) InlineQuery() {
 	b.values[updateInlineQuery] = true
