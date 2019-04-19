@@ -8,7 +8,7 @@ Version: `1.0` (WIP)
 
 ```Go
 import "github.com/deadblue/telegroid"
-import "github.com/deadblue/telegroid/params"
+import "github.com/deadblue/telegroid/arguments"
 
 // Create a bot instance
 bot := telegroid.New("your_bot_token")
@@ -17,16 +17,16 @@ bot := telegroid.New("your_bot_token")
 me, err := bot.GetMe()
 
 // Send text message
-params := new(params.SendMessageParameters)
-params.ChatId(1234)
-params.Text("Hello, world!")
-msg, err := bot.SendMessage(params)
+args := new(arguments.SendMessageArgs)
+args.ChatId(1234)
+args.Text("Hello, world!")
+msg, err := bot.SendMessage(args)
 
 ```
 
 # Features
 
-The goal is to support Telegram Bot API `4.0`.
+The goal is to support Telegram Bot API `4.2`.
 
 But following APIs are not supported yet:
 
