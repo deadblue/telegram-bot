@@ -301,8 +301,11 @@ type EditMessageReplyMarkupArgs struct {
 func (a *EditMessageReplyMarkupArgs) InlineMessageId(inlineMessageId int) {
 	a.withInt("inline_message_id", inlineMessageId)
 }
-func (a *EditMessageReplyMarkupArgs) InlineKeyboard() {
-	// TODO construct inline keyboard
+func (a *EditMessageReplyMarkupArgs) InlineKeyboard() *InlineKeyboardBuilder {
+	return &InlineKeyboardBuilder{
+		holder: a._BasicArgs,
+		name: "reply_markup",
+	}
 }
 
 
@@ -350,6 +353,9 @@ func (a *EditMessageLiveLocationArgs) Location(latitude, longitude float64) {
 type StopPollArgs struct {
 	ChatMessageArgs
 }
-func (a *StopPollArgs) InlineKeyboard() {
-	// TODO construct inline keyboard
+func (a *StopPollArgs) InlineKeyboard() *InlineKeyboardBuilder {
+	return &InlineKeyboardBuilder{
+		holder: a._BasicArgs,
+		name: "reply_markup",
+	}
 }

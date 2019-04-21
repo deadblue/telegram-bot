@@ -15,8 +15,11 @@ func (a *SendGameArgs) ReplyToMessageId(messageId int) {
 func (a *SendGameArgs) DisableNotification() {
 	a.withBool("disable_notification", true)
 }
-func (a *SendGameArgs) InlineKeyboard() {
-	// TODO construct inline keyboard
+func (a *SendGameArgs) InlineKeyboard() *InlineKeyboardBuilder {
+	return &InlineKeyboardBuilder{
+		holder: a._BasicArgs,
+		name: "reply_markup",
+	}
 }
 
 type GetGameHighScoresArgs struct {
