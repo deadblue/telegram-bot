@@ -8,10 +8,10 @@ func (a *SendMediaGroupArgs) Media() {
 	// TODO construct medias
 }
 func (a *SendMediaGroupArgs) ReplyToMessageId(messageId int) {
-	a.withInt("reply_to_message_id", messageId)
+	a.getForm().WithInt("reply_to_message_id", messageId)
 }
 func (a *SendMediaGroupArgs) DisableNotification() {
-	a.withBool("disable_notification", true)
+	a.getForm().WithBool("disable_notification", true)
 }
 
 

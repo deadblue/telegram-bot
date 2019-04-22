@@ -6,10 +6,10 @@ type SendStickerArgs struct {
 	_CommonSendArgs
 }
 func (a *SendStickerArgs) StickerId(stickerId string) {
-	a.withString("sticker", stickerId)
+	a.getForm().WithString("sticker", stickerId)
 }
 func (a *SendStickerArgs) StickerFile(fileName string, fileData io.Reader) {
-	a.withFile("sticker", fileName, fileData)
+	a.getForm().WithFile("sticker", fileName, fileData)
 }
 
 
@@ -17,7 +17,7 @@ type GetStickerSetArgs struct {
 	_BasicArgs
 }
 func (a *GetStickerSetArgs) Name(name string) {
-	a.withString("name", name)
+	a.getForm().WithString("name", name)
 }
 
 
@@ -25,10 +25,10 @@ type UploadStickerFileArgs struct {
 	_BasicArgs
 }
 func (a *UploadStickerFileArgs) UserId(userId int) {
-	a.withInt("user_id", userId)
+	a.getForm().WithInt("user_id", userId)
 }
 func (a *UploadStickerFileArgs) StickerFile(fileName string, fileData io.Reader) {
-	a.withFile("png_sticker", fileName, fileData)
+	a.getForm().WithFile("png_sticker", fileName, fileData)
 }
 
 
@@ -36,19 +36,19 @@ type AddStickerToSetArgs struct {
 	_BasicArgs
 }
 func (a *AddStickerToSetArgs) UserId(userId int) {
-	a.withInt("user_id", userId)
+	a.getForm().WithInt("user_id", userId)
 }
 func (a *AddStickerToSetArgs) Name(name string) {
-	a.withString("name", name)
+	a.getForm().WithString("name", name)
 }
 func (a *AddStickerToSetArgs) StickerFile(fileName string, fileData io.Reader) {
-	a.withFile("png_sticker", fileName, fileData)
+	a.getForm().WithFile("png_sticker", fileName, fileData)
 }
 func (a *AddStickerToSetArgs) StickerId(fileId string) {
-	a.withString("png_sticker", fileId)
+	a.getForm().WithString("png_sticker", fileId)
 }
 func (a *AddStickerToSetArgs) Emojis(emojis string) {
-	a.withString("emojis", emojis)
+	a.getForm().WithString("emojis", emojis)
 }
 func (a *AddStickerToSetArgs) MaskPosition(point string, x, y, scale float64) {
 	mask := map[string]interface{} {
@@ -57,7 +57,7 @@ func (a *AddStickerToSetArgs) MaskPosition(point string, x, y, scale float64) {
 		"y_shift": y,
 		"scale": scale,
 	}
-	a.withJson("mask_position", mask)
+	a.getForm().WithJson("mask_position", mask)
 }
 
 
@@ -65,10 +65,10 @@ type CreateNewStickerSetArgs struct {
 	AddStickerToSetArgs
 }
 func (a *CreateNewStickerSetArgs) Title(title string) {
-	a.withString("title", title)
+	a.getForm().WithString("title", title)
 }
 func (a *CreateNewStickerSetArgs) ContainsMasks() {
-	a.withBool("contains_masks", true)
+	a.getForm().WithBool("contains_masks", true)
 }
 
 
@@ -76,16 +76,16 @@ type SetStickerPositionInSetArgs struct {
 	_BasicArgs
 }
 func (a *SetStickerPositionInSetArgs) StickerId(fileId string) {
-	a.withString("sticker", fileId)
+	a.getForm().WithString("sticker", fileId)
 }
 func (a *SetStickerPositionInSetArgs) Position(position int) {
-	a.withInt("position", position)
+	a.getForm().WithInt("position", position)
 }
 
 
 type DeleteStickerFromSetArgs struct {
 	_BasicArgs
 }
-func (p *DeleteStickerFromSetArgs) StickerId(fileId string) {
-	p.withString("sticker", fileId)
+func (a *DeleteStickerFromSetArgs) StickerId(fileId string) {
+	a.getForm().WithString("sticker", fileId)
 }

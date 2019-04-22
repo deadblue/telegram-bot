@@ -1,117 +1,19 @@
 package arguments
 
 import (
-	"bytes"
-	"encoding/json"
 	"io"
-	"mime/multipart"
-	"net/url"
-	"strconv"
-	"strings"
 )
 
-type _Form struct {
-	closed      bool
-	isMultipart bool
-	partBuffer  *bytes.Buffer
-	partWriter  *multipart.Writer
-	values      url.Values
-}
-// One `_Form` instance CAN NOT be used across multi-goroutines
-func newForm() *_Form {
-	// By default, consinder as a simple form
-	return &_Form{
-		closed:      false,
-		isMultipart: false,
-		values:      url.Values{},
-	}
-}
-func (f *_Form) AddString(name, value string) *_Form {
-	if f.closed {
-		return f
-	}
-	if f.isMultipart {
-		_ = f.partWriter.WriteField(name, value)
-	} else {
-		f.values.Set(name, value)
-	}
-	return f
-}
-func (f *_Form) AddFile(name, filename string, filedata io.Reader) *_Form {
-	if f.closed {
-		return f
-	}
-	// If this is not a multipart from, convert it
-	if !f.isMultipart {
-		f.isMultipart = true
-		f.partBuffer = &bytes.Buffer{}
-		f.partWriter = multipart.NewWriter(f.partBuffer)
-		// fill multipars with values
-		for key := range f.values {
-			_ = f.partWriter.WriteField(key, f.values.Get(key))
-			f.values.Del(key)
-		}
-		// release values
-		f.values = nil
-	}
-	w, _ := f.partWriter.CreateFormFile(name, filename)
-	_, _ = io.Copy(w, filedata)
-	return f
-}
-func (f *_Form) Close() (contentType string, data io.Reader) {
-	if f.isMultipart {
-		if !f.closed {
-			f.closed = true
-			_ = f.partWriter.Close()
-		}
-		contentType = f.partWriter.FormDataContentType()
-		data = f.partBuffer
-	} else {
-		contentType = "application/x-www-form-urlencoded"
-		data = strings.NewReader(f.values.Encode())
-	}
-	return
-}
-
-// The basic request struct that implements the ApiParameters
+// The basic argument struct that implements the ApiArguments
 type _BasicArgs struct {
 	form *_Form
 }
-func (p *_BasicArgs) withString(name, value string) *_BasicArgs {
-	if p.form == nil {
-		p.form = newForm()
+func (a *_BasicArgs) getForm() *_Form {
+	if a.form == nil {
+		a.form = newForm()
 	}
-	p.form.AddString(name, value)
-	return p
+	return a.form
 }
-func (p *_BasicArgs) withFile(name, filename string, filedata io.Reader) *_BasicArgs {
-	if p.form == nil {
-		p.form = newForm()
-	}
-	p.form.AddFile(name, filename, filedata)
-	return p
-}
-func (p *_BasicArgs) withInt(name string, value int) *_BasicArgs {
-	return p.withString(name, strconv.Itoa(value))
-}
-func (p *_BasicArgs) withInt64(name string, value int64) *_BasicArgs {
-	return p.withString(name, strconv.FormatInt(value, 10))
-}
-func (p *_BasicArgs) withFloat(name string, value float64) *_BasicArgs {
-	return p.withString(name, strconv.FormatFloat(value, 'f', -1, 64))
-}
-func (p *_BasicArgs) withBool(name string, value bool) *_BasicArgs {
-	return p.withString(name, strconv.FormatBool(value))
-}
-func (p *_BasicArgs) withJson(name string, value interface{}) *_BasicArgs {
-	if value != nil {
-		data, err :=json.Marshal(value)
-		if err == nil {
-			p.withString(name, string(data))
-		}
-	}
-	return p
-}
-func (p *_BasicArgs) Finish() (contentType string, data io.Reader) {
-	return p.form.Close()
+func (a *_BasicArgs) Finish() (contentType string, data io.Reader) {
+	return a.getForm().Close()
 }

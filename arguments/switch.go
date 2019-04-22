@@ -3,20 +3,21 @@ package arguments
 // Interface for boolean parameter
 type Switch interface {
 
-	// Set the value to true
+	// Set the argument to true
 	On()
 
-	// Set the value to false
+	// Set the argument to false
 	Off()
 }
 
-type _ParameterSwitch struct {
-	holder _BasicArgs
-	name   string
+
+type implSwitch struct {
+	form *_Form
+	name string
 }
-func (p *_ParameterSwitch) On() {
-	p.holder.withBool(p.name, true)
+func (s *implSwitch) On() {
+	s.form.WithBool(s.name, true)
 }
-func (p *_ParameterSwitch) Off() {
-	p.holder.withBool(p.name, false)
+func (s *implSwitch) Off() {
+	s.form.WithBool(s.name, false)
 }
