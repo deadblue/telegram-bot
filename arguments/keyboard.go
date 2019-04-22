@@ -27,13 +27,20 @@ type ReplyKeyboardBuilder interface {
 
 	// Add a location button, which will send user's current location when be clicked.
 	LocationButton(text string) ReplyKeyboardBuilder
-	// Define the layout of the buttons:
-	//     If not set:       All the buttons will be shown in one row.
-	//     If set as [2]:    The buttons will be splited to mulitple rows,
-	//                       each row contains two buttons at most.
-	//     If set as [3, 2]: The buttons will be splited to mulitple rows,
-	//                       the first row contains three buttons,
-	//                       and the other rows contain two buttons at most.
+
+	// Define how the buttons are arranged.
+	//
+	// Each rowSize means how many buttons can be placed in that row,
+	// and the last rowSize will be followed if there are more buttons need to be placed.
+	//
+	// If the layout is not specified, all the buttons will be placed in one row.
+	//
+	// For example, if the layout is
+	//     [2]:    The buttons will be splited to mulitple rows,
+	//             each row contains two buttons at most.
+	//     [3, 2]: The buttons will be splited to mulitple rows,
+	//             the first row contains three buttons,
+	//             and the other rows contain two buttons at most.
 	Layout(rowSize ...int) ReplyKeyboardBuilder
 
 	// Apply the settings, should be called at the end of the setup.
@@ -57,13 +64,19 @@ type InlineKeyboardBuilder interface {
 	// Add a pay button.
 	PayButton(text string) InlineKeyboardBuilder
 
-	// Define the layout of the buttons:
-	//     If not set:       All the buttons will be shown in one row.
-	//     If set as [2]:    The buttons will be splited to mulitple rows,
-	//                       each row contains two buttons at most.
-	//     If set as [3, 2]: The buttons will be splited to mulitple rows,
-	//                       the first row contains three buttons,
-	//                       and the other rows contain two buttons at most.
+	// Define how the buttons are arranged.
+	//
+	// Each rowSize means how many buttons can be placed in that row,
+	// and the last rowSize will be followed if there are more buttons need to be placed.
+	//
+	// If the layout is not specified, all the buttons will be placed in one row.
+	//
+	// For example, if the layout is
+	//     [2]:    The buttons will be splited to mulitple rows,
+	//             each row contains two buttons at most.
+	//     [3, 2]: The buttons will be splited to mulitple rows,
+	//             the first row contains three buttons,
+	//             and the other rows contain two buttons at most.
 	Layout(rowSize ...int) InlineKeyboardBuilder
 
 	// Apply the settings, should be called at the end of the setup.
