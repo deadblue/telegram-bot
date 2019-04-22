@@ -1,22 +1,30 @@
 package arguments
 
+
+// The builder for assembling a reply keyboard
 type ReplyKeyboardBuilder interface {
+
 	// Requests clients to resize the keyboard vertically for optimal fit
 	// (e.g., make the keyboard smaller if there are just two rows of buttons).
 	// Defaults to false, in which case the custom keyboard is
 	// always of the same height as the app's standard keyboard.
 	ResizeKeyboard() ReplyKeyboardBuilder
+
 	// Requests clients to hide the keyboard as soon as it's been used.
 	// The keyboard will still be available, but clients will automatically display
 	// the usual letter-keyboard in the chat – the user can press a special button
 	// in the input field to see the custom keyboard again. Defaults to false.
 	OneTimeKeyboard() ReplyKeyboardBuilder
+
 	// Use this parameter if you want to show the keyboard to specific users only.
 	Selective() ReplyKeyboardBuilder
+
 	// Add one or more text buttons.
 	Buttons(text ...string) ReplyKeyboardBuilder
+
 	// Add a contact button, which will send user's phone number when be clicked.
 	ContactButton(text string) ReplyKeyboardBuilder
+
 	// Add a location button, which will send user's current location when be clicked.
 	LocationButton(text string) ReplyKeyboardBuilder
 	// Define the layout of the buttons:
@@ -27,19 +35,28 @@ type ReplyKeyboardBuilder interface {
 	//                       the first row contains three buttons,
 	//                       and the other rows contain two buttons at most.
 	Layout(rowSize ...int) ReplyKeyboardBuilder
+
 	// Apply the settings, should be called at the end of the setup.
 	Finish()
+
 }
 
+
+// The builder for assembling a inline keyboard
 type InlineKeyboardBuilder interface {
+
 	// Add a URL button.
 	UrlButton(text, url string) InlineKeyboardBuilder
+
 	// Add a callback button.
 	CallbackButton(text, data string) InlineKeyboardBuilder
-	// Add a game button
+
+	// Add a game button.
 	GameButton(text string) InlineKeyboardBuilder
-	// Add a pay button
+
+	// Add a pay button.
 	PayButton(text string) InlineKeyboardBuilder
+
 	// Define the layout of the buttons:
 	//     If not set:       All the buttons will be shown in one row.
 	//     If set as [2]:    The buttons will be splited to mulitple rows,
@@ -48,8 +65,10 @@ type InlineKeyboardBuilder interface {
 	//                       the first row contains three buttons,
 	//                       and the other rows contain two buttons at most.
 	Layout(rowSize ...int) InlineKeyboardBuilder
+
 	// Apply the settings, should be called at the end of the setup.
 	Finish()
+
 }
 
 

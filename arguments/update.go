@@ -1,19 +1,43 @@
 package arguments
 
-
+// The builder to define which updates can received.
 type AllowedUpdatesBuilder interface {
+
+	// Allow to receive incoming message.
 	Message() AllowedUpdatesBuilder
+
+	// Allow to receive new version of a meesage which was edited.
 	EditedMessage() AllowedUpdatesBuilder
+
+	// Allow to receive incoming channel post.
 	ChannelPost() AllowedUpdatesBuilder
+
+	// Allow to receive new version of a channel post which was edited.
 	EditedChannelPost() AllowedUpdatesBuilder
+
+	// Allow to receive incoming inline query.
 	InlineQuery() AllowedUpdatesBuilder
+
+	// Allow to receive the result which user chose from an inline query.
 	ChosenInlineResult() AllowedUpdatesBuilder
+
+	// Allow to receive incoming callback query.
 	CallbackQuery() AllowedUpdatesBuilder
+
+	// Allow to receive incoming shipping query.
 	ShippingQuery() AllowedUpdatesBuilder
+
+	// Allow to receive incoming pre-checkout query.
 	PreCheckoutQuery() AllowedUpdatesBuilder
+
+	// Allow to receive poll state when it was voted or stopped.
 	Poll() AllowedUpdatesBuilder
+
+	// Apply the settings, should be called at the end of the setup.
 	Finish()
+
 }
+
 
 type implAllowedUpdatesBuilder struct {
 	form   *_Form

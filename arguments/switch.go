@@ -1,6 +1,6 @@
 package arguments
 
-// Interface for boolean parameter
+// Value switch for boolean argument
 type Switch interface {
 
 	// Set the argument to true
