@@ -25,7 +25,7 @@ type Bot struct {
 	SendAnimation  func(args *arguments.SendAnimationArgs) (*Message, error)
 	SendVoice      func(args *arguments.SendVoiceArgs) (*Message, error)
 	SendVideoNote  func(args *arguments.SendVideoNoteArgs) (*Message, error)
-	SendMediaGroup func(args *arguments.SendMediaGroupArgs) (*Message, error)
+	SendMediaGroup func(args *arguments.SendMediaGroupArgs) ([]*Message, error)
 	SendLocation   func(args *arguments.SendLocationArgs) (*Message, error)
 	SendVenue      func(args *arguments.SendVenueArgs) (*Message, error)
 	SendContact    func(args *arguments.SendContactArgs) (*Message, error)
