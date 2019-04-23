@@ -1,4 +1,4 @@
-//
+// Telegram bot API wrapper
 package telegroid
 
 import (

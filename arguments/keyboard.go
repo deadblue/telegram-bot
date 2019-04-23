@@ -30,8 +30,8 @@ type ReplyKeyboardBuilder interface {
 
 	// Define how the buttons are arranged.
 	//
-	// Each rowSize means how many buttons can be placed in that row,
-	// and the last rowSize will be followed if there are more buttons need to be placed.
+	// Each rowSize means how many buttons can be placed in that row, and the
+	// last rowSize will be followed if there are more buttons need to be placed.
 	//
 	// If the layout is not specified, all the buttons will be placed in one row.
 	//
@@ -66,8 +66,8 @@ type InlineKeyboardBuilder interface {
 
 	// Define how the buttons are arranged.
 	//
-	// Each rowSize means how many buttons can be placed in that row,
-	// and the last rowSize will be followed if there are more buttons need to be placed.
+	// Each rowSize means how many buttons can be placed in that row, and the
+	// last rowSize will be followed if there are more buttons need to be placed.
 	//
 	// If the layout is not specified, all the buttons will be placed in one row.
 	//
