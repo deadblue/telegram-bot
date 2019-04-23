@@ -3,6 +3,8 @@ package arguments
 // The builder to define which updates can received.
 type AllowedUpdatesBuilder interface {
 
+	ArgumentBuilder
+
 	// Allow to receive incoming message.
 	Message() AllowedUpdatesBuilder
 
@@ -33,15 +35,16 @@ type AllowedUpdatesBuilder interface {
 	// Allow to receive poll state when it was voted or stopped.
 	Poll() AllowedUpdatesBuilder
 
-	// Apply the settings, should be called at the end of the setup.
-	Finish()
-
 }
 
 
 type implAllowedUpdatesBuilder struct {
 	form   *_Form
 	values map[string]bool
+}
+func (b *implAllowedUpdatesBuilder) Init(form *_Form) {
+	b.form = form
+	b.values = make(map[string]bool)
 }
 func (b *implAllowedUpdatesBuilder) Message() AllowedUpdatesBuilder {
 	b.values[updateMessage] = true

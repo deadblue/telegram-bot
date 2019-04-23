@@ -4,6 +4,8 @@ package arguments
 // The builder for assembling a reply keyboard
 type ReplyKeyboardBuilder interface {
 
+	ArgumentBuilder
+
 	// Requests clients to resize the keyboard vertically for optimal fit
 	// (e.g., make the keyboard smaller if there are just two rows of buttons).
 	// Defaults to false, in which case the custom keyboard is
@@ -43,14 +45,13 @@ type ReplyKeyboardBuilder interface {
 	//             and the other rows contain two buttons at most.
 	Layout(rowSize ...int) ReplyKeyboardBuilder
 
-	// Apply the settings, should be called at the end of the setup.
-	Finish()
-
 }
 
 
 // The builder for assembling a inline keyboard
 type InlineKeyboardBuilder interface {
+
+	ArgumentBuilder
 
 	// Add a URL button.
 	UrlButton(text, url string) InlineKeyboardBuilder
@@ -78,9 +79,6 @@ type InlineKeyboardBuilder interface {
 	//             the first row contains three buttons,
 	//             and the other rows contain two buttons at most.
 	Layout(rowSize ...int) InlineKeyboardBuilder
-
-	// Apply the settings, should be called at the end of the setup.
-	Finish()
 
 }
 

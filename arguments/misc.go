@@ -11,10 +11,9 @@ func (a *GetUpdatesArgs) Limit(limit int) {
 	a.getForm().WithInt("limit", limit)
 }
 func (a *GetUpdatesArgs) AllowedUpdates() AllowedUpdatesBuilder {
-	return &implAllowedUpdatesBuilder{
-		form:   a.getForm(),
-		values: make(map[string]bool),
-	}
+	b := new(implAllowedUpdatesBuilder)
+	b.Init(a.getForm())
+	return b
 }
 
 
@@ -31,10 +30,9 @@ func (a *SetWebhookArgs) MaxConnections(maxConns int) {
 	a.getForm().WithInt("max_connections", maxConns)
 }
 func (a *SetWebhookArgs) AllowedUpdates() AllowedUpdatesBuilder {
-	return &implAllowedUpdatesBuilder{
-		form:   a.getForm(),
-		values: make(map[string]bool),
-	}
+	b := new(implAllowedUpdatesBuilder)
+	b.Init(a.getForm())
+	return b
 }
 
 
