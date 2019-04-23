@@ -16,14 +16,6 @@ type _Form struct {
 	partWriter  *multipart.Writer
 	values      url.Values
 }
-// One `_Form` instance CAN NOT be used across multi-goroutines
-func newForm() *_Form {
-	// By default, consinder as a simple form
-	return &_Form{
-		isMultipart: false,
-		values:      url.Values{},
-	}
-}
 func (f *_Form) WithString(name, value string) *_Form {
 	if f.isMultipart {
 		_ = f.partWriter.WriteField(name, value)
@@ -53,22 +45,27 @@ func (f *_Form) WithJson(name string, value interface{}) *_Form {
 	}
 	return f
 }
-func (f *_Form) WithFile(name, filename string, filedata io.Reader) *_Form {
-	// If this is not a multipart from, convert it
+func (f *_Form) WithFile(name string, file InputFile) *_Form {
+	// If this is not a multipart from, convert it to
 	if !f.isMultipart {
 		f.isMultipart = true
 		f.partBuffer = &bytes.Buffer{}
 		f.partWriter = multipart.NewWriter(f.partBuffer)
-		// fill multipars with values
+		// Fill multiparts with values
 		for key := range f.values {
 			_ = f.partWriter.WriteField(key, f.values.Get(key))
 			f.values.Del(key)
 		}
-		// release values
+		// Release values
 		f.values = nil
 	}
-	w, _ := f.partWriter.CreateFormFile(name, filename)
-	_, _ = io.Copy(w, filedata)
+	// Create a file part and fill it
+	w, _ := f.partWriter.CreateFormFile(name, file.Name())
+	rc := file.Data()
+	if rc != nil {
+		defer rc.Close()
+		_, _ = io.Copy(w, rc)
+	}
 	return f
 }
 func (f *_Form) Close() (contentType string, data io.Reader) {
@@ -81,4 +78,13 @@ func (f *_Form) Close() (contentType string, data io.Reader) {
 		data = strings.NewReader(f.values.Encode())
 	}
 	return
+}
+
+// One `_Form` instance CAN NOT be used across multi-goroutines
+func newForm() *_Form {
+	// By default, consinder as a simple form
+	return &_Form{
+		isMultipart: false,
+		values:      url.Values{},
+	}
 }

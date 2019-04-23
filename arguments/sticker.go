@@ -1,6 +1,5 @@
 package arguments
 
-import "io"
 
 type SendStickerArgs struct {
 	_CommonSendArgs
@@ -8,8 +7,8 @@ type SendStickerArgs struct {
 func (a *SendStickerArgs) StickerId(stickerId string) {
 	a.getForm().WithString("sticker", stickerId)
 }
-func (a *SendStickerArgs) StickerFile(fileName string, fileData io.Reader) {
-	a.getForm().WithFile("sticker", fileName, fileData)
+func (a *SendStickerArgs) StickerFile(file InputFile) {
+	a.getForm().WithFile("sticker", file)
 }
 
 
@@ -27,8 +26,8 @@ type UploadStickerFileArgs struct {
 func (a *UploadStickerFileArgs) UserId(userId int) {
 	a.getForm().WithInt("user_id", userId)
 }
-func (a *UploadStickerFileArgs) StickerFile(fileName string, fileData io.Reader) {
-	a.getForm().WithFile("png_sticker", fileName, fileData)
+func (a *UploadStickerFileArgs) StickerFile(file InputFile) {
+	a.getForm().WithFile("png_sticker", file)
 }
 
 
@@ -41,11 +40,11 @@ func (a *AddStickerToSetArgs) UserId(userId int) {
 func (a *AddStickerToSetArgs) Name(name string) {
 	a.getForm().WithString("name", name)
 }
-func (a *AddStickerToSetArgs) StickerFile(fileName string, fileData io.Reader) {
-	a.getForm().WithFile("png_sticker", fileName, fileData)
-}
 func (a *AddStickerToSetArgs) StickerId(fileId string) {
 	a.getForm().WithString("png_sticker", fileId)
+}
+func (a *AddStickerToSetArgs) StickerFile(file InputFile) {
+	a.getForm().WithFile("png_sticker", file)
 }
 func (a *AddStickerToSetArgs) Emojis(emojis string) {
 	a.getForm().WithString("emojis", emojis)

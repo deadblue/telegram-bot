@@ -1,7 +1,5 @@
 package arguments
 
-import "io"
-
 
 type GetUpdatesArgs struct {
 	_BasicArgs
@@ -26,8 +24,8 @@ type SetWebhookArgs struct {
 func (a *SetWebhookArgs) Url(url string) {
 	a.getForm().WithString("url", url)
 }
-func (a *SetWebhookArgs) Certificate(fileName string, fileData io.Reader) {
-	a.getForm().WithFile("certificate", fileName, fileData)
+func (a *SetWebhookArgs) Certificate(file InputFile) {
+	a.getForm().WithFile("certificate", file)
 }
 func (a *SetWebhookArgs) MaxConnections(maxConns int) {
 	a.getForm().WithInt("max_connections", maxConns)

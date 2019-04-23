@@ -2,7 +2,6 @@ package arguments
 
 import (
 	"fmt"
-	"io"
 )
 
 
@@ -118,8 +117,8 @@ func (a *PromoteChatMemberArgs) PromoteMembers() Switch {
 type SetChatPhotoArgs struct {
 	ChatArgs
 }
-func (a *SetChatPhotoArgs) Photo(filename string, filedata io.Reader) {
-	a.getForm().WithFile("photo", filename, filedata)
+func (a *SetChatPhotoArgs) Photo(file InputFile) {
+	a.getForm().WithFile("photo", file)
 }
 
 

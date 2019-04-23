@@ -2,7 +2,6 @@ package arguments
 
 import (
 	"fmt"
-	"io"
 )
 
 
@@ -100,8 +99,8 @@ func (a *_CommonSendMediaArgs) HTMLCaption(caption string) {
 type SendPhotoArgs struct {
 	_CommonSendMediaArgs
 }
-func (a *SendPhotoArgs) Photo(filename string, filedata io.Reader) {
-	a.getForm().WithFile("photo", filename, filedata)
+func (a *SendPhotoArgs) Photo(file InputFile) {
+	a.getForm().WithFile("photo", file)
 }
 func (a *SendPhotoArgs) PhotoUrl(url string) {
 	a.getForm().WithString("photo", url)
@@ -114,8 +113,8 @@ func (a *SendPhotoArgs) PhotoFileId(fileId string) {
 type SendAudioArgs struct {
 	_CommonSendMediaArgs
 }
-func (a *SendAudioArgs) Audio(filename string, filedata io.Reader) {
-	a.getForm().WithFile("audio", filename, filedata)
+func (a *SendAudioArgs) Audio(file InputFile) {
+	a.getForm().WithFile("audio", file)
 }
 func (a *SendAudioArgs) AudioFileId(fileId string) {
 	a.getForm().WithString("audio", fileId)
@@ -132,27 +131,27 @@ func (a *SendAudioArgs) Performer(performer string) {
 func (a *SendAudioArgs) Title(title string) {
 	a.getForm().WithString("title", title)
 }
-func (a *SendAudioArgs) Thumb(filename string, filedata io.Reader) {
-	a.getForm().WithFile("thumb", filename, filedata)
+func (a *SendAudioArgs) Thumb(file InputFile) {
+	a.getForm().WithFile("thumb", file)
 }
 
 
 type SendDocumentArgs struct {
 	_CommonSendMediaArgs
 }
-func (a *SendDocumentArgs) Document(filename string, filedata io.Reader) {
-	a.getForm().WithFile("document", filename, filedata)
+func (a *SendDocumentArgs) Document(file InputFile) {
+	a.getForm().WithFile("document", file)
 }
-func (a *SendDocumentArgs) Thumb(filename string, filedata io.Reader) {
-	a.getForm().WithFile("thumb", filename, filedata)
+func (a *SendDocumentArgs) Thumb(file InputFile) {
+	a.getForm().WithFile("thumb", file)
 }
 
 
 type SendVideoArgs struct {
 	_CommonSendMediaArgs
 }
-func (a *SendVideoArgs) Video(filename string, filedata io.Reader) {
-	a.getForm().WithFile("video", filename, filedata)
+func (a *SendVideoArgs) Video(file InputFile) {
+	a.getForm().WithFile("video", file)
 }
 func (a *SendVideoArgs) VideoUrl(videoUrl string) {
 	a.getForm().WithString("video", videoUrl)
@@ -165,8 +164,8 @@ func (a *SendVideoArgs) Size(width, height int) {
 		WithInt("width", width).
 		WithInt("height", height)
 }
-func (a *SendVideoArgs) Thumb(filename string, filedata io.Reader) {
-	a.getForm().WithFile("thumb", filename, filedata)
+func (a *SendVideoArgs) Thumb(file InputFile) {
+	a.getForm().WithFile("thumb", file)
 }
 func (a *SendVideoArgs) SupportsStreaming() {
 	a.getForm().WithBool("supports_streaming", true)
@@ -176,8 +175,8 @@ func (a *SendVideoArgs) SupportsStreaming() {
 type SendAnimationArgs struct {
 	_CommonSendMediaArgs
 }
-func (a *SendAnimationArgs) Animation(filename string, filedata io.Reader) {
-	a.getForm().WithFile("animation", filename, filedata)
+func (a *SendAnimationArgs) Animation(file InputFile) {
+	a.getForm().WithFile("animation", file)
 }
 func (a *SendAnimationArgs) Duration(duration int) {
 	a.getForm().WithInt("duration", duration)
@@ -187,16 +186,16 @@ func (a *SendAnimationArgs) Size(width, height int) {
 		WithInt("width", width).
 		WithInt("height", height)
 }
-func (a *SendAnimationArgs) Thumb(filename string, filedata io.Reader) {
-	a.getForm().WithFile("thumb", filename, filedata)
+func (a *SendAnimationArgs) Thumb(file InputFile) {
+	a.getForm().WithFile("thumb", file)
 }
 
 
 type SendVoiceArgs struct {
 	_CommonSendMediaArgs
 }
-func (a *SendVoiceArgs) Voice(filename string, filedata io.Reader) {
-	a.getForm().WithFile("voice", filename, filedata)
+func (a *SendVoiceArgs) Voice(file InputFile) {
+	a.getForm().WithFile("voice", file)
 }
 func (a *SendVoiceArgs) Duration(duration int) {
 	a.getForm().WithInt("duration", duration)
@@ -206,8 +205,8 @@ func (a *SendVoiceArgs) Duration(duration int) {
 type SendVideoNoteArgs struct {
 	_CommonSendMediaArgs
 }
-func (a *SendVideoNoteArgs) VideoNote(filename string, filedata io.Reader) {
-	a.getForm().WithFile("video_note", filename, filedata)
+func (a *SendVideoNoteArgs) VideoNote(file InputFile) {
+	a.getForm().WithFile("video_note", file)
 }
 func (a *SendVideoNoteArgs) Duration(duration int) {
 	a.getForm().WithInt("duration", duration)
@@ -215,8 +214,8 @@ func (a *SendVideoNoteArgs) Duration(duration int) {
 func (a *SendVideoNoteArgs) SideLength(length int) {
 	a.getForm().WithInt("length", length)
 }
-func (a *SendVideoNoteArgs) Thumb(filename string, filedata io.Reader) {
-	a.getForm().WithFile("thumb", filename, filedata)
+func (a *SendVideoNoteArgs) Thumb(file InputFile) {
+	a.getForm().WithFile("thumb", file)
 }
 
 
