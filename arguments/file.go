@@ -7,48 +7,36 @@ import (
 	"os"
 )
 
-// InputFile interface that presents name and data reader
+// InputFile interface that hold the file name and content reader
 type InputFile interface {
 
-	// The base name of the file
+	// Base name of the file
 	Name() string
 
-	// The reader to read the file data,
-	// will be closed by the code who use it.
+	// Reader to read the file data, will be
+	// closed by the code who use it.
 	Data() io.ReadCloser
 
 }
 
 
-type dataInputFile struct {
+type implInputFile struct {
 	name string
 	data io.ReadCloser
 }
-func (f *dataInputFile) Name() string {
+func (f *implInputFile) Name() string {
 	return f.name
 }
-func (f *dataInputFile) Data() io.ReadCloser {
+func (f *implInputFile) Data() io.ReadCloser {
 	return f.data
 }
 
 // Create `InputFile` instance by pesudo name and memory data
 func InputFileFromData(name string, data []byte) InputFile {
-	return &dataInputFile{
+	return &implInputFile{
 		name: name,
 		data: ioutil.NopCloser( bytes.NewReader(data) ),
 	}
-}
-
-
-type localInputFile struct {
-	name string
-	data io.ReadCloser
-}
-func (f *localInputFile) Name() string {
-	return f.name
-}
-func (f *localInputFile) Data() io.ReadCloser {
-	return f.data
 }
 
 // Create `InputFile` instance by local file
@@ -57,7 +45,7 @@ func InputFileFromLocal(localFile string) (f InputFile, err error) {
 	if err != nil {
 		return
 	}
-	return &localInputFile{
+	return &implInputFile{
 		name: file.Name(),
 		data: file,
 	}, nil
