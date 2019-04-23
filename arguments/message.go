@@ -2,6 +2,7 @@ package arguments
 
 import (
 	"fmt"
+	"io"
 )
 
 
@@ -219,6 +220,71 @@ func (a *SendVideoNoteArgs) Thumb(file InputFile) {
 }
 
 
+type SendMediaGroupArgs struct {
+	ChatArgs
+
+	mediaBuf []map[string]interface{}
+	mediaCount int
+}
+func (a *SendMediaGroupArgs) receiveMedia(media map[string]interface{}) {
+	if a.mediaBuf == nil {
+		a.mediaBuf = make([]map[string]interface{}, 10)
+		a.mediaCount = 0
+	}
+	// Do not accpet more than 10 media
+	if a.mediaCount >= 10 {
+		return
+	}
+	// store media item
+	a.mediaBuf[a.mediaCount] = media
+	a.mediaCount += 1
+}
+// Add a photo media to the group.
+// According to the API limit, you can add
+// at most 10 photo/video media to one group.
+func (a *SendMediaGroupArgs) MediaPhoto() MediaPhotoBuilder {
+	b := new(implMediaPhotoBuilder)
+	b.Init(a.receiveMedia)
+	return b
+}
+// Add a video media to the group.
+// According to the API limit, you can add
+// at most 10 photo/video media to one group.
+func (a *SendMediaGroupArgs) MediaVideo() MediaVideoBuilder {
+	b := new(implMediaVideoBuilder)
+	b.Init(a.receiveMedia)
+	return b
+}
+func (a *SendMediaGroupArgs) ReplyToMessageId(messageId int) {
+	a.getForm().WithInt("reply_to_message_id", messageId)
+}
+func (a *SendMediaGroupArgs) DisableNotification() {
+	a.getForm().WithBool("disable_notification", true)
+}
+func (a *SendMediaGroupArgs) Finish() (contentType string, data io.Reader) {
+	form := a.getForm()
+	for i := 0; i < a.mediaCount; i ++ {
+		item := a.mediaBuf[i]
+		// Upload media file
+		mf, ok := item["media"].(InputFile)
+		if ok {
+			attachName := fmt.Sprintf("attach_media_%d", i)
+			item["media"] = fmt.Sprintf("attach://%s", attachName)
+			form.WithFile(attachName, mf)
+		}
+		// Upload thumb file
+		tf, ok := item["thumb"].(InputFile)
+		if ok {
+			attachName := fmt.Sprintf("attach_thumb_%d", i)
+			item["thumb"] = fmt.Sprintf("attach://%s", attachName)
+			form.WithFile(attachName, tf)
+		}
+	}
+	form.WithJson("media", a.mediaBuf[:a.mediaCount])
+	return form.Close()
+}
+
+
 type SendLocationArgs struct {
 	_CommonSendArgs
 }
@@ -372,6 +438,57 @@ func (a *EditMessageCaptionArgs) HTMLCaption(caption string) {
 	a.getForm().
 		WithString("caption", caption).
 		WithString("parse_mode", parseModeHTML)
+}
+
+
+type EditMessageMediaArgs struct {
+	EditMessageReplyMarkupArgs
+}
+func (a *EditMessageMediaArgs) receiveMedia(media map[string]interface{}) {
+	if media == nil {
+		return
+	}
+	form := a.getForm()
+	// Upload media file
+	mf, ok := media["media"].(InputFile)
+	if ok {
+		attachName := "attach_media_file"
+		media["media"] = fmt.Sprintf("attach://%s", attachName)
+		form.WithFile(attachName, mf)
+	}
+	// Upload thumb file
+	tf, ok := media["thumb"].(InputFile)
+	if ok {
+		attachName := "attach_thumb_file"
+		media["thumb"] = fmt.Sprintf("attach://%s", attachName)
+		form.WithFile(attachName, tf)
+	}
+	form.WithJson("media", media)
+}
+func (a *EditMessageMediaArgs) MediaPhoto() MediaPhotoBuilder {
+	b := new(implMediaPhotoBuilder)
+	b.Init(a.receiveMedia)
+	return b
+}
+func (a *EditMessageMediaArgs) MediaVideo() MediaVideoBuilder {
+	b := new(implMediaVideoBuilder)
+	b.Init(a.receiveMedia)
+	return b
+}
+func (a *EditMessageMediaArgs) MediaAnimation() MediaAnimationBuilder {
+	b := new(implMediaAnimationBuilder)
+	b.Init(a.receiveMedia)
+	return b
+}
+func (a *EditMessageMediaArgs) MediaAudio() MediaAudioBuilder {
+	b := new(implMediaAudioBuilder)
+	b.Init(a.receiveMedia)
+	return b
+}
+func (a *EditMessageMediaArgs) MediaDocument() MediaDocumentBuilder {
+	b := new(implMediaDocumentBuilder)
+	b.Init(a.receiveMedia)
+	return b
 }
 
 

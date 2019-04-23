@@ -1,13 +1,8 @@
 package arguments
 
-import (
-	"fmt"
-	"io"
-)
-
-// TODO: implement this...
-
 type MediaPhotoBuilder interface {
+
+	ArgumentBuilder
 
 	// Set caption
 	Caption(caption string) MediaPhotoBuilder
@@ -24,15 +19,14 @@ type MediaPhotoBuilder interface {
 	// Set media with FileId
 	MediaFileId(fileId string) MediaPhotoBuilder
 
-	// Set media with file
+	// Set media with file data
 	MediaFile(file InputFile) MediaPhotoBuilder
-
-	// Apply the settings
-	Finish()
 
 }
 
 type MediaVideoBuilder interface {
+
+	ArgumentBuilder
 
 	// Set caption
 	Caption(caption string) MediaVideoBuilder
@@ -49,13 +43,13 @@ type MediaVideoBuilder interface {
 	// Set video with existing fileId
 	MediaFileId(fileId string) MediaVideoBuilder
 
-	// Set video with file
+	// Set video with file data
 	MediaFile(file InputFile) MediaVideoBuilder
 
 	// Set thumb with existing fileId
 	ThumbFileId(fileId string) MediaVideoBuilder
 
-	// Set thumb with file
+	// Set thumb with file data
 	ThumbFile(file InputFile) MediaVideoBuilder
 
 	// Set video size
@@ -67,230 +61,350 @@ type MediaVideoBuilder interface {
 	// Set video supports streaming
 	SupportsStreaming() MediaVideoBuilder
 
-	// Apply the settings
-	Finish()
-
 }
 
 type MediaAnimationBuilder interface {
+
+	ArgumentBuilder
+
+	// Set caption
 	Caption(caption string) MediaAnimationBuilder
+
+	// Set caption parsing mode to Markdown
 	Markdown() MediaAnimationBuilder
+
+	// Set caption parsing mode to HTML
 	HTML() MediaAnimationBuilder
+
+	// Set animation with URL
 	MediaUrl(url string) MediaAnimationBuilder
+
+	// Set animation with existing fileId
 	MediaFileId(fileId string) MediaAnimationBuilder
+
+	// Set animation with file data
 	MediaFile(file InputFile) MediaAnimationBuilder
+
+	// Set thumb with existing fileId
 	ThumbFileId(fileId string) MediaAnimationBuilder
+
+	// Set thumb with file data
 	ThumbFile(file InputFile) MediaAnimationBuilder
+
+	// Set animation size
 	Size(width, height int) MediaAnimationBuilder
+
+	// Set animation duration in seconds
 	Duration(duration int) MediaAnimationBuilder
-	Finish()
+
 }
 
 type MediaAudioBuilder interface {
+
+	ArgumentBuilder
+
+	// Set caption
 	Caption(caption string) MediaAudioBuilder
+
+	// Set caption parsing mode to Markdown
 	Markdown() MediaAudioBuilder
+
+	// Set caption parsing mode to HTML
 	HTML() MediaAudioBuilder
+
+	// Set audio with URL
 	MediaUrl(url string) MediaAudioBuilder
+
+	// Set audio with existing fileId
 	MediaFileId(fileId string) MediaAudioBuilder
+
+	// Set audio with file data
 	MediaFile(file InputFile) MediaAudioBuilder
+
+	// Set thumb with existing fileId
 	ThumbFileId(fileId string) MediaAudioBuilder
+
+	// Set thumb with file data
 	ThumbFile(file InputFile) MediaAudioBuilder
+
+	// Set audio duration in seconds
 	Duration(duration int) MediaAudioBuilder
+
+	// Set audio performer
 	Performer(performer string) MediaAudioBuilder
+
+	// Set audio title
 	Title(title string) MediaAudioBuilder
-	Finish()
+
 }
 
 type MediaDocumentBuilder interface {
+
+	ArgumentBuilder
+
+	// Set caption
 	Caption(caption string) MediaDocumentBuilder
+
+	// Set caption parsing mode to Markdown
 	Markdown() MediaDocumentBuilder
+
+	// Set caption parsing mode to HTML
 	HTML() MediaDocumentBuilder
+
+	// Set document with URL
 	MediaUrl(url string) MediaDocumentBuilder
+
+	// Set video with existing fileId
 	MediaFileId(fileId string) MediaDocumentBuilder
+
+	// Set video with file data
 	MediaFile(file InputFile) MediaDocumentBuilder
+
+	// Set thumb with existing fileId
 	ThumbFileId(fileId string) MediaDocumentBuilder
+
+	// Set thumb with file
 	ThumbFile(file InputFile) MediaDocumentBuilder
-	Finish()
+
+}
+
+
+type basicMediaBuilder struct {
+	receiver func(map[string]interface{})
+	data map[string]interface{}
+}
+func (b *basicMediaBuilder) Init(receiver func(map[string]interface{})) {
+	b.receiver = receiver
+	b.data = make(map[string]interface{})
 }
 
 
 type implMediaPhotoBuilder struct {
-	receiver func(map[string]interface{})
-	data map[string]interface{}
-}
-func (b *implMediaPhotoBuilder) getData() map[string]interface{} {
-	if b.data ==  nil {
-		b.data = make(map[string]interface{})
-	}
-	return b.data
+	basicMediaBuilder
 }
 func (b *implMediaPhotoBuilder) Caption(caption string) MediaPhotoBuilder {
-	b.getData()["caption"] = caption
+	b.data["caption"] = caption
 	return b
 }
 func (b *implMediaPhotoBuilder) Markdown() MediaPhotoBuilder {
-	b.getData()["parse_mode"] = parseModeMarkdown
+	b.data["parse_mode"] = parseModeMarkdown
 	return b
 }
 func (b *implMediaPhotoBuilder) HTML() MediaPhotoBuilder {
-	b.getData()["parse_mode"] = parseModeHTML
+	b.data["parse_mode"] = parseModeHTML
 	return b
 }
 func (b *implMediaPhotoBuilder) MediaUrl(url string) MediaPhotoBuilder {
-	b.getData()["media"] = url
+	b.data["media"] = url
 	return b
 }
 func (b *implMediaPhotoBuilder) MediaFileId(fileId string) MediaPhotoBuilder {
-	b.getData()["media"] = fileId
+	b.data["media"] = fileId
 	return b
 }
 func (b *implMediaPhotoBuilder) MediaFile(file InputFile) MediaPhotoBuilder {
-	b.getData()["media"] = file
+	b.data["media"] = file
 	return b
 }
 func (b *implMediaPhotoBuilder) Finish() {
-	data := b.getData()
-	data["type"] = mediaPhoto
-	b.receiver(data)
+	b.data["type"] = mediaPhoto
+	b.receiver(b.data)
 }
 
 
 type implMediaVideoBuilder struct {
-	receiver func(map[string]interface{})
-	data map[string]interface{}
-}
-func (b *implMediaVideoBuilder) getData() map[string]interface{} {
-	if b.data == nil {
-		b.data = make(map[string]interface{})
-	}
-	return b.data
+	basicMediaBuilder
 }
 func (b *implMediaVideoBuilder) Caption(caption string) MediaVideoBuilder {
-	b.getData()["caption"] = caption
+	b.data["caption"] = caption
 	return b
 }
 func (b *implMediaVideoBuilder) Markdown() MediaVideoBuilder {
-	b.getData()["parse_mode"] = parseModeMarkdown
+	b.data["parse_mode"] = parseModeMarkdown
 	return b
 }
 func (b *implMediaVideoBuilder) HTML() MediaVideoBuilder {
-	b.getData()["parse_mode"] = parseModeHTML
+	b.data["parse_mode"] = parseModeHTML
 	return b
 }
 func (b *implMediaVideoBuilder) MediaUrl(url string) MediaVideoBuilder {
-	b.getData()["media"] = url
+	b.data["media"] = url
 	return b
 }
 func (b *implMediaVideoBuilder) MediaFileId(fileId string) MediaVideoBuilder {
-	b.getData()["media"] = fileId
+	b.data["media"] = fileId
 	return b
 }
 func (b *implMediaVideoBuilder) MediaFile(file InputFile) MediaVideoBuilder {
-	b.getData()["media"] = file
+	b.data["media"] = file
 	return b
 }
 func (b *implMediaVideoBuilder) ThumbFileId(fileId string) MediaVideoBuilder {
-	b.getData()["thumb"] = fileId
+	b.data["thumb"] = fileId
 	return b
 }
 func (b *implMediaVideoBuilder) ThumbFile(file InputFile) MediaVideoBuilder {
-	b.getData()["thumb"] = file
+	b.data["thumb"] = file
 	return b
 }
 func (b *implMediaVideoBuilder) Size(width, height int) MediaVideoBuilder {
-	data := b.getData()
-	data["width"] = width
-	data["height"] = height
+	b.data["width"] = width
+	b.data["height"] = height
 	return b
 }
 func (b *implMediaVideoBuilder) Duration(duration int) MediaVideoBuilder {
-	b.getData()["duration"] = duration
+	b.data["duration"] = duration
 	return b
 }
 func (b *implMediaVideoBuilder) SupportsStreaming() MediaVideoBuilder {
-	b.getData()["supports_streaming"] = true
+	b.data["supports_streaming"] = true
 	return b
 }
 func (b *implMediaVideoBuilder) Finish() {
-	data := b.getData()
-	data["type"] = mediaVideo
-	b.receiver(data)
+	b.data["type"] = mediaVideo
+	b.receiver(b.data)
 }
 
 
-type SendMediaGroupArgs struct {
-	ChatArgs
-
-	mediaBuf []map[string]interface{}
-	mediaCount int
+type implMediaAnimationBuilder struct {
+	basicMediaBuilder
 }
-func (a *SendMediaGroupArgs) receiveMedia(media map[string]interface{}) {
-	if a.mediaBuf == nil {
-		a.mediaBuf = make([]map[string]interface{}, 10)
-		a.mediaCount = 0
-	}
-	// Do not accpet more than 10 media
-	if a.mediaCount >= 10 {
-		return
-	}
-	// store media item
-	a.mediaBuf[a.mediaCount] = media
-	a.mediaCount += 1
+func (b *implMediaAnimationBuilder) Caption(caption string) MediaAnimationBuilder {
+	b.data["caption"] = caption
+	return b
 }
-func (a *SendMediaGroupArgs) MediaPhoto() MediaPhotoBuilder {
-	return &implMediaPhotoBuilder{ receiver:a.receiveMedia }
+func (b *implMediaAnimationBuilder) Markdown() MediaAnimationBuilder {
+	b.data["parse_mode"] = parseModeMarkdown
+	return b
 }
-func (a *SendMediaGroupArgs) MediaVideo() MediaVideoBuilder {
-	return &implMediaVideoBuilder{ receiver:a.receiveMedia }
+func (b *implMediaAnimationBuilder) HTML() MediaAnimationBuilder {
+	b.data["parse_mode"] = parseModeHTML
+	return b
 }
-func (a *SendMediaGroupArgs) ReplyToMessageId(messageId int) {
-	a.getForm().WithInt("reply_to_message_id", messageId)
+func (b *implMediaAnimationBuilder) MediaUrl(url string) MediaAnimationBuilder {
+	b.data["media"] = url
+	return b
 }
-func (a *SendMediaGroupArgs) DisableNotification() {
-	a.getForm().WithBool("disable_notification", true)
+func (b *implMediaAnimationBuilder) MediaFileId(fileId string) MediaAnimationBuilder {
+	b.data["media"] = fileId
+	return b
 }
-func (a *SendMediaGroupArgs) Finish() (contentType string, data io.Reader) {
-	form := a.getForm()
-	for i := 0; i < a.mediaCount; i ++ {
-		item := a.mediaBuf[i]
-		// Uploading media file
-		mf, ok := item["media"].(InputFile)
-		if ok {
-			attachName := fmt.Sprintf("attach_media_%d", i)
-			item["media"] = fmt.Sprintf("attach://%s", attachName)
-			form.WithFile(attachName, mf)
-		}
-		// Uploading thumb file
-		tf, ok := item["thumb"].(InputFile)
-		if ok {
-			attachName := fmt.Sprintf("attach_thumb_%d", i)
-			item["thumb"] = fmt.Sprintf("attach://%s", attachName)
-			form.WithFile(attachName, tf)
-		}
-	}
-	form.WithJson("media", a.mediaBuf[:a.mediaCount])
-	return form.Close()
+func (b *implMediaAnimationBuilder) MediaFile(file InputFile) MediaAnimationBuilder {
+	b.data["media"] = file
+	return b
+}
+func (b *implMediaAnimationBuilder) ThumbFileId(fileId string) MediaAnimationBuilder {
+	b.data["thumb"] = fileId
+	return b
+}
+func (b *implMediaAnimationBuilder) ThumbFile(file InputFile) MediaAnimationBuilder {
+	b.data["thumb"] = file
+	return b
+}
+func (b *implMediaAnimationBuilder) Size(width, height int) MediaAnimationBuilder {
+	b.data["width"] = width
+	b.data["height"] = height
+	return b
+}
+func (b *implMediaAnimationBuilder) Duration(duration int) MediaAnimationBuilder {
+	b.data["duration"] = duration
+	return b
+}
+func (b *implMediaAnimationBuilder) Finish() {
+	b.data["type"] = mediaAnimation
+	b.receiver(b.data)
 }
 
 
-type EditMessageMediaArgs struct {
-	EditMessageReplyMarkupArgs
+type implMediaAudioBuilder struct {
+	basicMediaBuilder
 }
-func (a *EditMessageMediaArgs) receiveMedia(media map[string]interface{}) {
-	a.getForm().WithJson("media", media)
+func (b *implMediaAudioBuilder) Caption(caption string) MediaAudioBuilder {
+	b.data["caption"] = caption
+	return b
 }
-func (a *EditMessageMediaArgs) MediaPhoto() MediaPhotoBuilder {
-	return &implMediaPhotoBuilder{ receiver: a.receiveMedia }
+func (b *implMediaAudioBuilder) Markdown() MediaAudioBuilder {
+	b.data["parse_mode"] = parseModeMarkdown
+	return b
 }
-func (a *EditMessageMediaArgs) MediaVideo() MediaVideoBuilder {
-	return &implMediaVideoBuilder{ receiver:a.receiveMedia }
+func (b *implMediaAudioBuilder) HTML() MediaAudioBuilder {
+	b.data["parse_mode"] = parseModeHTML
+	return b
 }
-func (a *EditMessageMediaArgs) MediaAnimation() MediaAnimationBuilder {
-	return nil
+func (b *implMediaAudioBuilder) MediaUrl(url string) MediaAudioBuilder {
+	b.data["media"] = url
+	return b
 }
-func (a *EditMessageMediaArgs) MediaAudio() MediaAudioBuilder {
-	return nil
+func (b *implMediaAudioBuilder) MediaFileId(fileId string) MediaAudioBuilder {
+	b.data["media"] = fileId
+	return b
 }
-func (a *EditMessageMediaArgs) MediaDocument() MediaDocumentBuilder {
-	return nil
+func (b *implMediaAudioBuilder) MediaFile(file InputFile) MediaAudioBuilder {
+	b.data["media"] = file
+	return b
+}
+func (b *implMediaAudioBuilder) ThumbFileId(fileId string) MediaAudioBuilder {
+	b.data["thumb"] = fileId
+	return b
+}
+func (b *implMediaAudioBuilder) ThumbFile(file InputFile) MediaAudioBuilder {
+	b.data["thumb"] = file
+	return b
+}
+func (b *implMediaAudioBuilder) Duration(duration int) MediaAudioBuilder {
+	b.data["duration"] = duration
+	return b
+}
+func (b *implMediaAudioBuilder) Performer(performer string) MediaAudioBuilder {
+	b.data["performer"] = performer
+	return b
+}
+func (b *implMediaAudioBuilder) Title(title string) MediaAudioBuilder {
+	b.data["title"] = title
+	return b
+}
+func (b *implMediaAudioBuilder) Finish() {
+	b.data["type"] = mediaAudio
+	b.receiver(b.data)
+}
+
+
+type implMediaDocumentBuilder struct {
+	basicMediaBuilder
+}
+func (b *implMediaDocumentBuilder) Caption(caption string) MediaDocumentBuilder {
+	b.data["caption"] = caption
+	return b
+}
+func (b *implMediaDocumentBuilder) Markdown() MediaDocumentBuilder {
+	b.data["parse_mode"] = parseModeMarkdown
+	return b
+}
+func (b *implMediaDocumentBuilder) HTML() MediaDocumentBuilder {
+	b.data["parse_mode"] = parseModeHTML
+	return b
+}
+func (b *implMediaDocumentBuilder) MediaUrl(url string) MediaDocumentBuilder {
+	b.data["media"] = url
+	return b
+}
+func (b *implMediaDocumentBuilder) MediaFileId(fileId string) MediaDocumentBuilder {
+	b.data["media"] = fileId
+	return b
+}
+func (b *implMediaDocumentBuilder) MediaFile(file InputFile) MediaDocumentBuilder {
+	b.data["media"] = file
+	return b
+}
+func (b *implMediaDocumentBuilder) ThumbFileId(fileId string) MediaDocumentBuilder {
+	b.data["thumb"] = fileId
+	return b
+}
+func (b *implMediaDocumentBuilder) ThumbFile(file InputFile) MediaDocumentBuilder {
+	b.data["thumb"] = file
+	return b
+}
+func (b *implMediaDocumentBuilder) Finish() {
+	b.data["type"] = mediaDocument
+	b.receiver(b.data)
 }
