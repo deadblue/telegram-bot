@@ -61,18 +61,10 @@ func (a *_CommonSendArgs) InlineKeyboard() InlineKeyboardBuilder {
 type SendMessageArgs struct {
 	_CommonSendArgs
 }
-func (a *SendMessageArgs) Text(text string) {
-	a.getForm().WithString("text", text)
-}
-func (a *SendMessageArgs) Markdown(text string) {
-	a.getForm().
-		WithString("text", text).
-		WithString("parse_mode", parseModeMarkdown)
-}
-func (a *SendMessageArgs) HTML(text string) {
-	a.getForm().
-		WithString("text", text).
-		WithString("parse_mode", parseModeHTML)
+func (a *SendMessageArgs) Text(text string) ParseModeSelector {
+	form := a.getForm()
+	form.WithString("text", text)
+	return &implParseModeSelector{form: form}
 }
 func (a *SendMessageArgs) DisableWebPagePreview() {
 	a.getForm().WithBool("disable_web_page_preview", true)
@@ -82,18 +74,10 @@ func (a *SendMessageArgs) DisableWebPagePreview() {
 type _CommonSendMediaArgs struct {
 	_CommonSendArgs
 }
-func (a *_CommonSendMediaArgs) Caption(caption string) {
-	a.getForm().WithString("caption", caption)
-}
-func (a *_CommonSendMediaArgs) MarkdownCaption(caption string) {
-	a.getForm().
-		WithString("caption", caption).
-		WithString("parse_mode", parseModeMarkdown)
-}
-func (a *_CommonSendMediaArgs) HTMLCaption(caption string) {
-	a.getForm().
-		WithString("caption", caption).
-		WithString("parse_mode", parseModeHTML)
+func (a *_CommonSendMediaArgs) Caption(caption string) ParseModeSelector {
+	form := a.getForm()
+	form.WithString("caption", caption)
+	return &implParseModeSelector{form: form}
 }
 
 
@@ -405,18 +389,10 @@ func (a *EditMessageReplyMarkupArgs) InlineKeyboard() InlineKeyboardBuilder {
 type EditMessageTextArgs struct {
 	EditMessageReplyMarkupArgs
 }
-func (a *EditMessageTextArgs) Text(text string) {
-	a.getForm().WithString("text", text)
-}
-func (a *EditMessageTextArgs) Markdown(text string) {
-	a.getForm().
-		WithString("text", text).
-		WithString("parse_mode", parseModeMarkdown)
-}
-func (a *EditMessageTextArgs) HTML(text string) {
-	a.getForm().
-		WithString("text", text).
-		WithString("parse_mode", parseModeHTML)
+func (a *EditMessageTextArgs) Text(text string) ParseModeSelector {
+	form := a.getForm()
+	form.WithString("text", text)
+	return &implParseModeSelector{form: form}
 }
 func (a *EditMessageTextArgs) DisableWebPagePreview() {
 	a.getForm().WithBool("disable_web_page_preview", true)
@@ -426,18 +402,10 @@ func (a *EditMessageTextArgs) DisableWebPagePreview() {
 type EditMessageCaptionArgs struct {
 	EditMessageReplyMarkupArgs
 }
-func (a *EditMessageCaptionArgs) Caption(caption string) {
-	a.getForm().WithString("caption", caption)
-}
-func (a *EditMessageCaptionArgs) MarkdownCaption(caption string) {
-	a.getForm().
-		WithString("caption", caption).
-		WithString("parse_mode", parseModeMarkdown)
-}
-func (a *EditMessageCaptionArgs) HTMLCaption(caption string) {
-	a.getForm().
-		WithString("caption", caption).
-		WithString("parse_mode", parseModeHTML)
+func (a *EditMessageCaptionArgs) Caption(caption string) ParseModeSelector {
+	form := a.getForm()
+	form.WithString("caption", caption)
+	return &implParseModeSelector{form: form}
 }
 
 
