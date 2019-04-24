@@ -16,10 +16,16 @@ bot := telegroid.New("your_bot_token")
 // Get bot information
 me, err := bot.GetMe()
 
-// Send text message
+// Send markdown text message with inline keyboard
 args := new(arguments.SendMessageArgs)
 args.ChatId(1234)
-args.Text("Hello, world!")
+args.Text("Hello, **world**!").Markdown()
+args.InlineKeyboard().
+    UrlButton("Github", "https://github.com/deadblue/telegroid").
+    UrlButton("Author", "tg://resolve?domain=deadbluex").
+    CallbackButton("Goodjob", "Thankyou").
+    Layout(2, 1).
+    Finish()
 msg, err := bot.SendMessage(args)
 
 ```
