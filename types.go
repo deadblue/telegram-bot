@@ -1,24 +1,18 @@
 package telegroid
 
-type EntityType string
-type MediaType string
-
-const (
-	MentionEntity     EntityType = "mention"
-	HashTagEntity     EntityType = "hashtag"
-	BotCommandEntity  EntityType = "bot_command"
-	UrlEntity         EntityType = "url"
-	EmailEntity       EntityType = "email"
-	BoldEntity        EntityType = "bold"
-	ItalicEntity      EntityType = "italic"
-	CodeEntity        EntityType = "code"
-	PreEntity         EntityType = "pre"
-	TextLinkEntity    EntityType = "text_link"
-	TextMentionEntity EntityType = "text_mention"
-
-	PhotoMedia MediaType = "photo"
-	VideoMedia MediaType = "video"
-)
+type Update struct {
+	UpdateId           int                 `json:"update_id"`
+	Message            *Message            `json:"message"`
+	EditedMessage      *Message            `json:"edited_message"`
+	ChannelPost        *Message            `json:"channel_post"`
+	EditedChannelPost  *Message            `json:"edited_channel_post"`
+	InlineQuery        *InlineQuery        `json:"inline_query"`
+	ChosenInlineResult *ChosenInlineResult `json:"chosen_inline_result"`
+	CallbackQuery      *CallbackQuery      `json:"callback_query"`
+	ShippingQuery      *ShippingQuery      `json:"shipping_query"`
+	PreCheckoutQuery   *PreCheckoutQuery   `json:"pre_checkout_query"`
+	Poll               *Poll               `json:"poll"`
+}
 
 type WebhookInfo struct {
 	Url                  string   `json:"url"`
@@ -100,11 +94,11 @@ type Message struct {
 }
 
 type MessageEntity struct {
-	Type   EntityType `json:"type"`
-	Offset int        `json:"offset"`
-	Length int        `json:"length"`
-	Url    *string    `json:"url"`
-	User   *User      `json:"user"`
+	Type   string  `json:"type"`
+	Offset int     `json:"offset"`
+	Length int     `json:"length"`
+	Url    *string `json:"url"`
+	User   *User   `json:"user"`
 }
 
 type PhotoSize struct {
@@ -196,38 +190,6 @@ type File struct {
 	FilePath string `json:"file_path"`
 }
 
-type ReplyKeyboardMarkup struct {
-	Keyboard        [][]*KeyboardButton `json:"keyboard"`
-	ResizeKeyboard  bool                `json:"resize_keyboard,omitempty"`
-	OneTimeKeyboard bool                `json:"one_time_keyboard,omitempty"`
-	Selective       bool                `json:"selective,omitempty"`
-}
-
-type KeyboardButton struct {
-	Text            string `json:"text"`
-	RequestContact  bool   `json:"request_contact,omitempty"`
-	RequestLocation bool   `json:"request_location,omitempty"`
-}
-
-type ReplyKeyboardRemove struct {
-	RemoveKeyboard bool `json:"remove_keyboard"`
-	Selective      bool `json:"selective,omitempty"`
-}
-
-type InlineKeyboardMarkup struct {
-	InlineKeyboard [][]*InlineKeyboardButton `json:"inline_keyboard"`
-}
-
-type InlineKeyboardButton struct {
-	Text                         string        `json:"text"`
-	Url                          *string       `json:"url,omitempty"`
-	CallbackData                 *string       `json:"callback_data,omitempty"`
-	SwitchInlineQuery            *string       `json:"switch_inline_query,omitempty"`
-	SwitchInlineQueryCurrentChat *string       `json:"switch_inline_query_current_chat,omitempty"`
-	CallbackGame                 *CallbackGame `json:"callback_game,omitempty"`
-	Pay                          bool          `json:"pay,omitempty"`
-}
-
 type CallbackQuery struct {
 	Id              string   `json:"id"`
 	From            User     `json:"from"`
@@ -236,11 +198,6 @@ type CallbackQuery struct {
 	ChatInstance    string   `json:"chat_instance"`
 	Data            *string  `json:"data"`
 	GameShortName   *string  `json:"game_short_name"`
-}
-
-type ForceReply struct {
-	ForceReply bool `json:"force_reply"`
-	Selective  bool `json:"selective"`
 }
 
 type ChatPhoto struct {
@@ -265,24 +222,6 @@ type ChatMember struct {
 	CanSendMediaMessages  bool   `json:"can_send_media_messages"`
 	CanSendOtherMessages  bool   `json:"can_send_other_messages"`
 	CanAddWebPagePreviews bool   `json:"can_add_web_page_previews"`
-}
-
-type InputMediaPhoto struct {
-	Type      MediaType `json:"type"`
-	Media     string    `json:"media"`
-	Caption   *string   `json:"caption"`
-	ParseMode *string   `json:"parse_mode"`
-}
-
-type InputMediaVideo struct {
-	Type              MediaType `json:"type"`
-	Media             string    `json:"media"`
-	Caption           *string   `json:"caption"`
-	ParseMode         *string   `json:"parse_mode"`
-	Width             int       `json:"width"`
-	Height            int       `json:"height"`
-	Duration          int       `json:"duration"`
-	SupportsStreaming bool      `json:"supports_streaming"`
 }
 
 type Sticker struct {
@@ -310,6 +249,12 @@ type StickerSet struct {
 	Stickers     []Sticker `json:"stickers"`
 }
 
+type Animation struct {
+	MimeFile
+	Thumb    *PhotoSize `json:"thumb"`
+	FileName *string    `json:"file_name"`
+}
+
 type Game struct {
 	Title        string          `json:"title"`
 	Description  string          `json:"description"`
@@ -317,12 +262,6 @@ type Game struct {
 	Text         *string         `json:"text"`
 	TextEntities []MessageEntity `json:"text_entities"`
 	Animation    *Animation      `json:"animation"`
-}
-
-type Animation struct {
-	MimeFile
-	Thumb    *PhotoSize `json:"thumb"`
-	FileName *string    `json:"file_name"`
 }
 
 type CallbackGame struct{}
@@ -349,17 +288,22 @@ type ChosenInlineResult struct {
 	Query           string    `json:"query"`
 }
 
-type Update struct {
-	UpdateId           int                 `json:"update_id"`
-	Message            *Message            `json:"message"`
-	EditedMessage      *Message            `json:"edited_message"`
-	ChannelPost        *Message            `json:"channel_post"`
-	EditedChannelPost  *Message            `json:"edited_channel_post"`
-	InlineQuery        *InlineQuery        `json:"inline_query"`
-	ChosenInlineResult *ChosenInlineResult `json:"chosen_inline_result"`
-	CallbackQuery      *CallbackQuery      `json:"callback_query"`
-}
-
 type Invoice struct{}
 
 type SuccessfulPayment struct{}
+
+type ShippingQuery struct {
+	Id             string `json:"id"`
+	From           User   `json:"from"`
+	InvoicePayload string `json:"invoice_payload"`
+}
+
+type PreCheckoutQuery struct {
+	Id               string `json:"id"`
+	From             User   `json:"from"`
+	Currency         string `json:"currency"`
+	TotalAmount      int    `json:"total_amount"`
+	InvoicePayload   string `json:"invoice_payload"`
+	ShippingOptionId string `json:"shipping_option_id"`
+}
+
