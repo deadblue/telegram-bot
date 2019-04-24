@@ -1,8 +1,8 @@
 # Telegroid
 
-A Telegram Bot API wrapper in golang
+A _Telegram Bot API_ wrapper for Golang.
 
-Version: `1.0` (WIP)
+Current version is `0.9.0`, which supports Bot API 4.2 without some rarely-used (~~in my opinion~~) functions.
 
 # Example
 
@@ -24,14 +24,15 @@ msg, err := bot.SendMessage(args)
 
 ```
 
-# Features
+# Feature:
 
-The goal is to support Telegram Bot API `4.2`.
+Telegroid currently supports most of functions, **except**:
 
-But following APIs are not supported yet:
+* Inline mode
+* Telegram Passport
+* Payment
 
-* Payments API
-* Passport API
+These functions will be supported in the plan.
 
 # Reference
 
