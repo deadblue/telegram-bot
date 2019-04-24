@@ -13,9 +13,12 @@ Example:
 	args.Text("Hello, world")
 
 Note:
+
 * All arguments structs have Archive() method which will be called
 by core code, developer SHOULD NOT call it.
+
 * All arguments structs are NOT goroutine-safety, you SHOULD avoid
 manipulating it in mulit-goroutine.
+
 */
 package arguments
