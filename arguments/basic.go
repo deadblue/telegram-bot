@@ -14,7 +14,7 @@ func (a *_BasicArgs) getForm() *_Form {
 	}
 	return a.form
 }
-func (a *_BasicArgs) Finish() (contentType string, data io.Reader) {
+func (a *_BasicArgs) Archive() (contentType string, data io.Reader) {
 	return a.getForm().Close()
 }
 

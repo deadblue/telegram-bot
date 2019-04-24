@@ -245,7 +245,7 @@ func (a *SendMediaGroupArgs) ReplyToMessageId(messageId int) {
 func (a *SendMediaGroupArgs) DisableNotification() {
 	a.getForm().WithBool("disable_notification", true)
 }
-func (a *SendMediaGroupArgs) Finish() (contentType string, data io.Reader) {
+func (a *SendMediaGroupArgs) Archive() (contentType string, data io.Reader) {
 	form := a.getForm()
 	for i := 0; i < a.mediaCount; i ++ {
 		item := a.mediaBuf[i]

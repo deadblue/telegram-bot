@@ -20,7 +20,7 @@ type ApiArguments interface {
 	// The method is always be called by invoker function,
 	// developer can call it for debugging, but should not call
 	// when you really use the parameters object
-	Finish() (string, io.Reader)
+	Archive() (string, io.Reader)
 
 }
 
@@ -89,7 +89,7 @@ func invokeAPI(client *http.Client, token string, methodName string, args, resul
 	method, contentType, body := http.MethodGet, "", io.Reader(nil)
 	if args != nil {
 		if aa, ok := args.(ApiArguments); ok {
-			contentType, body = aa.Finish()
+			contentType, body = aa.Archive()
 			method = http.MethodPost
 		}
 	}
