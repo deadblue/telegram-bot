@@ -1,12 +1,15 @@
-// Telegram bot API wrapper
 package telegroid
 
 import (
 	"github.com/deadblue/telegroid/arguments"
+	"net/http"
 )
 
-// The bot API wrapper
+// Telegram Bot API wrapper
 type Bot struct {
+	// http client
+	hc *http.Client
+
 	// Get me
 	GetMe func() (*User, error)
 	// Get updates
@@ -31,7 +34,7 @@ type Bot struct {
 	SendContact    func(args *arguments.SendContactArgs) (*Message, error)
 	SendPoll       func(args *arguments.SendPollArgs) (*Message, error)
 	SendChatAction func(args *arguments.SendChatActionArgs) (bool, error)
-	// Inline Callback
+	// Inline keyboard callback
 	AnswerCallbackQuery func(args *arguments.AnswerCallbackQueryArgs) (bool, error)
 	// Delete message
 	DeleteMessage func(args *arguments.ChatMessageArgs) (bool, error)
@@ -82,16 +85,17 @@ type Bot struct {
 	AddStickerToSet         func(args *arguments.AddStickerToSetArgs) (bool, error)
 	SetStickerPositionInSet func(args *arguments.SetStickerPositionInSetArgs) (bool, error)
 	DeleteStickerFromSet    func(args *arguments.DeleteStickerFromSetArgs) (bool, error)
-	// Inline mode
-	AnswerInlineQuery func(args *arguments.AnswerInlineQueryArgs) (bool, error)
 	// Game
 	SendGame          func(args *arguments.SendGameArgs) (*Message, error)
 	SetGameScore      func(args *arguments.SetGameScoreArgs) (bool, error)
 	GetGameHighScores func(args *arguments.GetGameHighScoresArgs) (*GameHighScore, error)
+	// Inline mode
+	//AnswerInlineQuery func(args *arguments.AnswerInlineQueryArgs) (bool, error)
+
 }
 
 func New(token string) *Bot {
-	tg := new(Bot)
-	bindInvoker(tg, token)
-	return tg
+	bot := new(Bot)
+	bindInvoker(bot, token)
+	return bot
 }
