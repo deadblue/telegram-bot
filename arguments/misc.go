@@ -61,8 +61,8 @@ func (a *GetFileArgs) FileId(fileId string) {
 type AnswerCallbackQueryArgs struct {
 	_BasicArgs
 }
-func (a *AnswerCallbackQueryArgs) CallbackQueryId(callbackId string) {
-	a.getForm().WithString("callback_query_id", callbackId)
+func (a *AnswerCallbackQueryArgs) QueryId(queryId string) {
+	a.getForm().WithString("callback_query_id", queryId)
 }
 func (a *AnswerCallbackQueryArgs) Text(text string) {
 	a.getForm().WithString("text", text)
