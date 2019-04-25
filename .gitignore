@@ -1,3 +1,5 @@
 .idea
 
 *_test.go
+
+arguments/inline.go
