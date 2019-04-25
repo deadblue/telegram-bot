@@ -8,6 +8,7 @@ import (
 // Telegram Bot API wrapper
 type Bot struct {
 
+	// The http client for communicating with Telegram Bot API server
 	hc *http.Client
 
 	// Get me
@@ -97,6 +98,7 @@ type Bot struct {
 // Create the Bot instance with default config
 func New(token string) *Bot {
 	bot := new(Bot)
+	bot.initHttpClient()
 	bot.setup(token)
 	return bot
 }

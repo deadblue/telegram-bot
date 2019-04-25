@@ -1,42 +1,16 @@
 package telegroid
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
-	"io"
-	"io/ioutil"
-	"net/http"
 	"reflect"
 )
-
-
-// All arguments structs should implements this interface, so
-// the internal code can get content-type and body for performing request.
-type ApiArguments interface {
-
-	// Making the argument values unmodifiable, then
-	// return the content-type and request data.
-	Archive() (string, io.Reader)
-
-}
 
 const (
 	apiTemplate = "https://api.telegram.org/bot%s/%s"
 	tagMethod = "method"
 )
 
-type _GenericResponse struct {
-	Ok          bool            `json:"ok"`
-	Result      json.RawMessage `json:"result"`
-	ErrorCode   int             `json:"error_code"`
-	Description string          `json:"description"`
-}
-
 func (b *Bot) setup(token string) {
-	// Create HTTP client
-	// TODO: Adjust http client config
-	b.hc = &http.Client{}
 	// Scan API invoker
 	rv := reflect.Indirect(reflect.ValueOf(b))
 	rt := reflect.TypeOf(b).Elem()
@@ -77,38 +51,4 @@ func (b *Bot) createInvokerFunction(url string, funcType reflect.Type) reflect.V
 		return []reflect.Value{resultVal.Elem(), errVal.Elem()}
 	}
 	return reflect.MakeFunc(funcType, invoker)
-}
-
-func (b *Bot) invokeApi(url string, args, result interface{}) (err error) {
-	// Build request
-	req, _ := http.NewRequest(http.MethodGet, url, nil)
-	if args != nil {
-		if aa, ok := args.(ApiArguments); ok {
-			contentType, body := aa.Archive()
-			// Update request
-			req.Method = http.MethodPost
-			req.Header.Set("Content-Type", contentType)
-			if rc, ok := body.(io.ReadCloser); ok {
-				req.Body = rc
-			} else {
-				req.Body = ioutil.NopCloser(body)
-			}
-		}
-	}
-	// Send request
-	resp, err := b.hc.Do(req)
-	if err != nil {
-		return
-	}
-	defer resp.Body.Close()
-	// Parse response
-	gr := _GenericResponse{}
-	err = json.NewDecoder(resp.Body).Decode(&gr)
-	if err == nil && !gr.Ok {
-		err = errors.New(gr.Description)
-	}
-	if err != nil {
-		return
-	}
-	return json.Unmarshal(gr.Result, result)
 }
