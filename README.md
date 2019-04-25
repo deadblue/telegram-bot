@@ -2,7 +2,7 @@
 
 A _Telegram Bot API_ wrapper for Golang.
 
-Current version is `0.9.0`, which supports Bot API 4.2 without some rarely-used (~~in my opinion~~) functions.
+Currently supports Bot API 4.2 without some rarely-used (~~in my opinion~~) functions.
 
 # Example
 
@@ -19,7 +19,7 @@ me, err := bot.GetMe()
 // Send markdown text message with inline keyboard
 args := new(arguments.SendMessageArgs)
 args.ChatId(1234)
-args.Text("Hello, **world**!").Markdown()
+args.Text("Hello, *world*!").Markdown()
 args.InlineKeyboard().
     UrlButton("Github", "https://github.com/deadblue/telegroid").
     UrlButton("Author", "tg://resolve?domain=deadbluex").
