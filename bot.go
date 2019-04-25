@@ -95,7 +95,11 @@ type Bot struct {
 
 }
 
-// Create the Bot instance with default config
+// Create a Bot instance.
+//
+// The New() process contains some reflect operations, so I do not suggest
+// to new more than one Bot for one bot account. Also the Bot is safe
+// for using in multiple goroutines, so it is unnecessary to new many.
 func New(token string) *Bot {
 	bot := new(Bot)
 	bot.initHttpClient()
