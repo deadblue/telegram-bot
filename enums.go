@@ -1,6 +1,7 @@
 package telegroid
 
-// The enum type for Chat.Type
+// The enum type for "Chat.Type".
+// Developer can simply call "IsXXX" method to judge its value.
 type ChatType string
 
 func (t ChatType) IsPrivate() bool {
@@ -16,7 +17,8 @@ func (t ChatType) IsChannel() bool {
 	return t == "channel"
 }
 
-// The enum type for MessageEntity.Type
+// The enum type for "MessageEntity.Type".
+// Developer can simply call "IsXXX" method to judge its value.
 type EntityType string
 
 func (t EntityType) IsHashtag() bool {
@@ -56,7 +58,8 @@ func (t EntityType) IsTextMention() bool {
 	return t == "text_mention"
 }
 
-// The enum type for ChangeMember.Status
+// The enum type for "ChangeMember.Status".
+// Developer can simply call "IsXXX" method to judge its value.
 type MemberStatus string
 
 func (s MemberStatus) IsCreator() bool {
