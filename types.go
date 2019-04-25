@@ -58,6 +58,7 @@ type Message struct {
 	ForwardFromChat       *Chat              `json:"forward_from_chat"`
 	ForwardFromMessageId  int                `json:"forward_from_message_id"`
 	ForwardSignature      *string            `json:"forward_signature"`
+	ForwardSenderName     *string            `json:"forward_sender_name"`
 	ForwardDate           int                `json:"forward_date"`
 	ReplyToMessage        *Message           `json:"reply_to_message"`
 	EditDate              int                `json:"edit_date"`
@@ -209,6 +210,7 @@ type ChatMember struct {
 	User                  User   `json:"user"`
 	Status                string `json:"status"`
 	UntilDate             int    `json:"until_date"`
+	IsMember              bool   `json:"is_member"`
 	CanBeEdited           bool   `json:"can_be_edited"`
 	CanChangeInfo         bool   `json:"can_change_info"`
 	CanPostMessages       bool   `json:"can_post_messages"`
@@ -306,4 +308,3 @@ type PreCheckoutQuery struct {
 	InvoicePayload   string `json:"invoice_payload"`
 	ShippingOptionId string `json:"shipping_option_id"`
 }
-
