@@ -35,7 +35,7 @@ type User struct {
 
 type Chat struct {
 	Id                          int        `json:"id"`
-	Type                        string     `json:"type"`
+	Type                        ChatType   `json:"type"`
 	Title                       *string    `json:"title"`
 	Username                    *string    `json:"username"`
 	FirstName                   *string    `json:"first_name"`
@@ -95,11 +95,11 @@ type Message struct {
 }
 
 type MessageEntity struct {
-	Type   string  `json:"type"`
-	Offset int     `json:"offset"`
-	Length int     `json:"length"`
-	Url    *string `json:"url"`
-	User   *User   `json:"user"`
+	Type   EntityType `json:"type"`
+	Offset int        `json:"offset"`
+	Length int        `json:"length"`
+	Url    *string    `json:"url"`
+	User   *User      `json:"user"`
 }
 
 type PhotoSize struct {
@@ -207,23 +207,23 @@ type ChatPhoto struct {
 }
 
 type ChatMember struct {
-	User                  User   `json:"user"`
-	Status                string `json:"status"`
-	UntilDate             int    `json:"until_date"`
-	IsMember              bool   `json:"is_member"`
-	CanBeEdited           bool   `json:"can_be_edited"`
-	CanChangeInfo         bool   `json:"can_change_info"`
-	CanPostMessages       bool   `json:"can_post_messages"`
-	CanEditMessages       bool   `json:"can_edit_messages"`
-	CanDeleteMessages     bool   `json:"can_delete_messages"`
-	CanPinMessages        bool   `json:"can_pin_messages"`
-	CanInviteUsers        bool   `json:"can_invite_users"`
-	CanRestrictMembers    bool   `json:"can_restrict_members"`
-	CanPromoteMembers     bool   `json:"can_promote_members"`
-	CanSendMessages       bool   `json:"can_send_messages"`
-	CanSendMediaMessages  bool   `json:"can_send_media_messages"`
-	CanSendOtherMessages  bool   `json:"can_send_other_messages"`
-	CanAddWebPagePreviews bool   `json:"can_add_web_page_previews"`
+	User                  User         `json:"user"`
+	Status                MemberStatus `json:"status"`
+	UntilDate             int          `json:"until_date"`
+	IsMember              bool         `json:"is_member"`
+	CanBeEdited           bool         `json:"can_be_edited"`
+	CanChangeInfo         bool         `json:"can_change_info"`
+	CanPostMessages       bool         `json:"can_post_messages"`
+	CanEditMessages       bool         `json:"can_edit_messages"`
+	CanDeleteMessages     bool         `json:"can_delete_messages"`
+	CanPinMessages        bool         `json:"can_pin_messages"`
+	CanInviteUsers        bool         `json:"can_invite_users"`
+	CanRestrictMembers    bool         `json:"can_restrict_members"`
+	CanPromoteMembers     bool         `json:"can_promote_members"`
+	CanSendMessages       bool         `json:"can_send_messages"`
+	CanSendMediaMessages  bool         `json:"can_send_media_messages"`
+	CanSendOtherMessages  bool         `json:"can_send_other_messages"`
+	CanAddWebPagePreviews bool         `json:"can_add_web_page_previews"`
 }
 
 type Sticker struct {
