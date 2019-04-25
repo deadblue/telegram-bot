@@ -38,9 +38,9 @@ type ReplyKeyboardBuilder interface {
 	// If the layout is not specified, all the buttons will be placed in one row.
 	//
 	// For example, if the layout is
-	//     [2]:    The buttons will be splited to mulitple rows,
+	//     [2]:    The buttons will be splited to multiple rows,
 	//             each row contains two buttons at most.
-	//     [3, 2]: The buttons will be splited to mulitple rows,
+	//     [3, 2]: The buttons will be splited to multiple rows,
 	//             the first row contains three buttons,
 	//             and the other rows contain two buttons at most.
 	Layout(rowSize ...int) ReplyKeyboardBuilder
@@ -73,9 +73,9 @@ type InlineKeyboardBuilder interface {
 	// If the layout is not specified, all the buttons will be placed in one row.
 	//
 	// For example, if the layout is
-	//     [2]:    The buttons will be splited to mulitple rows,
+	//     [2]:    The buttons will be splited to multiple rows,
 	//             each row contains two buttons at most.
-	//     [3, 2]: The buttons will be splited to mulitple rows,
+	//     [3, 2]: The buttons will be splited to multiple rows,
 	//             the first row contains three buttons,
 	//             and the other rows contain two buttons at most.
 	Layout(rowSize ...int) InlineKeyboardBuilder
