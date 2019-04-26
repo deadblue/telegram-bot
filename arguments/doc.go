@@ -1,5 +1,5 @@
 /*
-This package contains all arguments structs for Telegram Bot API mehtod.
+This package contains all arguments structs for Telegram Bot API method.
 
 All arguments structs are named with "Args" suffix.
 
