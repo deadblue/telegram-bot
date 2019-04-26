@@ -11,6 +11,7 @@ type Update struct {
 	CallbackQuery      *CallbackQuery      `json:"callback_query"`
 	ShippingQuery      *ShippingQuery      `json:"shipping_query"`
 	PreCheckoutQuery   *PreCheckoutQuery   `json:"pre_checkout_query"`
+	PassportData       *PassportData       `json:"passport_data"`
 	Poll               *Poll               `json:"poll"`
 }
 
@@ -307,4 +308,34 @@ type PreCheckoutQuery struct {
 	TotalAmount      int    `json:"total_amount"`
 	InvoicePayload   string `json:"invoice_payload"`
 	ShippingOptionId string `json:"shipping_option_id"`
+}
+
+type PassportData struct {
+	Data        []EncryptedPassportElement `json:"data"`
+	Credentials EncryptedCredentials       `json:"credentials"`
+}
+
+type EncryptedPassportElement struct {
+	Type        PassportType    `json:"type"`
+	Data        string          `json:"data"`
+	PhoneNumber string          `json:"phone_number"`
+	Email       string          `json:"email"`
+	Files       []*PassportFile `json:"files"`
+	FrontSide   *PassportFile   `json:"front_side"`
+	ReverseSide *PassportFile   `json:"reverse_side"`
+	Selfie      *PassportFile   `json:"selfie"`
+	Translation []*PassportFile `json:"translation"`
+	Hash        string          `json:"hash"`
+}
+
+type PassportFile struct {
+	FileId   string `json:"file_id"`
+	FileSize int64  `json:"file_size"`
+	FileDate int64  `json:"file_date"`
+}
+
+type EncryptedCredentials struct {
+	Data   string `json:"data"`
+	Hash   string `json:"hash"`
+	Secret string `json:"secret"`
 }

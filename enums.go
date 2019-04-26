@@ -80,3 +80,59 @@ func (s MemberStatus) IsLeft() bool {
 func (s MemberStatus) IsKicked() bool {
 	return s == "kicked"
 }
+
+// The enum type for "PassportData.Type".
+// Developer can simply call "IsXXX" method to judge its value.
+type PassportType string
+
+func (t PassportType) IsPersonalDetails() bool {
+	return t == "personal_details"
+}
+
+func (t PassportType) IsPassport() bool {
+	return t == "passport"
+}
+
+func (t PassportType) IsDriverLicense() bool {
+	return t == "driver_license"
+}
+
+func (t PassportType) IsIdentityCard() bool {
+	return t == "identity_card"
+}
+
+func (t PassportType) IsInternalPassport() bool {
+	return t == "internal_passport"
+}
+
+func (t PassportType) IsAddress() bool {
+	return t == "address"
+}
+
+func (t PassportType) IsUtilityBill() bool {
+	return t == "utility_bill"
+}
+
+func (t PassportType) IsBankStatement() bool {
+	return t == "bank_statement"
+}
+
+func (t PassportType) IsRentalAgreement() bool {
+	return t == "rental_agreement"
+}
+
+func (t PassportType) IsPassportRegistration() bool {
+	return t == "passport_registration"
+}
+
+func (t PassportType) IsTemporaryRegistration() bool {
+	return t == "temporary_registration"
+}
+
+func (t PassportType) IsPhoneNumber() bool {
+	return t == "phone_number"
+}
+
+func (t PassportType) IsEmail() bool {
+	return t == "email"
+}

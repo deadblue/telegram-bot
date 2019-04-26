@@ -92,6 +92,8 @@ type Bot struct {
 	GetGameHighScores func(args *arguments.GetGameHighScoresArgs) (*GameHighScore, error)
 	// Inline mode
 	//AnswerInlineQuery func(args *arguments.AnswerInlineQueryArgs) (bool, error)
+	// Passport
+	SetPassportDataErrors func(args *arguments.SetPassportDataErrorsArgs) (bool, error)
 
 }
 
