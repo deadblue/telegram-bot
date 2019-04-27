@@ -11,7 +11,6 @@ type Update struct {
 	CallbackQuery      *CallbackQuery      `json:"callback_query"`
 	ShippingQuery      *ShippingQuery      `json:"shipping_query"`
 	PreCheckoutQuery   *PreCheckoutQuery   `json:"pre_checkout_query"`
-	PassportData       *PassportData       `json:"passport_data"`
 	Poll               *Poll               `json:"poll"`
 }
 
@@ -93,6 +92,7 @@ type Message struct {
 	Invoice               *Invoice           `json:"invoice"`
 	SuccessfulPayment     *SuccessfulPayment `json:"successful_payment"`
 	ConnectedWebsite      *string            `json:"connected_website"`
+	PassportData          *PassportData      `json:"passport_data"`
 }
 
 type MessageEntity struct {
@@ -291,23 +291,55 @@ type ChosenInlineResult struct {
 	Query           string    `json:"query"`
 }
 
-type Invoice struct{}
+type Invoice struct {
+	Title          string `json:"title"`
+	Description    string `json:"description"`
+	StartParameter string `json:"start_parameter"`
+	Currency       string `json:"currency"`
+	TotalAmount    int    `json:"total_amount"`
+}
 
-type SuccessfulPayment struct{}
+type SuccessfulPayment struct {
+	Currency                string    `json:"currency"`
+	TotalAmount             int       `json:"total_amount"`
+	InvoicePayload          string    `json:"invoice_payload"`
+	ShippingOptionId        string    `json:"shipping_option_id"`
+	OrderInfo               OrderInfo `json:"order_info"`
+	TelegramPaymentChargeId string    `json:"telegram_payment_charge_id"`
+	ProviderPaymentChargeId string    `json:"provider_payment_charge_id"`
+}
 
 type ShippingQuery struct {
-	Id             string `json:"id"`
-	From           User   `json:"from"`
-	InvoicePayload string `json:"invoice_payload"`
+	Id              string          `json:"id"`
+	From            User            `json:"from"`
+	InvoicePayload  string          `json:"invoice_payload"`
+	ShippingAddress ShippingAddress `json:"shipping_address"`
 }
 
 type PreCheckoutQuery struct {
-	Id               string `json:"id"`
-	From             User   `json:"from"`
-	Currency         string `json:"currency"`
-	TotalAmount      int    `json:"total_amount"`
-	InvoicePayload   string `json:"invoice_payload"`
-	ShippingOptionId string `json:"shipping_option_id"`
+	Id               string    `json:"id"`
+	From             User      `json:"from"`
+	Currency         string    `json:"currency"`
+	TotalAmount      int       `json:"total_amount"`
+	InvoicePayload   string    `json:"invoice_payload"`
+	ShippingOptionId string    `json:"shipping_option_id"`
+	OrderInfo        OrderInfo `json:"order_info"`
+}
+
+type OrderInfo struct {
+	Name            string          `json:"name"`
+	PhoneNumber     string          `json:"phone_number"`
+	Email           string          `json:"email"`
+	ShippingAddress ShippingAddress `json:"shipping_address"`
+}
+
+type ShippingAddress struct {
+	CountryCode string `json:"country_code"`
+	State       string `json:"state"`
+	City        string `json:"city"`
+	StreetLine1 string `json:"street_line1"`
+	StreetLine2 string `json:"street_line2"`
+	PostCode    string `json:"post_code"`
 }
 
 type PassportData struct {
