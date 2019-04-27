@@ -7,7 +7,6 @@ import (
 
 // Telegram Bot API wrapper
 type Bot struct {
-
 	// The http client for communicating with Telegram Bot API server
 	hc *http.Client
 
@@ -92,9 +91,12 @@ type Bot struct {
 	GetGameHighScores func(args *arguments.GetGameHighScoresArgs) (*GameHighScore, error)
 	// Inline mode
 	//AnswerInlineQuery func(args *arguments.AnswerInlineQueryArgs) (bool, error)
+	// Payment
+	SendInvoice            func(args *arguments.SendInvoiceArgs) (*Message, error)
+	answerShippingQuery    func(args *arguments.AnswerShippingQueryArgs) (bool, error)
+	answerPreCheckoutQuery func(args *arguments.AnswerPreCheckoutQueryArgs) (bool, error)
 	// Passport
 	SetPassportDataErrors func(args *arguments.SetPassportDataErrorsArgs) (bool, error)
-
 }
 
 // Create a Bot instance.

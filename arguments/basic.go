@@ -7,6 +7,7 @@ import (
 // The basic argument struct that implements the ApiArguments
 type _BasicArgs struct {
 	form *_Form
+	beforeArchive func()
 }
 func (a *_BasicArgs) getForm() *_Form {
 	if a.form == nil {
@@ -15,6 +16,9 @@ func (a *_BasicArgs) getForm() *_Form {
 	return a.form
 }
 func (a *_BasicArgs) Archive() (contentType string, data io.Reader) {
+	if a.beforeArchive != nil {
+		a.beforeArchive()
+	}
 	return a.getForm().Close()
 }
 

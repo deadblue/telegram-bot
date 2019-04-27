@@ -41,8 +41,8 @@ if err != nil {
 Telegroid currently supports most of functions, **except**:
 
 * Inline mode
-* Telegram Passport
-* Payment
+* ~~Telegram Passport~~
+* ~~Payment~~
 
 These functions will be supported in the plan.
 
