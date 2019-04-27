@@ -93,8 +93,8 @@ type Bot struct {
 	//AnswerInlineQuery func(args *arguments.AnswerInlineQueryArgs) (bool, error)
 	// Payment
 	SendInvoice            func(args *arguments.SendInvoiceArgs) (*Message, error)
-	answerShippingQuery    func(args *arguments.AnswerShippingQueryArgs) (bool, error)
-	answerPreCheckoutQuery func(args *arguments.AnswerPreCheckoutQueryArgs) (bool, error)
+	AnswerShippingQuery    func(args *arguments.AnswerShippingQueryArgs) (bool, error)
+	AnswerPreCheckoutQuery func(args *arguments.AnswerPreCheckoutQueryArgs) (bool, error)
 	// Passport
 	SetPassportDataErrors func(args *arguments.SetPassportDataErrorsArgs) (bool, error)
 }
