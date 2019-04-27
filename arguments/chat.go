@@ -4,31 +4,27 @@ import (
 	"fmt"
 )
 
-type _ChatArgs struct {
+type ChatArgs struct {
 	_BasicArgs
 }
 
-func (a *_ChatArgs) ChatId(chatId int) {
+func (a *ChatArgs) ChatId(chatId int) {
 	a.getForm().WithInt("chat_id", chatId)
 }
-func (a *_ChatArgs) Channel(channelName string) {
+func (a *ChatArgs) Channel(channelName string) {
 	a.getForm().WithString("chat_id", fmt.Sprintf("@%s", channelName))
 }
 
-type ChatArgs _ChatArgs
-
-type _ChatMemberArgs struct {
-	_ChatArgs
+type ChatMemberArgs struct {
+	ChatArgs
 }
 
-func (a *_ChatMemberArgs) UserId(userId int) {
+func (a *ChatMemberArgs) UserId(userId int) {
 	a.getForm().WithInt("user_id", userId)
 }
 
-type ChatMemberArgs _ChatMemberArgs
-
 type _KickChatMemberArgs struct {
-	_ChatMemberArgs
+	ChatMemberArgs
 }
 
 func (a *_KickChatMemberArgs) UntilDate(timestamp int64) {
@@ -67,7 +63,7 @@ func (a *RestrictChatMemberArgs) AddWebPagePreviews() Switch {
 }
 
 type PromoteChatMemberArgs struct {
-	_ChatMemberArgs
+	ChatMemberArgs
 }
 
 func (a *PromoteChatMemberArgs) ChangeInfo() Switch {
@@ -120,7 +116,7 @@ func (a *PromoteChatMemberArgs) PromoteMembers() Switch {
 }
 
 type SetChatPhotoArgs struct {
-	_ChatArgs
+	ChatArgs
 }
 
 func (a *SetChatPhotoArgs) Photo(file InputFile) {
@@ -128,7 +124,7 @@ func (a *SetChatPhotoArgs) Photo(file InputFile) {
 }
 
 type SetChatTitleArgs struct {
-	_ChatArgs
+	ChatArgs
 }
 
 func (a *SetChatTitleArgs) Title(title string) {
@@ -136,7 +132,7 @@ func (a *SetChatTitleArgs) Title(title string) {
 }
 
 type SetChatDescriptionArgs struct {
-	_ChatArgs
+	ChatArgs
 }
 
 func (a *SetChatDescriptionArgs) Description(description string) {
@@ -144,7 +140,7 @@ func (a *SetChatDescriptionArgs) Description(description string) {
 }
 
 type PinChatMessageArgs struct {
-	_ChatArgs
+	ChatArgs
 }
 
 func (a *PinChatMessageArgs) MessageId(messageId int) {
@@ -155,7 +151,7 @@ func (a *PinChatMessageArgs) DisableNotification() {
 }
 
 type SetChatStickerSetArgs struct {
-	_ChatArgs
+	ChatArgs
 }
 
 func (a *SetChatStickerSetArgs) StickerSet(name string) {

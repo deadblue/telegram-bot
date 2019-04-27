@@ -6,7 +6,7 @@ import (
 )
 
 type ForwardMessageArgs struct {
-	_ChatArgs
+	ChatArgs
 }
 
 func (a *ForwardMessageArgs) FromChatId(chatId int) {
@@ -23,7 +23,7 @@ func (a *ForwardMessageArgs) DisableNotification() {
 }
 
 type _CommonSendArgs struct {
-	_ChatArgs
+	ChatArgs
 }
 
 func (a *_CommonSendArgs) ReplyToMessageId(messageId int) {
@@ -204,7 +204,7 @@ func (a *SendVideoNoteArgs) Thumb(file InputFile) {
 }
 
 type SendMediaGroupArgs struct {
-	_ChatArgs
+	ChatArgs
 
 	mediaBuf   []map[string]interface{}
 	mediaCount int
@@ -331,7 +331,7 @@ func (a *SendPollArgs) Options(options ...string) {
 }
 
 type SendChatActionArgs struct {
-	_ChatArgs
+	ChatArgs
 }
 
 func (a *SendChatActionArgs) Typing() {
@@ -365,18 +365,16 @@ func (a *SendChatActionArgs) UploadVideoNote() {
 	a.getForm().WithString("action", chatActionUploadVideoNote)
 }
 
-type _ChatMessageArgs struct {
-	_ChatArgs
+type ChatMessageArgs struct {
+	ChatArgs
 }
 
-func (a *_ChatMessageArgs) MessageId(messageId int) {
+func (a *ChatMessageArgs) MessageId(messageId int) {
 	a.getForm().WithInt("message_id", messageId)
 }
 
-type ChatMessageArgs _ChatMessageArgs
-
 type _EditMessageReplyMarkupArgs struct {
-	_ChatMessageArgs
+	ChatMessageArgs
 }
 
 func (a *_EditMessageReplyMarkupArgs) InlineMessageId(inlineMessageId int) {
@@ -476,7 +474,7 @@ func (a *EditMessageLiveLocationArgs) Location(latitude, longitude float64) {
 }
 
 type StopPollArgs struct {
-	_ChatMessageArgs
+	ChatMessageArgs
 }
 
 func (a *StopPollArgs) InlineKeyboard() InlineKeyboardBuilder {

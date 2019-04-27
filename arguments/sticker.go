@@ -30,26 +30,26 @@ func (a *UploadStickerFileArgs) StickerFile(file InputFile) {
 	a.getForm().WithFile("png_sticker", file)
 }
 
-type _AddStickerToSetArgs struct {
+type AddStickerToSetArgs struct {
 	_BasicArgs
 }
 
-func (a *_AddStickerToSetArgs) UserId(userId int) {
+func (a *AddStickerToSetArgs) UserId(userId int) {
 	a.getForm().WithInt("user_id", userId)
 }
-func (a *_AddStickerToSetArgs) Name(name string) {
+func (a *AddStickerToSetArgs) Name(name string) {
 	a.getForm().WithString("name", name)
 }
-func (a *_AddStickerToSetArgs) StickerId(fileId string) {
+func (a *AddStickerToSetArgs) StickerId(fileId string) {
 	a.getForm().WithString("png_sticker", fileId)
 }
-func (a *_AddStickerToSetArgs) StickerFile(file InputFile) {
+func (a *AddStickerToSetArgs) StickerFile(file InputFile) {
 	a.getForm().WithFile("png_sticker", file)
 }
-func (a *_AddStickerToSetArgs) Emojis(emojis string) {
+func (a *AddStickerToSetArgs) Emojis(emojis string) {
 	a.getForm().WithString("emojis", emojis)
 }
-func (a *_AddStickerToSetArgs) MaskPosition(point string, x, y, scale float64) {
+func (a *AddStickerToSetArgs) MaskPosition(point string, x, y, scale float64) {
 	mask := map[string]interface{}{
 		"point":   point,
 		"x_shift": x,
@@ -59,10 +59,9 @@ func (a *_AddStickerToSetArgs) MaskPosition(point string, x, y, scale float64) {
 	a.getForm().WithJson("mask_position", mask)
 }
 
-type AddStickerToSetArgs _AddStickerToSetArgs
 
 type CreateNewStickerSetArgs struct {
-	_AddStickerToSetArgs
+	AddStickerToSetArgs
 }
 
 func (a *CreateNewStickerSetArgs) Title(title string) {
