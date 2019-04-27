@@ -1,9 +1,9 @@
 package arguments
 
-
 type SendGameArgs struct {
 	_BasicArgs
 }
+
 func (a *SendGameArgs) ChatId(chatId int) {
 	a.getForm().WithInt("chat_id", chatId)
 }
@@ -23,26 +23,28 @@ func (a *SendGameArgs) InlineKeyboard() InlineKeyboardBuilder {
 	}
 }
 
-
-type GetGameHighScoresArgs struct {
+type _GetGameHighScoresArgs struct {
 	_BasicArgs
 }
-func (a *GetGameHighScoresArgs) UserId(userId int) {
+
+func (a *_GetGameHighScoresArgs) UserId(userId int) {
 	a.getForm().WithInt("user_id", userId)
 }
-func (a *GetGameHighScoresArgs) ChatMessageId(chatId int, messageId int) {
+func (a *_GetGameHighScoresArgs) ChatMessageId(chatId int, messageId int) {
 	a.getForm().
 		WithInt("chat_id", chatId).
 		WithInt("message_id", messageId)
 }
-func (a *GetGameHighScoresArgs) InlineMessageId(messageId int) {
+func (a *_GetGameHighScoresArgs) InlineMessageId(messageId int) {
 	a.getForm().WithInt("inline_message_id", messageId)
 }
 
+type GetGameHighScoresArgs _GetGameHighScoresArgs
 
 type SetGameScoreArgs struct {
-	GetGameHighScoresArgs
+	_GetGameHighScoresArgs
 }
+
 func (a *SetGameScoreArgs) Score(score int) {
 	a.getForm().WithInt("score", score)
 }

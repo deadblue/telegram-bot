@@ -1,9 +1,9 @@
 package arguments
 
-
 type GetUpdatesArgs struct {
 	_BasicArgs
 }
+
 func (a *GetUpdatesArgs) Offset(offset int) {
 	a.getForm().WithInt("offset", offset)
 }
@@ -11,15 +11,13 @@ func (a *GetUpdatesArgs) Limit(limit int) {
 	a.getForm().WithInt("limit", limit)
 }
 func (a *GetUpdatesArgs) AllowedUpdates() AllowedUpdatesBuilder {
-	b := new(implAllowedUpdatesBuilder)
-	b.Init(a.getForm())
-	return b
+	return new(implAllowedUpdatesBuilder).Init(a.getForm())
 }
-
 
 type SetWebhookArgs struct {
 	_BasicArgs
 }
+
 func (a *SetWebhookArgs) Url(url string) {
 	a.getForm().WithString("url", url)
 }
@@ -30,15 +28,13 @@ func (a *SetWebhookArgs) MaxConnections(maxConns int) {
 	a.getForm().WithInt("max_connections", maxConns)
 }
 func (a *SetWebhookArgs) AllowedUpdates() AllowedUpdatesBuilder {
-	b := new(implAllowedUpdatesBuilder)
-	b.Init(a.getForm())
-	return b
+	return new(implAllowedUpdatesBuilder).Init(a.getForm())
 }
-
 
 type GetUserProfilePhotosArgs struct {
 	_BasicArgs
 }
+
 func (a *GetUserProfilePhotosArgs) UserId(userId int) {
 	a.getForm().WithInt("user_id", userId)
 }
@@ -49,18 +45,18 @@ func (a *GetUserProfilePhotosArgs) Limit(limit int) {
 	a.getForm().WithInt("limit", limit)
 }
 
-
 type GetFileArgs struct {
 	_BasicArgs
 }
+
 func (a *GetFileArgs) FileId(fileId string) {
 	a.getForm().WithString("file_id", fileId)
 }
 
-
 type AnswerCallbackQueryArgs struct {
 	_BasicArgs
 }
+
 func (a *AnswerCallbackQueryArgs) QueryId(queryId string) {
 	a.getForm().WithString("callback_query_id", queryId)
 }

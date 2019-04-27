@@ -4,37 +4,43 @@ import (
 	"fmt"
 )
 
-
-type ChatArgs struct {
+type _ChatArgs struct {
 	_BasicArgs
 }
-func (a *ChatArgs) ChatId(chatId int) {
+
+func (a *_ChatArgs) ChatId(chatId int) {
 	a.getForm().WithInt("chat_id", chatId)
 }
-func (a *ChatArgs) Channel(channelName string) {
+func (a *_ChatArgs) Channel(channelName string) {
 	a.getForm().WithString("chat_id", fmt.Sprintf("@%s", channelName))
 }
 
+type ChatArgs _ChatArgs
 
-type ChatMemberArgs struct {
-	ChatArgs
+type _ChatMemberArgs struct {
+	_ChatArgs
 }
-func (a *ChatMemberArgs) UserId(userId int) {
+
+func (a *_ChatMemberArgs) UserId(userId int) {
 	a.getForm().WithInt("user_id", userId)
 }
 
+type ChatMemberArgs _ChatMemberArgs
 
-type KickChatMemberArgs struct {
-	ChatMemberArgs
+type _KickChatMemberArgs struct {
+	_ChatMemberArgs
 }
-func (a *KickChatMemberArgs) UntilDate(timestamp int64) {
+
+func (a *_KickChatMemberArgs) UntilDate(timestamp int64) {
 	a.getForm().WithInt64("until_date", timestamp)
 }
 
+type KickChatMemberArgs _KickChatMemberArgs
 
 type RestrictChatMemberArgs struct {
-	KickChatMemberArgs
+	_KickChatMemberArgs
 }
+
 func (a *RestrictChatMemberArgs) SendMessages() Switch {
 	return &implSwitch{
 		form: a.getForm(),
@@ -60,10 +66,10 @@ func (a *RestrictChatMemberArgs) AddWebPagePreviews() Switch {
 	}
 }
 
-
 type PromoteChatMemberArgs struct {
-	ChatMemberArgs
+	_ChatMemberArgs
 }
+
 func (a *PromoteChatMemberArgs) ChangeInfo() Switch {
 	return &implSwitch{
 		form: a.getForm(),
@@ -113,34 +119,34 @@ func (a *PromoteChatMemberArgs) PromoteMembers() Switch {
 	}
 }
 
-
 type SetChatPhotoArgs struct {
-	ChatArgs
+	_ChatArgs
 }
+
 func (a *SetChatPhotoArgs) Photo(file InputFile) {
 	a.getForm().WithFile("photo", file)
 }
 
-
 type SetChatTitleArgs struct {
-	ChatArgs
+	_ChatArgs
 }
+
 func (a *SetChatTitleArgs) Title(title string) {
 	a.getForm().WithString("title", title)
 }
 
-
 type SetChatDescriptionArgs struct {
-	ChatArgs
+	_ChatArgs
 }
+
 func (a *SetChatDescriptionArgs) Description(description string) {
 	a.getForm().WithString("description", description)
 }
 
-
 type PinChatMessageArgs struct {
-	ChatArgs
+	_ChatArgs
 }
+
 func (a *PinChatMessageArgs) MessageId(messageId int) {
 	a.getForm().WithInt("message_id", messageId)
 }
@@ -148,10 +154,10 @@ func (a *PinChatMessageArgs) DisableNotification() {
 	a.getForm().WithBool("disable_notification", true)
 }
 
-
 type SetChatStickerSetArgs struct {
-	ChatArgs
+	_ChatArgs
 }
+
 func (a *SetChatStickerSetArgs) StickerSet(name string) {
 	a.getForm().WithString("sticker_set_name", name)
 }

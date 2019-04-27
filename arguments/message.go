@@ -5,10 +5,10 @@ import (
 	"io"
 )
 
-
 type ForwardMessageArgs struct {
-	ChatArgs
+	_ChatArgs
 }
+
 func (a *ForwardMessageArgs) FromChatId(chatId int) {
 	a.getForm().WithInt("from_chat_id", chatId)
 }
@@ -22,10 +22,10 @@ func (a *ForwardMessageArgs) DisableNotification() {
 	a.getForm().WithBool("disable_notification", true)
 }
 
-
 type _CommonSendArgs struct {
-	ChatArgs
+	_ChatArgs
 }
+
 func (a *_CommonSendArgs) ReplyToMessageId(messageId int) {
 	a.getForm().WithInt("reply_to_message_id", messageId)
 }
@@ -57,10 +57,10 @@ func (a *_CommonSendArgs) InlineKeyboard() InlineKeyboardBuilder {
 	}
 }
 
-
 type SendMessageArgs struct {
 	_CommonSendArgs
 }
+
 func (a *SendMessageArgs) Text(text string) ParseModeSelector {
 	form := a.getForm()
 	form.WithString("text", text)
@@ -70,20 +70,20 @@ func (a *SendMessageArgs) DisableWebPagePreview() {
 	a.getForm().WithBool("disable_web_page_preview", true)
 }
 
-
 type _CommonSendMediaArgs struct {
 	_CommonSendArgs
 }
+
 func (a *_CommonSendMediaArgs) Caption(caption string) ParseModeSelector {
 	form := a.getForm()
 	form.WithString("caption", caption)
 	return &implParseModeSelector{form: form}
 }
 
-
 type SendPhotoArgs struct {
 	_CommonSendMediaArgs
 }
+
 func (a *SendPhotoArgs) Photo(file InputFile) {
 	a.getForm().WithFile("photo", file)
 }
@@ -94,10 +94,10 @@ func (a *SendPhotoArgs) PhotoFileId(fileId string) {
 	a.getForm().WithString("photo", fileId)
 }
 
-
 type SendAudioArgs struct {
 	_CommonSendMediaArgs
 }
+
 func (a *SendAudioArgs) Audio(file InputFile) {
 	a.getForm().WithFile("audio", file)
 }
@@ -120,10 +120,10 @@ func (a *SendAudioArgs) Thumb(file InputFile) {
 	a.getForm().WithFile("thumb", file)
 }
 
-
 type SendDocumentArgs struct {
 	_CommonSendMediaArgs
 }
+
 func (a *SendDocumentArgs) Document(file InputFile) {
 	a.getForm().WithFile("document", file)
 }
@@ -131,10 +131,10 @@ func (a *SendDocumentArgs) Thumb(file InputFile) {
 	a.getForm().WithFile("thumb", file)
 }
 
-
 type SendVideoArgs struct {
 	_CommonSendMediaArgs
 }
+
 func (a *SendVideoArgs) Video(file InputFile) {
 	a.getForm().WithFile("video", file)
 }
@@ -156,10 +156,10 @@ func (a *SendVideoArgs) SupportsStreaming() {
 	a.getForm().WithBool("supports_streaming", true)
 }
 
-
 type SendAnimationArgs struct {
 	_CommonSendMediaArgs
 }
+
 func (a *SendAnimationArgs) Animation(file InputFile) {
 	a.getForm().WithFile("animation", file)
 }
@@ -175,10 +175,10 @@ func (a *SendAnimationArgs) Thumb(file InputFile) {
 	a.getForm().WithFile("thumb", file)
 }
 
-
 type SendVoiceArgs struct {
 	_CommonSendMediaArgs
 }
+
 func (a *SendVoiceArgs) Voice(file InputFile) {
 	a.getForm().WithFile("voice", file)
 }
@@ -186,10 +186,10 @@ func (a *SendVoiceArgs) Duration(duration int) {
 	a.getForm().WithInt("duration", duration)
 }
 
-
 type SendVideoNoteArgs struct {
 	_CommonSendMediaArgs
 }
+
 func (a *SendVideoNoteArgs) VideoNote(file InputFile) {
 	a.getForm().WithFile("video_note", file)
 }
@@ -203,13 +203,13 @@ func (a *SendVideoNoteArgs) Thumb(file InputFile) {
 	a.getForm().WithFile("thumb", file)
 }
 
-
 type SendMediaGroupArgs struct {
-	ChatArgs
+	_ChatArgs
 
-	mediaBuf []map[string]interface{}
+	mediaBuf   []map[string]interface{}
 	mediaCount int
 }
+
 func (a *SendMediaGroupArgs) receiveMedia(media map[string]interface{}) {
 	if a.mediaBuf == nil {
 		a.mediaBuf = make([]map[string]interface{}, 10)
@@ -223,6 +223,7 @@ func (a *SendMediaGroupArgs) receiveMedia(media map[string]interface{}) {
 	a.mediaBuf[a.mediaCount] = media
 	a.mediaCount += 1
 }
+
 // Add a photo media to the group.
 // According to the API limit, you can add
 // at most 10 photo/video media to one group.
@@ -231,6 +232,7 @@ func (a *SendMediaGroupArgs) MediaPhoto() MediaPhotoBuilder {
 	b.Init(a.receiveMedia)
 	return b
 }
+
 // Add a video media to the group.
 // According to the API limit, you can add
 // at most 10 photo/video media to one group.
@@ -247,7 +249,7 @@ func (a *SendMediaGroupArgs) DisableNotification() {
 }
 func (a *SendMediaGroupArgs) Archive() (contentType string, data io.Reader) {
 	form := a.getForm()
-	for i := 0; i < a.mediaCount; i ++ {
+	for i := 0; i < a.mediaCount; i++ {
 		item := a.mediaBuf[i]
 		// Upload media file
 		mf, ok := item["media"].(InputFile)
@@ -268,10 +270,10 @@ func (a *SendMediaGroupArgs) Archive() (contentType string, data io.Reader) {
 	return form.Close()
 }
 
-
 type SendLocationArgs struct {
 	_CommonSendArgs
 }
+
 func (a *SendLocationArgs) Location(latitude, longitude float64) {
 	a.getForm().WithFloat("latitude", latitude).WithFloat("longitude", longitude)
 }
@@ -279,10 +281,10 @@ func (a *SendLocationArgs) LivePeriod(period int) {
 	a.getForm().WithInt("live_period", period)
 }
 
-
 type SendVenueArgs struct {
 	_CommonSendArgs
 }
+
 func (a *SendVenueArgs) Location(latitude, longitude float64) {
 	a.getForm().
 		WithFloat("latitude", latitude).
@@ -300,10 +302,10 @@ func (a *SendVenueArgs) Foursquare(fsId, fsType string) {
 		WithString("foursquare_type", fsType)
 }
 
-
 type SendContactArgs struct {
 	_CommonSendArgs
 }
+
 func (a *SendContactArgs) PhoneNumber(phoneNumber string) {
 	a.getForm().WithString("phone_number", phoneNumber)
 }
@@ -317,10 +319,10 @@ func (a *SendContactArgs) VCard(vcard string) {
 	a.getForm().WithString("vcard", vcard)
 }
 
-
 type SendPollArgs struct {
 	_CommonSendArgs
 }
+
 func (a *SendPollArgs) Question(questing string) {
 	a.getForm().WithString("question", questing)
 }
@@ -328,10 +330,10 @@ func (a *SendPollArgs) Options(options ...string) {
 	a.getForm().WithJson("options", options)
 }
 
-
 type SendChatActionArgs struct {
-	ChatArgs
+	_ChatArgs
 }
+
 func (a *SendChatActionArgs) Typing() {
 	a.getForm().WithString("action", chatActionTyping)
 }
@@ -363,32 +365,36 @@ func (a *SendChatActionArgs) UploadVideoNote() {
 	a.getForm().WithString("action", chatActionUploadVideoNote)
 }
 
-
-type ChatMessageArgs struct {
-	ChatArgs
+type _ChatMessageArgs struct {
+	_ChatArgs
 }
-func (a *ChatMessageArgs) MessageId(messageId int) {
+
+func (a *_ChatMessageArgs) MessageId(messageId int) {
 	a.getForm().WithInt("message_id", messageId)
 }
 
+type ChatMessageArgs _ChatMessageArgs
 
-type EditMessageReplyMarkupArgs struct {
-	ChatMessageArgs
+type _EditMessageReplyMarkupArgs struct {
+	_ChatMessageArgs
 }
-func (a *EditMessageReplyMarkupArgs) InlineMessageId(inlineMessageId int) {
+
+func (a *_EditMessageReplyMarkupArgs) InlineMessageId(inlineMessageId int) {
 	a.getForm().WithInt("inline_message_id", inlineMessageId)
 }
-func (a *EditMessageReplyMarkupArgs) InlineKeyboard() InlineKeyboardBuilder {
+func (a *_EditMessageReplyMarkupArgs) InlineKeyboard() InlineKeyboardBuilder {
 	return &implInlineKeyboardBuilder{
 		form: a.getForm(),
 		name: "reply_markup",
 	}
 }
 
+type EditMessageReplyMarkupArgs _EditMessageReplyMarkupArgs
 
 type EditMessageTextArgs struct {
-	EditMessageReplyMarkupArgs
+	_EditMessageReplyMarkupArgs
 }
+
 func (a *EditMessageTextArgs) Text(text string) ParseModeSelector {
 	form := a.getForm()
 	form.WithString("text", text)
@@ -398,20 +404,20 @@ func (a *EditMessageTextArgs) DisableWebPagePreview() {
 	a.getForm().WithBool("disable_web_page_preview", true)
 }
 
-
 type EditMessageCaptionArgs struct {
-	EditMessageReplyMarkupArgs
+	_EditMessageReplyMarkupArgs
 }
+
 func (a *EditMessageCaptionArgs) Caption(caption string) ParseModeSelector {
 	form := a.getForm()
 	form.WithString("caption", caption)
 	return &implParseModeSelector{form: form}
 }
 
-
 type EditMessageMediaArgs struct {
-	EditMessageReplyMarkupArgs
+	_EditMessageReplyMarkupArgs
 }
+
 func (a *EditMessageMediaArgs) receiveMedia(media map[string]interface{}) {
 	if media == nil {
 		return
@@ -459,20 +465,20 @@ func (a *EditMessageMediaArgs) MediaDocument() MediaDocumentBuilder {
 	return b
 }
 
-
 type EditMessageLiveLocationArgs struct {
-	EditMessageReplyMarkupArgs
+	_EditMessageReplyMarkupArgs
 }
+
 func (a *EditMessageLiveLocationArgs) Location(latitude, longitude float64) {
 	a.getForm().
 		WithFloat("latitude", latitude).
 		WithFloat("longitude", longitude)
 }
 
-
 type StopPollArgs struct {
-	ChatMessageArgs
+	_ChatMessageArgs
 }
+
 func (a *StopPollArgs) InlineKeyboard() InlineKeyboardBuilder {
 	return &implInlineKeyboardBuilder{
 		form: a.getForm(),

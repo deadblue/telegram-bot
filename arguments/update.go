@@ -42,9 +42,10 @@ type implAllowedUpdatesBuilder struct {
 	form   *_Form
 	values map[string]bool
 }
-func (b *implAllowedUpdatesBuilder) Init(form *_Form) {
+func (b *implAllowedUpdatesBuilder) Init(form *_Form) AllowedUpdatesBuilder {
 	b.form = form
 	b.values = make(map[string]bool)
+	return b
 }
 func (b *implAllowedUpdatesBuilder) Message() AllowedUpdatesBuilder {
 	b.values[updateMessage] = true
