@@ -23,18 +23,16 @@ func (a *ChatMemberArgs) UserId(userId int) {
 	a.getForm().WithInt("user_id", userId)
 }
 
-type _KickChatMemberArgs struct {
+type KickChatMemberArgs struct {
 	ChatMemberArgs
 }
 
-func (a *_KickChatMemberArgs) UntilDate(timestamp int64) {
+func (a *KickChatMemberArgs) UntilDate(timestamp int64) {
 	a.getForm().WithInt64("until_date", timestamp)
 }
 
-type KickChatMemberArgs _KickChatMemberArgs
-
 type RestrictChatMemberArgs struct {
-	_KickChatMemberArgs
+	KickChatMemberArgs
 }
 
 func (a *RestrictChatMemberArgs) SendMessages() Switch {
