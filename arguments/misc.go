@@ -72,3 +72,45 @@ func (a *AnswerCallbackQueryArgs) CacheTime(seconds int) {
 func (a *AnswerCallbackQueryArgs) ShowAlert() {
 	a.getForm().WithBool("show_alert", true)
 }
+
+type SetPassportDataErrorsArgs struct {
+	_BasicArgs
+	errBuf []map[string]interface{}
+}
+
+func (a *SetPassportDataErrorsArgs) receiveError(err map[string]interface{}) {
+	if a.errBuf == nil {
+		a.errBuf = []map[string]interface{}{err}
+	} else {
+		a.errBuf = append(a.errBuf, err)
+	}
+	if a.beforeArchive == nil {
+		a.beforeArchive = func() {
+			a.getForm().WithJson("errors", a.errBuf)
+		}
+	}
+}
+func (a *SetPassportDataErrorsArgs) UserId(userId int) {
+	a.getForm().WithInt("user_id", userId)
+}
+func (a *SetPassportDataErrorsArgs) DataFieldError() PassportDataFieldErrorBuilder {
+	return new(implPassportDataFieldErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) FrontSideError() PassportFrontSideErrorBuilder {
+	return new(implPassportFrontSideErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) ReverseSideError() PassportReverseSideErrorBuilder {
+	return new(implPassportReverseSideErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) SelfieError() PassportSelfieErrorBuilder {
+	return new(implPassportSelfieErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) FileError() PassportFileErrorBuilder {
+	return new(implPassportFileErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) TranslationFileError() PassportTranslationFileErrorBuilder {
+	return new(implPassportTranslationFileErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) UnspecifiedError() PassportUnspecifiedErrorBuilder {
+	return new(implPassportUnspecifiedErrorBuilder).Init(a.receiveError)
+}

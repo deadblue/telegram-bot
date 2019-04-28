@@ -35,4 +35,20 @@ const (
 	mediaAnimation = "animation"
 	mediaAudio     = "audio"
 	mediaDocument  = "document"
+
+	// passport type
+	passportPersonalDetails       = "personal_details"
+	passportPassport              = "passport"
+	passportDriverLicense         = "driver_license"
+	passportIdentityCard          = "identity_card"
+	passportInternalPassport      = "internal_passport"
+	passportAddress               = "address"
+	passportUtilityBill           = "utility_bill"
+	passportBankStatement         = "bank_statement"
+	passportRentalAgreement       = "rental_agreement"
+	passportPassportRegistration  = "passport_registration"
+	passportTemporaryRegistration = "temporary_registration"
+	passportPhoneNumber           = "phone_number"
+	passportEmail                 = "email"
+
 )
