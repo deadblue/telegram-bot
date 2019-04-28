@@ -2,12 +2,12 @@ package arguments
 
 type SendInvoiceArgs struct {
 	_BasicArgs
-	prices []map[string]interface{}
+	prices []_MapValue
 }
 
 func (a *SendInvoiceArgs) tryInit() {
 	if a.prices == nil {
-		a.prices = make([]map[string]interface{}, 0)
+		a.prices = make([]_MapValue, 0)
 	}
 	if a.beforeArchive == nil {
 		a.beforeArchive = func() {
@@ -38,7 +38,7 @@ func (a *SendInvoiceArgs) Currency(currency string) {
 }
 func (a *SendInvoiceArgs) AddPrice(label string, amount int) {
 	a.tryInit()
-	a.prices = append(a.prices, map[string]interface{}{
+	a.prices = append(a.prices, _MapValue{
 		"label":  label,
 		"amount": amount,
 	})
@@ -108,48 +108,6 @@ func (a *AnswerShippingQueryArgs) ShippingOptions() ShippingOptionsBuilder {
 	return (&implShippingOptionsBuilder{
 		form: a.getForm(),
 	}).Init()
-}
-
-type ShippingOptionsBuilder interface {
-	ArgumentBuilder
-	ShippingOptionId(id string) ShippingOptionsBuilder
-	Title(title string) ShippingOptionsBuilder
-	AddPrice(label string, amount int) ShippingOptionsBuilder
-}
-
-type implShippingOptionsBuilder struct {
-	form   *_Form
-	data   map[string]interface{}
-	prices []map[string]interface{}
-}
-
-func (b *implShippingOptionsBuilder) Init() ShippingOptionsBuilder {
-	if b.data == nil {
-		b.data = make(map[string]interface{})
-	}
-	if b.prices == nil {
-		b.prices = make([]map[string]interface{}, 0)
-	}
-	return b
-}
-func (b *implShippingOptionsBuilder) ShippingOptionId(id string) ShippingOptionsBuilder {
-	b.data["id"] = id
-	return b
-}
-func (b *implShippingOptionsBuilder) Title(title string) ShippingOptionsBuilder {
-	b.data["title"] = title
-	return b
-}
-func (b *implShippingOptionsBuilder) AddPrice(label string, amount int) ShippingOptionsBuilder {
-	b.prices = append(b.prices, map[string]interface{}{
-		"label":  label,
-		"amount": amount,
-	})
-	return b
-}
-func (b *implShippingOptionsBuilder) Finish() {
-	b.data["prices"] = b.prices
-	b.form.WithJson("shipping_options", b.data)
 }
 
 type AnswerPreCheckoutQueryArgs struct {

@@ -6,7 +6,13 @@ import (
 
 // The basic argument struct that implements the ApiArguments
 type _BasicArgs struct {
+
+	// The container that holds all arguments.
 	form *_Form
+
+	// If this function is not nil, _BasicArgs will call it
+	// at the begin in Archive() method. With this, the XxxArgs
+	// struct need not override Archive function to do some work.
 	beforeArchive func()
 }
 func (a *_BasicArgs) getForm() *_Form {
@@ -33,3 +39,6 @@ type ArgumentBuilder interface {
 	Finish()
 
 }
+
+// Alias of the "map[string]interface{}" type.
+type _MapValue map[string]interface{}
