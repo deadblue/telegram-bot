@@ -1,7 +1,6 @@
 package arguments
 
 type MediaPhotoBuilder interface {
-
 	ArgumentBuilder
 
 	// Set caption
@@ -21,11 +20,9 @@ type MediaPhotoBuilder interface {
 
 	// Set media with file data
 	MediaFile(file InputFile) MediaPhotoBuilder
-
 }
 
 type MediaVideoBuilder interface {
-
 	ArgumentBuilder
 
 	// Set caption
@@ -60,11 +57,9 @@ type MediaVideoBuilder interface {
 
 	// Set video supports streaming
 	SupportsStreaming() MediaVideoBuilder
-
 }
 
 type MediaAnimationBuilder interface {
-
 	ArgumentBuilder
 
 	// Set caption
@@ -96,11 +91,9 @@ type MediaAnimationBuilder interface {
 
 	// Set animation duration in seconds
 	Duration(duration int) MediaAnimationBuilder
-
 }
 
 type MediaAudioBuilder interface {
-
 	ArgumentBuilder
 
 	// Set caption
@@ -135,11 +128,9 @@ type MediaAudioBuilder interface {
 
 	// Set audio title
 	Title(title string) MediaAudioBuilder
-
 }
 
 type MediaDocumentBuilder interface {
-
 	ArgumentBuilder
 
 	// Set caption
@@ -165,246 +156,282 @@ type MediaDocumentBuilder interface {
 
 	// Set thumb with file
 	ThumbFile(file InputFile) MediaDocumentBuilder
-
 }
 
-
+// The base struct for all media builders
 type basicMediaBuilder struct {
-	receiver func(map[string]interface{})
-	data map[string]interface{}
-}
-func (b *basicMediaBuilder) Init(receiver func(map[string]interface{})) {
-	b.receiver = receiver
-	b.data = make(map[string]interface{})
+	data     _MapValue
+	receiver func(_MapValue)
 }
 
+func (b *basicMediaBuilder) set(name string, value interface{}) {
+	if b.data == nil {
+		b.data = make(_MapValue)
+	}
+	b.data[name] = value
+}
+func (b *basicMediaBuilder) setType(value string) {
+	b.set("type", value)
+}
+func (b *basicMediaBuilder) setCaption(value string) {
+	b.set("caption", value)
+}
+func (b *basicMediaBuilder) setMarkdown() {
+	b.set("parse_mode", parseModeMarkdown)
+}
+func (b *basicMediaBuilder) setHTML() {
+	b.set("parse_mode", parseModeHTML)
+}
+func (b *basicMediaBuilder) setMedia(value interface{}) {
+	b.set("media", value)
+}
+func (b *basicMediaBuilder) setThumb(value interface{}) {
+	b.set("thumb", value)
+}
+func (b *basicMediaBuilder) setDuration(value int) {
+	b.set("duration", value)
+}
+func (b *basicMediaBuilder) Finish() {
+	b.receiver(b.data)
+}
 
+// The implementation for "MediaPhotoBuilder"
 type implMediaPhotoBuilder struct {
 	basicMediaBuilder
 }
+
+func (b *implMediaPhotoBuilder) Init(receiver func(_MapValue)) MediaPhotoBuilder {
+	b.receiver = receiver
+	b.setType(mediaPhoto)
+	return b
+}
 func (b *implMediaPhotoBuilder) Caption(caption string) MediaPhotoBuilder {
-	b.data["caption"] = caption
+	b.setCaption(caption)
 	return b
 }
 func (b *implMediaPhotoBuilder) Markdown() MediaPhotoBuilder {
-	b.data["parse_mode"] = parseModeMarkdown
+	b.setMarkdown()
 	return b
 }
 func (b *implMediaPhotoBuilder) HTML() MediaPhotoBuilder {
-	b.data["parse_mode"] = parseModeHTML
+	b.setHTML()
 	return b
 }
 func (b *implMediaPhotoBuilder) MediaUrl(url string) MediaPhotoBuilder {
-	b.data["media"] = url
+	b.setMedia(url)
 	return b
 }
 func (b *implMediaPhotoBuilder) MediaFileId(fileId string) MediaPhotoBuilder {
-	b.data["media"] = fileId
+	b.setMedia(fileId)
 	return b
 }
 func (b *implMediaPhotoBuilder) MediaFile(file InputFile) MediaPhotoBuilder {
-	b.data["media"] = file
+	b.setMedia(file)
 	return b
 }
-func (b *implMediaPhotoBuilder) Finish() {
-	b.data["type"] = mediaPhoto
-	b.receiver(b.data)
-}
 
-
+// The implementation for "MediaVideoBuilder"
 type implMediaVideoBuilder struct {
 	basicMediaBuilder
 }
+
+func (b *implMediaVideoBuilder) Init(receiver func(_MapValue)) MediaVideoBuilder {
+	b.receiver = receiver
+	b.setType(mediaVideo)
+	return b
+}
 func (b *implMediaVideoBuilder) Caption(caption string) MediaVideoBuilder {
-	b.data["caption"] = caption
+	b.setCaption(caption)
 	return b
 }
 func (b *implMediaVideoBuilder) Markdown() MediaVideoBuilder {
-	b.data["parse_mode"] = parseModeMarkdown
+	b.setMarkdown()
 	return b
 }
 func (b *implMediaVideoBuilder) HTML() MediaVideoBuilder {
-	b.data["parse_mode"] = parseModeHTML
+	b.setHTML()
 	return b
 }
 func (b *implMediaVideoBuilder) MediaUrl(url string) MediaVideoBuilder {
-	b.data["media"] = url
+	b.setMedia(url)
 	return b
 }
 func (b *implMediaVideoBuilder) MediaFileId(fileId string) MediaVideoBuilder {
-	b.data["media"] = fileId
+	b.setMedia(fileId)
 	return b
 }
 func (b *implMediaVideoBuilder) MediaFile(file InputFile) MediaVideoBuilder {
-	b.data["media"] = file
+	b.setMedia(file)
 	return b
 }
 func (b *implMediaVideoBuilder) ThumbFileId(fileId string) MediaVideoBuilder {
-	b.data["thumb"] = fileId
+	b.setThumb(fileId)
 	return b
 }
 func (b *implMediaVideoBuilder) ThumbFile(file InputFile) MediaVideoBuilder {
-	b.data["thumb"] = file
-	return b
-}
-func (b *implMediaVideoBuilder) Size(width, height int) MediaVideoBuilder {
-	b.data["width"] = width
-	b.data["height"] = height
+	b.setThumb(file)
 	return b
 }
 func (b *implMediaVideoBuilder) Duration(duration int) MediaVideoBuilder {
-	b.data["duration"] = duration
+	b.setDuration(duration)
+	return b
+}
+func (b *implMediaVideoBuilder) Size(width, height int) MediaVideoBuilder {
+	b.set("width", width)
+	b.set("height", height)
 	return b
 }
 func (b *implMediaVideoBuilder) SupportsStreaming() MediaVideoBuilder {
-	b.data["supports_streaming"] = true
+	b.set("supports_streaming", true)
 	return b
 }
-func (b *implMediaVideoBuilder) Finish() {
-	b.data["type"] = mediaVideo
-	b.receiver(b.data)
-}
 
-
+// The implementation for "MediaAnimationBuilder"
 type implMediaAnimationBuilder struct {
 	basicMediaBuilder
 }
+
+func (b *implMediaAnimationBuilder) Init(receiver func(_MapValue)) MediaAnimationBuilder {
+	b.receiver = receiver
+	b.setType(mediaAnimation)
+	return b
+}
 func (b *implMediaAnimationBuilder) Caption(caption string) MediaAnimationBuilder {
-	b.data["caption"] = caption
+	b.setCaption(caption)
 	return b
 }
 func (b *implMediaAnimationBuilder) Markdown() MediaAnimationBuilder {
-	b.data["parse_mode"] = parseModeMarkdown
+	b.setMarkdown()
 	return b
 }
 func (b *implMediaAnimationBuilder) HTML() MediaAnimationBuilder {
-	b.data["parse_mode"] = parseModeHTML
+	b.setHTML()
 	return b
 }
 func (b *implMediaAnimationBuilder) MediaUrl(url string) MediaAnimationBuilder {
-	b.data["media"] = url
+	b.setMedia(url)
 	return b
 }
 func (b *implMediaAnimationBuilder) MediaFileId(fileId string) MediaAnimationBuilder {
-	b.data["media"] = fileId
+	b.setMedia(fileId)
 	return b
 }
 func (b *implMediaAnimationBuilder) MediaFile(file InputFile) MediaAnimationBuilder {
-	b.data["media"] = file
+	b.setMedia(file)
 	return b
 }
 func (b *implMediaAnimationBuilder) ThumbFileId(fileId string) MediaAnimationBuilder {
-	b.data["thumb"] = fileId
+	b.setThumb(fileId)
 	return b
 }
 func (b *implMediaAnimationBuilder) ThumbFile(file InputFile) MediaAnimationBuilder {
-	b.data["thumb"] = file
-	return b
-}
-func (b *implMediaAnimationBuilder) Size(width, height int) MediaAnimationBuilder {
-	b.data["width"] = width
-	b.data["height"] = height
+	b.setThumb(file)
 	return b
 }
 func (b *implMediaAnimationBuilder) Duration(duration int) MediaAnimationBuilder {
-	b.data["duration"] = duration
+	b.setDuration(duration)
 	return b
 }
-func (b *implMediaAnimationBuilder) Finish() {
-	b.data["type"] = mediaAnimation
-	b.receiver(b.data)
+func (b *implMediaAnimationBuilder) Size(width, height int) MediaAnimationBuilder {
+	b.set("width", width)
+	b.set("height", height)
+	return b
 }
 
-
+// The implementation for "MediaAudioBuilder"
 type implMediaAudioBuilder struct {
 	basicMediaBuilder
 }
+
+func (b *implMediaAudioBuilder) Init(receiver func(_MapValue)) MediaAudioBuilder {
+	b.receiver = receiver
+	b.setType(mediaAudio)
+	return b
+}
 func (b *implMediaAudioBuilder) Caption(caption string) MediaAudioBuilder {
-	b.data["caption"] = caption
+	b.setCaption(caption)
 	return b
 }
 func (b *implMediaAudioBuilder) Markdown() MediaAudioBuilder {
-	b.data["parse_mode"] = parseModeMarkdown
+	b.setMarkdown()
 	return b
 }
 func (b *implMediaAudioBuilder) HTML() MediaAudioBuilder {
-	b.data["parse_mode"] = parseModeHTML
+	b.setHTML()
 	return b
 }
 func (b *implMediaAudioBuilder) MediaUrl(url string) MediaAudioBuilder {
-	b.data["media"] = url
+	b.setMedia(url)
 	return b
 }
 func (b *implMediaAudioBuilder) MediaFileId(fileId string) MediaAudioBuilder {
-	b.data["media"] = fileId
+	b.setMedia(fileId)
 	return b
 }
 func (b *implMediaAudioBuilder) MediaFile(file InputFile) MediaAudioBuilder {
-	b.data["media"] = file
+	b.setMedia(file)
 	return b
 }
 func (b *implMediaAudioBuilder) ThumbFileId(fileId string) MediaAudioBuilder {
-	b.data["thumb"] = fileId
+	b.setThumb(fileId)
 	return b
 }
 func (b *implMediaAudioBuilder) ThumbFile(file InputFile) MediaAudioBuilder {
-	b.data["thumb"] = file
+	b.setThumb(file)
 	return b
 }
 func (b *implMediaAudioBuilder) Duration(duration int) MediaAudioBuilder {
-	b.data["duration"] = duration
+	b.setDuration(duration)
 	return b
 }
 func (b *implMediaAudioBuilder) Performer(performer string) MediaAudioBuilder {
-	b.data["performer"] = performer
+	b.set("performer", performer)
 	return b
 }
 func (b *implMediaAudioBuilder) Title(title string) MediaAudioBuilder {
-	b.data["title"] = title
+	b.set("title", title)
 	return b
 }
-func (b *implMediaAudioBuilder) Finish() {
-	b.data["type"] = mediaAudio
-	b.receiver(b.data)
-}
 
-
+// The implementation for "MediaDocumentBuilder"
 type implMediaDocumentBuilder struct {
 	basicMediaBuilder
 }
+
+func (b *implMediaDocumentBuilder) Init(receiver func(_MapValue)) MediaDocumentBuilder {
+	b.receiver = receiver
+	b.setType(mediaDocument)
+	return b
+}
 func (b *implMediaDocumentBuilder) Caption(caption string) MediaDocumentBuilder {
-	b.data["caption"] = caption
+	b.setCaption(caption)
 	return b
 }
 func (b *implMediaDocumentBuilder) Markdown() MediaDocumentBuilder {
-	b.data["parse_mode"] = parseModeMarkdown
+	b.setMarkdown()
 	return b
 }
 func (b *implMediaDocumentBuilder) HTML() MediaDocumentBuilder {
-	b.data["parse_mode"] = parseModeHTML
+	b.setHTML()
 	return b
 }
 func (b *implMediaDocumentBuilder) MediaUrl(url string) MediaDocumentBuilder {
-	b.data["media"] = url
+	b.setMedia(url)
 	return b
 }
 func (b *implMediaDocumentBuilder) MediaFileId(fileId string) MediaDocumentBuilder {
-	b.data["media"] = fileId
+	b.setMedia(fileId)
 	return b
 }
 func (b *implMediaDocumentBuilder) MediaFile(file InputFile) MediaDocumentBuilder {
-	b.data["media"] = file
+	b.setMedia(file)
 	return b
 }
 func (b *implMediaDocumentBuilder) ThumbFileId(fileId string) MediaDocumentBuilder {
-	b.data["thumb"] = fileId
+	b.setThumb(fileId)
 	return b
 }
 func (b *implMediaDocumentBuilder) ThumbFile(file InputFile) MediaDocumentBuilder {
-	b.data["thumb"] = file
+	b.setThumb(file)
 	return b
-}
-func (b *implMediaDocumentBuilder) Finish() {
-	b.data["type"] = mediaDocument
-	b.receiver(b.data)
 }

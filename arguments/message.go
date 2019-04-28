@@ -2,7 +2,6 @@ package arguments
 
 import (
 	"fmt"
-	"io"
 )
 
 type ForwardMessageArgs struct {
@@ -206,48 +205,11 @@ func (a *SendVideoNoteArgs) Thumb(file InputFile) {
 type SendMediaGroupArgs struct {
 	ChatArgs
 
-	mediaBuf   []map[string]interface{}
+	mediaBuf   []_MapValue
 	mediaCount int
 }
 
-func (a *SendMediaGroupArgs) receiveMedia(media map[string]interface{}) {
-	if a.mediaBuf == nil {
-		a.mediaBuf = make([]map[string]interface{}, 10)
-		a.mediaCount = 0
-	}
-	// Do not accpet more than 10 media
-	if a.mediaCount >= 10 {
-		return
-	}
-	// store media item
-	a.mediaBuf[a.mediaCount] = media
-	a.mediaCount += 1
-}
-
-// Add a photo media to the group.
-// According to the API limit, you can add
-// at most 10 photo/video media to one group.
-func (a *SendMediaGroupArgs) MediaPhoto() MediaPhotoBuilder {
-	b := new(implMediaPhotoBuilder)
-	b.Init(a.receiveMedia)
-	return b
-}
-
-// Add a video media to the group.
-// According to the API limit, you can add
-// at most 10 photo/video media to one group.
-func (a *SendMediaGroupArgs) MediaVideo() MediaVideoBuilder {
-	b := new(implMediaVideoBuilder)
-	b.Init(a.receiveMedia)
-	return b
-}
-func (a *SendMediaGroupArgs) ReplyToMessageId(messageId int) {
-	a.getForm().WithInt("reply_to_message_id", messageId)
-}
-func (a *SendMediaGroupArgs) DisableNotification() {
-	a.getForm().WithBool("disable_notification", true)
-}
-func (a *SendMediaGroupArgs) Archive() (contentType string, data io.Reader) {
+func (a *SendMediaGroupArgs) processMedia() {
 	form := a.getForm()
 	for i := 0; i < a.mediaCount; i++ {
 		item := a.mediaBuf[i]
@@ -267,7 +229,40 @@ func (a *SendMediaGroupArgs) Archive() (contentType string, data io.Reader) {
 		}
 	}
 	form.WithJson("media", a.mediaBuf[:a.mediaCount])
-	return form.Close()
+}
+func (a *SendMediaGroupArgs) receiveMedia(media _MapValue) {
+	if a.mediaBuf == nil {
+		a.mediaBuf = make([]_MapValue, 10)
+		a.mediaCount = 0
+	}
+	if a.beforeArchive == nil {
+		a.beforeArchive = a.processMedia
+	}
+	// Do not accpet more than 10 media
+	if a.mediaCount >= 10 {
+		return
+	}
+	// store media item
+	a.mediaBuf[a.mediaCount] = media
+	a.mediaCount += 1
+}
+// Add a photo media to the group.
+// According to the API limit, you can add
+// at most 10 photo/video media to one group.
+func (a *SendMediaGroupArgs) MediaPhoto() MediaPhotoBuilder {
+	return new(implMediaPhotoBuilder).Init(a.receiveMedia)
+}
+// Add a video media to the group.
+// According to the API limit, you can add
+// at most 10 photo/video media to one group.
+func (a *SendMediaGroupArgs) MediaVideo() MediaVideoBuilder {
+	return new(implMediaVideoBuilder).Init(a.receiveMedia)
+}
+func (a *SendMediaGroupArgs) ReplyToMessageId(messageId int) {
+	a.getForm().WithInt("reply_to_message_id", messageId)
+}
+func (a *SendMediaGroupArgs) DisableNotification() {
+	a.getForm().WithBool("disable_notification", true)
 }
 
 type SendLocationArgs struct {
@@ -416,7 +411,7 @@ type EditMessageMediaArgs struct {
 	_EditMessageReplyMarkupArgs
 }
 
-func (a *EditMessageMediaArgs) receiveMedia(media map[string]interface{}) {
+func (a *EditMessageMediaArgs) receiveMedia(media _MapValue) {
 	if media == nil {
 		return
 	}
@@ -438,29 +433,19 @@ func (a *EditMessageMediaArgs) receiveMedia(media map[string]interface{}) {
 	form.WithJson("media", media)
 }
 func (a *EditMessageMediaArgs) MediaPhoto() MediaPhotoBuilder {
-	b := new(implMediaPhotoBuilder)
-	b.Init(a.receiveMedia)
-	return b
+	return new(implMediaPhotoBuilder).Init(a.receiveMedia)
 }
 func (a *EditMessageMediaArgs) MediaVideo() MediaVideoBuilder {
-	b := new(implMediaVideoBuilder)
-	b.Init(a.receiveMedia)
-	return b
+	return new(implMediaVideoBuilder).Init(a.receiveMedia)
 }
 func (a *EditMessageMediaArgs) MediaAnimation() MediaAnimationBuilder {
-	b := new(implMediaAnimationBuilder)
-	b.Init(a.receiveMedia)
-	return b
+	return new(implMediaAnimationBuilder).Init(a.receiveMedia)
 }
 func (a *EditMessageMediaArgs) MediaAudio() MediaAudioBuilder {
-	b := new(implMediaAudioBuilder)
-	b.Init(a.receiveMedia)
-	return b
+	return new(implMediaAudioBuilder).Init(a.receiveMedia)
 }
 func (a *EditMessageMediaArgs) MediaDocument() MediaDocumentBuilder {
-	b := new(implMediaDocumentBuilder)
-	b.Init(a.receiveMedia)
-	return b
+	return new(implMediaDocumentBuilder).Init(a.receiveMedia)
 }
 
 type EditMessageLiveLocationArgs struct {
