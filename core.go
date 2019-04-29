@@ -7,7 +7,7 @@ import (
 
 const (
 	apiTemplate = "https://api.telegram.org/bot%s/%s"
-	tagMethod = "method"
+	tagMethod   = "method"
 )
 
 func (b *Bot) setup(token string) {
@@ -28,7 +28,7 @@ func (b *Bot) setup(token string) {
 		// Make API url
 		url := fmt.Sprintf(apiTemplate, token, mn)
 		// Create invoker
-		fv.Set( b.createInvokerFunction(url, fv.Type()) )
+		fv.Set(b.createInvokerFunction(url, fv.Type()))
 	}
 }
 

@@ -59,7 +59,6 @@ func (a *AddStickerToSetArgs) MaskPosition(point string, x, y, scale float64) {
 	a.getForm().WithJson("mask_position", mask)
 }
 
-
 type CreateNewStickerSetArgs struct {
 	AddStickerToSetArgs
 }

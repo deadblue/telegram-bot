@@ -246,23 +246,23 @@ func (a *SendMediaGroupArgs) receiveMedia(media _MapValue) {
 	a.mediaBuf[a.mediaCount] = media
 	a.mediaCount += 1
 }
-// Add a photo media to the group.
-// According to the API limit, you can add
-// at most 10 photo/video media to one group.
-func (a *SendMediaGroupArgs) MediaPhoto() MediaPhotoBuilder {
-	return new(implMediaPhotoBuilder).Init(a.receiveMedia)
-}
-// Add a video media to the group.
-// According to the API limit, you can add
-// at most 10 photo/video media to one group.
-func (a *SendMediaGroupArgs) MediaVideo() MediaVideoBuilder {
-	return new(implMediaVideoBuilder).Init(a.receiveMedia)
-}
 func (a *SendMediaGroupArgs) ReplyToMessageId(messageId int) {
 	a.getForm().WithInt("reply_to_message_id", messageId)
 }
 func (a *SendMediaGroupArgs) DisableNotification() {
 	a.getForm().WithBool("disable_notification", true)
+}
+
+// Add a photo media to the group. According to the API limit,
+// you can add at most 10 photo/video media to one group.
+func (a *SendMediaGroupArgs) MediaPhoto() MediaPhotoBuilder {
+	return new(implMediaPhotoBuilder).Init(a.receiveMedia)
+}
+
+// Add a video media to the group. According to the API limit,
+// you can add at most 10 photo/video media to one group.
+func (a *SendMediaGroupArgs) MediaVideo() MediaVideoBuilder {
+	return new(implMediaVideoBuilder).Init(a.receiveMedia)
 }
 
 type SendLocationArgs struct {

@@ -50,5 +50,4 @@ const (
 	passportTemporaryRegistration = "temporary_registration"
 	passportPhoneNumber           = "phone_number"
 	passportEmail                 = "email"
-
 )

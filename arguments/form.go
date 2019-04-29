@@ -16,6 +16,7 @@ type _Form struct {
 	partWriter  *multipart.Writer
 	values      url.Values
 }
+
 func (f *_Form) WithString(name, value string) *_Form {
 	if f.isMultipart {
 		_ = f.partWriter.WriteField(name, value)

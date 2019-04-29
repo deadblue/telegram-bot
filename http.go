@@ -42,7 +42,7 @@ func (b *Bot) initHttpClient() {
 	transport := &http.Transport{
 		Proxy: http.ProxyFromEnvironment,
 		DialContext: (&net.Dialer{
-			Timeout:   defaultDialTimeout,
+			Timeout: defaultDialTimeout,
 		}).DialContext,
 		TLSHandshakeTimeout: defaultDialTimeout,
 		MaxIdleConnsPerHost: defaultIdleConns,

@@ -15,6 +15,7 @@ type _BasicArgs struct {
 	// struct need not override Archive function to do some work.
 	beforeArchive func()
 }
+
 func (a *_BasicArgs) getForm() *_Form {
 	if a.form == nil {
 		a.form = newForm()
@@ -37,7 +38,6 @@ type ArgumentBuilder interface {
 	// Apply the settings.
 	// Should be called at the end of setup.
 	Finish()
-
 }
 
 // Alias of the "map[string]interface{}" type.

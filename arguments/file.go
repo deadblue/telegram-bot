@@ -16,14 +16,13 @@ type InputFile interface {
 	// Reader to read the file data, will be
 	// closed by the code who use it.
 	Data() io.ReadCloser
-
 }
-
 
 type implInputFile struct {
 	name string
 	data io.ReadCloser
 }
+
 func (f *implInputFile) Name() string {
 	return f.name
 }
@@ -35,7 +34,7 @@ func (f *implInputFile) Data() io.ReadCloser {
 func InputFileFromData(name string, data []byte) InputFile {
 	return &implInputFile{
 		name: name,
-		data: ioutil.NopCloser( bytes.NewReader(data) ),
+		data: ioutil.NopCloser(bytes.NewReader(data)),
 	}
 }
 

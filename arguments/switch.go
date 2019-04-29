@@ -10,11 +10,11 @@ type Switch interface {
 	Off()
 }
 
-
 type implSwitch struct {
 	form *_Form
 	name string
 }
+
 func (s *implSwitch) On() {
 	s.form.WithBool(s.name, true)
 }

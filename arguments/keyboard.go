@@ -1,24 +1,16 @@
 package arguments
 
-
 // The builder for assembling a reply keyboard
 type ReplyKeyboardBuilder interface {
-
 	ArgumentBuilder
 
 	// Requests clients to resize the keyboard vertically for optimal fit
-	// (e.g., make the keyboard smaller if there are just two rows of buttons).
-	// Defaults to false, in which case the custom keyboard is
-	// always of the same height as the app's standard keyboard.
 	ResizeKeyboard() ReplyKeyboardBuilder
 
-	// Requests clients to hide the keyboard as soon as it's been used.
-	// The keyboard will still be available, but clients will automatically display
-	// the usual letter-keyboard in the chat – the user can press a special button
-	// in the input field to see the custom keyboard again. Defaults to false.
+	// Requests clients hide the keyboard once it's been used,
 	OneTimeKeyboard() ReplyKeyboardBuilder
 
-	// Use this parameter if you want to show the keyboard to specific users only.
+	// Set the keyboard shows to specific users only.
 	Selective() ReplyKeyboardBuilder
 
 	// Add one or more text buttons.
@@ -44,13 +36,10 @@ type ReplyKeyboardBuilder interface {
 	//             the first row contains three buttons,
 	//             and the other rows contain two buttons at most.
 	Layout(rowSize ...int) ReplyKeyboardBuilder
-
 }
-
 
 // The builder for assembling a inline keyboard
 type InlineKeyboardBuilder interface {
-
 	ArgumentBuilder
 
 	// Add a URL button.
@@ -79,14 +68,13 @@ type InlineKeyboardBuilder interface {
 	//             the first row contains three buttons,
 	//             and the other rows contain two buttons at most.
 	Layout(rowSize ...int) InlineKeyboardBuilder
-
 }
-
 
 type basicKeyboardBuilder struct {
 	layout  []int
 	buttons []interface{}
 }
+
 func (b *basicKeyboardBuilder) setLayout(rowSize ...int) {
 	b.layout = rowSize
 }
@@ -128,35 +116,35 @@ func (b *basicKeyboardBuilder) makeKeyboard() [][]interface{} {
 	return keyboard
 }
 
-
 type implReplyKeyboardBuilder struct {
 	basicKeyboardBuilder
 	form *_Form
 	name string
-	data map[string]interface{}
+	data _MapValue
 }
-func (b *implReplyKeyboardBuilder) getData() map[string]interface{} {
+
+func (b *implReplyKeyboardBuilder) set(name string, value interface{}) {
 	if b.data == nil {
-		b.data = make(map[string]interface{})
+		b.data = make(_MapValue)
 	}
-	return b.data
+	b.data[name] = value
 }
 func (b *implReplyKeyboardBuilder) ResizeKeyboard() ReplyKeyboardBuilder {
-	b.getData()["resize_keyboard"] = true
+	b.set("resize_keyboard", true)
 	return b
 }
 func (b *implReplyKeyboardBuilder) OneTimeKeyboard() ReplyKeyboardBuilder {
-	b.getData()["one_time_keyboard"] = true
+	b.set("one_time_keyboard", true)
 	return b
 }
 func (b *implReplyKeyboardBuilder) Selective() ReplyKeyboardBuilder {
-	b.getData()["selective"] = true
+	b.set("selective", true)
 	return b
 }
 func (b *implReplyKeyboardBuilder) Buttons(text ...string) ReplyKeyboardBuilder {
 	buttons := make([]interface{}, len(text))
 	for i, t := range text {
-		buttons[i] = map[string]string{
+		buttons[i] = _MapValue{
 			"text": t,
 		}
 	}
@@ -164,7 +152,7 @@ func (b *implReplyKeyboardBuilder) Buttons(text ...string) ReplyKeyboardBuilder 
 	return b
 }
 func (b *implReplyKeyboardBuilder) ContactButton(text string) ReplyKeyboardBuilder {
-	button := map[string]interface{}{
+	button := _MapValue{
 		"text":            text,
 		"request_contact": true,
 	}
@@ -172,7 +160,7 @@ func (b *implReplyKeyboardBuilder) ContactButton(text string) ReplyKeyboardBuild
 	return b
 }
 func (b *implReplyKeyboardBuilder) LocationButton(text string) ReplyKeyboardBuilder {
-	button := map[string]interface{}{
+	button := _MapValue{
 		"text":             text,
 		"request_location": true,
 	}
@@ -184,19 +172,18 @@ func (b *implReplyKeyboardBuilder) Layout(rowSize ...int) ReplyKeyboardBuilder {
 	return b
 }
 func (b *implReplyKeyboardBuilder) Finish() {
-	data := b.getData()
-	data["keyboard"] = b.makeKeyboard()
-	b.form.WithJson(b.name, data)
+	b.set("keyboard", b.makeKeyboard())
+	b.form.WithJson(b.name, b.data)
 }
-
 
 type implInlineKeyboardBuilder struct {
 	basicKeyboardBuilder
 	form *_Form
 	name string
 }
+
 func (b *implInlineKeyboardBuilder) UrlButton(text, url string) InlineKeyboardBuilder {
-	button := map[string]interface{}{
+	button := _MapValue{
 		"text": text,
 		"url":  url,
 	}
@@ -204,7 +191,7 @@ func (b *implInlineKeyboardBuilder) UrlButton(text, url string) InlineKeyboardBu
 	return b
 }
 func (b *implInlineKeyboardBuilder) CallbackButton(text, data string) InlineKeyboardBuilder {
-	button := map[string]interface{}{
+	button := _MapValue{
 		"text":          text,
 		"callback_data": data,
 	}
@@ -212,7 +199,7 @@ func (b *implInlineKeyboardBuilder) CallbackButton(text, data string) InlineKeyb
 	return b
 }
 func (b *implInlineKeyboardBuilder) GameButton(text string) InlineKeyboardBuilder {
-	button := map[string]interface{}{
+	button := _MapValue{
 		"text":          text,
 		"callback_game": struct{}{},
 	}
@@ -220,7 +207,7 @@ func (b *implInlineKeyboardBuilder) GameButton(text string) InlineKeyboardBuilde
 	return b
 }
 func (b *implInlineKeyboardBuilder) PayButton(text string) InlineKeyboardBuilder {
-	button := map[string]interface{}{
+	button := _MapValue{
 		"text": text,
 		"pay":  true,
 	}
@@ -232,7 +219,7 @@ func (b *implInlineKeyboardBuilder) Layout(rowSize ...int) InlineKeyboardBuilder
 	return b
 }
 func (b *implInlineKeyboardBuilder) Finish() {
-	data := map[string]interface{}{
+	data := _MapValue{
 		"inline_keyboard": b.makeKeyboard(),
 	}
 	b.form.WithJson(b.name, data)

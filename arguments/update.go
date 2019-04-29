@@ -2,7 +2,6 @@ package arguments
 
 // The builder to define which updates can received.
 type AllowedUpdatesBuilder interface {
-
 	ArgumentBuilder
 
 	// Allow to receive incoming message.
@@ -34,14 +33,13 @@ type AllowedUpdatesBuilder interface {
 
 	// Allow to receive poll state when it was voted or stopped.
 	Poll() AllowedUpdatesBuilder
-
 }
-
 
 type implAllowedUpdatesBuilder struct {
 	form   *_Form
 	values map[string]bool
 }
+
 func (b *implAllowedUpdatesBuilder) Init(form *_Form) AllowedUpdatesBuilder {
 	b.form = form
 	b.values = make(map[string]bool)
