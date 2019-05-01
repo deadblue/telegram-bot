@@ -5,14 +5,16 @@ type SendInvoiceArgs struct {
 	prices []_MapValue
 }
 
-func (a *SendInvoiceArgs) tryInit() {
-	if a.prices == nil {
-		a.prices = make([]_MapValue, 0)
-	}
+func (a *SendInvoiceArgs) receivePrice(price _MapValue) {
 	if a.beforeArchive == nil {
 		a.beforeArchive = func() {
 			a.getForm().WithJson("prices", a.prices)
 		}
+	}
+	if a.prices == nil {
+		a.prices = []_MapValue{price}
+	} else {
+		a.prices = append(a.prices, price)
 	}
 }
 func (a *SendInvoiceArgs) ChatId(chatId int) {
@@ -37,8 +39,7 @@ func (a *SendInvoiceArgs) Currency(currency string) {
 	a.getForm().WithString("currency", currency)
 }
 func (a *SendInvoiceArgs) AddPrice(label string, amount int) {
-	a.tryInit()
-	a.prices = append(a.prices, _MapValue{
+	a.receivePrice(_MapValue{
 		"label":  label,
 		"amount": amount,
 	})
@@ -91,25 +92,6 @@ func (a *SendInvoiceArgs) InlineKeyboard() InlineKeyboardBuilder {
 	}
 }
 
-type AnswerShippingQueryArgs struct {
-	_BasicArgs
-}
-
-func (a *AnswerShippingQueryArgs) QueryId(queryId string) {
-	a.getForm().WithString("shipping_query_id", queryId)
-}
-func (a *AnswerShippingQueryArgs) Ok() {
-	a.getForm().WithBool("ok", true)
-}
-func (a *AnswerShippingQueryArgs) ErrorMessage(message string) {
-	a.getForm().WithString("error_message", message)
-}
-func (a *AnswerShippingQueryArgs) ShippingOptions() ShippingOptionsBuilder {
-	return (&implShippingOptionsBuilder{
-		form: a.getForm(),
-	}).Init()
-}
-
 type AnswerPreCheckoutQueryArgs struct {
 	_BasicArgs
 }
@@ -122,4 +104,79 @@ func (a *AnswerPreCheckoutQueryArgs) Ok() {
 }
 func (a *AnswerPreCheckoutQueryArgs) ErrorMessage(message string) {
 	a.getForm().WithString("error_message", message)
+}
+
+type AnswerShippingQueryArgs struct {
+	_BasicArgs
+	options []_MapValue
+}
+
+func (a *AnswerShippingQueryArgs) receiveOption(option _MapValue) {
+	if a.beforeArchive == nil {
+		a.beforeArchive = func() {
+			a.getForm().WithJson("shipping_options", a.options)
+		}
+	}
+	if a.options == nil {
+		a.options = []_MapValue{option}
+	} else {
+		a.options = append(a.options, option)
+	}
+}
+func (a *AnswerShippingQueryArgs) QueryId(queryId string) {
+	a.getForm().WithString("shipping_query_id", queryId)
+}
+func (a *AnswerShippingQueryArgs) Ok() {
+	a.getForm().WithBool("ok", true)
+}
+func (a *AnswerShippingQueryArgs) ErrorMessage(message string) {
+	a.getForm().WithString("error_message", message)
+}
+func (a *AnswerShippingQueryArgs) AddShippingOption() ShippingOptionBuilder {
+	return new(implShippingOptionBuilder).Init(a.receiveOption)
+}
+
+type ShippingOptionBuilder interface {
+	ArgumentBuilder
+
+	// Set option identifier
+	Id(id string) ShippingOptionBuilder
+
+	// Set option title
+	Title(title string) ShippingOptionBuilder
+
+	// Add a labeled price
+	AddPrice(label string, amount int) ShippingOptionBuilder
+}
+
+type implShippingOptionBuilder struct {
+	receiver func(_MapValue)
+	data     _MapValue
+	prices   []_MapValue
+}
+
+func (b *implShippingOptionBuilder) Init(receiver func(_MapValue)) ShippingOptionBuilder {
+	b.receiver = receiver
+	b.data = make(_MapValue)
+	b.prices = make([]_MapValue, 0)
+	return b
+}
+func (b *implShippingOptionBuilder) Id(id string) ShippingOptionBuilder {
+	b.data["id"] = id
+	return b
+}
+func (b *implShippingOptionBuilder) Title(title string) ShippingOptionBuilder {
+	b.data["title"] = title
+	return b
+}
+func (b *implShippingOptionBuilder) AddPrice(label string, amount int) ShippingOptionBuilder {
+	b.prices = append(b.prices, _MapValue{
+		"label":  label,
+		"amount": amount,
+	})
+	return b
+}
+func (b *implShippingOptionBuilder) Finish() {
+	b.data["prices"] = b.prices
+	b.receiver(b.data)
 }
