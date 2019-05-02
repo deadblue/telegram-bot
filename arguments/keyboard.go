@@ -14,13 +14,13 @@ type ReplyKeyboardBuilder interface {
 	Selective() ReplyKeyboardBuilder
 
 	// Add one or more text buttons.
-	Buttons(text ...string) ReplyKeyboardBuilder
+	AddButtons(text ...string) ReplyKeyboardBuilder
 
 	// Add a contact button, which will send user's phone number when be clicked.
-	ContactButton(text string) ReplyKeyboardBuilder
+	AddContactButton(text string) ReplyKeyboardBuilder
 
 	// Add a location button, which will send user's current location when be clicked.
-	LocationButton(text string) ReplyKeyboardBuilder
+	AddLocationButton(text string) ReplyKeyboardBuilder
 
 	// Define how the buttons are arranged.
 	//
@@ -43,10 +43,10 @@ type InlineKeyboardBuilder interface {
 	ArgumentBuilder
 
 	// Add a URL button.
-	UrlButton(text, url string) InlineKeyboardBuilder
+	AddUrlButton(text, url string) InlineKeyboardBuilder
 
 	// Add a callback button.
-	CallbackButton(text, data string) InlineKeyboardBuilder
+	AddCallbackButton(text, data string) InlineKeyboardBuilder
 
 	// Add a game button.
 	GameButton(text string) InlineKeyboardBuilder
@@ -141,7 +141,7 @@ func (b *implReplyKeyboardBuilder) Selective() ReplyKeyboardBuilder {
 	b.set("selective", true)
 	return b
 }
-func (b *implReplyKeyboardBuilder) Buttons(text ...string) ReplyKeyboardBuilder {
+func (b *implReplyKeyboardBuilder) AddButtons(text ...string) ReplyKeyboardBuilder {
 	buttons := make([]interface{}, len(text))
 	for i, t := range text {
 		buttons[i] = _MapValue{
@@ -151,7 +151,7 @@ func (b *implReplyKeyboardBuilder) Buttons(text ...string) ReplyKeyboardBuilder 
 	b.appendButton(buttons...)
 	return b
 }
-func (b *implReplyKeyboardBuilder) ContactButton(text string) ReplyKeyboardBuilder {
+func (b *implReplyKeyboardBuilder) AddContactButton(text string) ReplyKeyboardBuilder {
 	button := _MapValue{
 		"text":            text,
 		"request_contact": true,
@@ -159,7 +159,7 @@ func (b *implReplyKeyboardBuilder) ContactButton(text string) ReplyKeyboardBuild
 	b.appendButton(button)
 	return b
 }
-func (b *implReplyKeyboardBuilder) LocationButton(text string) ReplyKeyboardBuilder {
+func (b *implReplyKeyboardBuilder) AddLocationButton(text string) ReplyKeyboardBuilder {
 	button := _MapValue{
 		"text":             text,
 		"request_location": true,
@@ -182,7 +182,7 @@ type implInlineKeyboardBuilder struct {
 	name string
 }
 
-func (b *implInlineKeyboardBuilder) UrlButton(text, url string) InlineKeyboardBuilder {
+func (b *implInlineKeyboardBuilder) AddUrlButton(text, url string) InlineKeyboardBuilder {
 	button := _MapValue{
 		"text": text,
 		"url":  url,
@@ -190,7 +190,7 @@ func (b *implInlineKeyboardBuilder) UrlButton(text, url string) InlineKeyboardBu
 	b.appendButton(button)
 	return b
 }
-func (b *implInlineKeyboardBuilder) CallbackButton(text, data string) InlineKeyboardBuilder {
+func (b *implInlineKeyboardBuilder) AddCallbackButton(text, data string) InlineKeyboardBuilder {
 	button := _MapValue{
 		"text":          text,
 		"callback_data": data,

@@ -255,13 +255,13 @@ func (a *SendMediaGroupArgs) DisableNotification() {
 
 // Add a photo media to the group. According to the API limit,
 // you can add at most 10 photo/video media to one group.
-func (a *SendMediaGroupArgs) MediaPhoto() MediaPhotoBuilder {
+func (a *SendMediaGroupArgs) AddMediaPhoto() MediaPhotoBuilder {
 	return new(implMediaPhotoBuilder).Init(a.receiveMedia)
 }
 
 // Add a video media to the group. According to the API limit,
 // you can add at most 10 photo/video media to one group.
-func (a *SendMediaGroupArgs) MediaVideo() MediaVideoBuilder {
+func (a *SendMediaGroupArgs) AddMediaVideo() MediaVideoBuilder {
 	return new(implMediaVideoBuilder).Init(a.receiveMedia)
 }
 

@@ -22,9 +22,9 @@ Example:
 	args.ChatId(1234)
 	args.Text("Hello, *world*!").Markdown()
 	args.InlineKeyboard().
-		UrlButton("Github", "https://github.com/deadblue/telegroid").
-		UrlButton("Author", "tg://resolve?domain=deadbluex").
-		CallbackButton("Foo", "Bar").
+		AddUrlButton("Github", "https://github.com/deadblue/telegroid").
+		AddUrlButton("Author", "tg://resolve?domain=deadbluex").
+		AddCallbackButton("Foo", "Bar").
 		Layout(2, 1).
 		Finish()
 	msg, err := bot.SendMessage(args)

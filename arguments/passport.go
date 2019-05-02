@@ -1,5 +1,47 @@
 package arguments
 
+type SetPassportDataErrorsArgs struct {
+	_BasicArgs
+	errBuf []map[string]interface{}
+}
+
+func (a *SetPassportDataErrorsArgs) receiveError(err map[string]interface{}) {
+	if a.errBuf == nil {
+		a.errBuf = []map[string]interface{}{err}
+	} else {
+		a.errBuf = append(a.errBuf, err)
+	}
+	if a.beforeArchive == nil {
+		a.beforeArchive = func() {
+			a.getForm().WithJson("errors", a.errBuf)
+		}
+	}
+}
+func (a *SetPassportDataErrorsArgs) UserId(userId int) {
+	a.getForm().WithInt("user_id", userId)
+}
+func (a *SetPassportDataErrorsArgs) AddDataFieldError() PassportDataFieldErrorBuilder {
+	return new(implPassportDataFieldErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) AddFrontSideError() PassportFrontSideErrorBuilder {
+	return new(implPassportFrontSideErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) AddReverseSideError() PassportReverseSideErrorBuilder {
+	return new(implPassportReverseSideErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) AddSelfieError() PassportSelfieErrorBuilder {
+	return new(implPassportSelfieErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) AddFileError() PassportFileErrorBuilder {
+	return new(implPassportFileErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) AddTranslationFileError() PassportTranslationFileErrorBuilder {
+	return new(implPassportTranslationFileErrorBuilder).Init(a.receiveError)
+}
+func (a *SetPassportDataErrorsArgs) AddUnspecifiedError() PassportUnspecifiedErrorBuilder {
+	return new(implPassportUnspecifiedErrorBuilder).Init(a.receiveError)
+}
+
 type PassportDataFieldErrorBuilder interface {
 	ArgumentBuilder
 	PersonalDetails() PassportDataFieldErrorBuilder
