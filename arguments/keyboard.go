@@ -72,30 +72,40 @@ type InlineKeyboardBuilder interface {
 
 type basicKeyboardBuilder struct {
 	layout  []int
-	buttons []interface{}
+	buttons []_MapValue
+	// Special button means a game button or a pay button, which
+	// should be placed at first, and can only have one at most.
+	sepcialButton _MapValue
 }
 
-func (b *basicKeyboardBuilder) setLayout(rowSize ...int) {
+func (b *basicKeyboardBuilder) setLayout(rowSize []int) {
 	b.layout = rowSize
 }
-func (b *basicKeyboardBuilder) appendButton(buttons ...interface{}) {
+func (b *basicKeyboardBuilder) appendButton(buttons ..._MapValue) {
 	if b.buttons == nil {
 		b.buttons = buttons
 	} else {
 		b.buttons = append(b.buttons, buttons...)
 	}
 }
-func (b *basicKeyboardBuilder) makeKeyboard() [][]interface{} {
+func (b *basicKeyboardBuilder) makeKeyboard() [][]_MapValue {
+	// Buttons to be arranged
+	buttons := b.buttons
+	if b.sepcialButton != nil {
+		buttons = make([]_MapValue, len(b.buttons)+1)
+		buttons[0] = b.sepcialButton
+		copy(buttons[1:], b.buttons)
+	}
 	// If layout is not set, all buttons will be shown in one row
 	if b.layout == nil {
-		return [][]interface{}{
-			b.buttons,
+		return [][]_MapValue{
+			buttons,
 		}
 	}
 	// Arrange buttons with layout
-	btnUsed, btnCount := 0, len(b.buttons)
+	btnUsed, btnCount := 0, len(buttons)
 	rowIndex, rowCount := 0, len(b.layout)
-	keyboard := make([][]interface{}, 0)
+	keyboard := make([][]_MapValue, 0)
 	for btnCount > 0 {
 		// How many buttons should be in this row
 		rowSize := 0
@@ -108,7 +118,7 @@ func (b *basicKeyboardBuilder) makeKeyboard() [][]interface{} {
 			rowSize = btnCount
 		}
 		// Append the row to keyboard
-		keyboard = append(keyboard, b.buttons[btnUsed:btnUsed+rowSize])
+		keyboard = append(keyboard, buttons[btnUsed:btnUsed+rowSize])
 		rowIndex += 1
 		btnUsed += rowSize
 		btnCount -= rowSize
@@ -118,9 +128,9 @@ func (b *basicKeyboardBuilder) makeKeyboard() [][]interface{} {
 
 type implReplyKeyboardBuilder struct {
 	basicKeyboardBuilder
+	data _MapValue
 	form *_Form
 	name string
-	data _MapValue
 }
 
 func (b *implReplyKeyboardBuilder) set(name string, value interface{}) {
@@ -142,7 +152,7 @@ func (b *implReplyKeyboardBuilder) Selective() ReplyKeyboardBuilder {
 	return b
 }
 func (b *implReplyKeyboardBuilder) AddButtons(text ...string) ReplyKeyboardBuilder {
-	buttons := make([]interface{}, len(text))
+	buttons := make([]_MapValue, len(text))
 	for i, t := range text {
 		buttons[i] = _MapValue{
 			"text": t,
@@ -152,23 +162,21 @@ func (b *implReplyKeyboardBuilder) AddButtons(text ...string) ReplyKeyboardBuild
 	return b
 }
 func (b *implReplyKeyboardBuilder) AddContactButton(text string) ReplyKeyboardBuilder {
-	button := _MapValue{
+	b.appendButton(_MapValue{
 		"text":            text,
 		"request_contact": true,
-	}
-	b.appendButton(button)
+	})
 	return b
 }
 func (b *implReplyKeyboardBuilder) AddLocationButton(text string) ReplyKeyboardBuilder {
-	button := _MapValue{
+	b.appendButton(_MapValue{
 		"text":             text,
 		"request_location": true,
-	}
-	b.appendButton(button)
+	})
 	return b
 }
 func (b *implReplyKeyboardBuilder) Layout(rowSize ...int) ReplyKeyboardBuilder {
-	b.setLayout(rowSize...)
+	b.setLayout(rowSize)
 	return b
 }
 func (b *implReplyKeyboardBuilder) Finish() {
@@ -183,44 +191,39 @@ type implInlineKeyboardBuilder struct {
 }
 
 func (b *implInlineKeyboardBuilder) AddUrlButton(text, url string) InlineKeyboardBuilder {
-	button := _MapValue{
+	b.appendButton(_MapValue{
 		"text": text,
 		"url":  url,
-	}
-	b.appendButton(button)
+	})
 	return b
 }
 func (b *implInlineKeyboardBuilder) AddCallbackButton(text, data string) InlineKeyboardBuilder {
-	button := _MapValue{
+	b.appendButton(_MapValue{
 		"text":          text,
 		"callback_data": data,
-	}
-	b.appendButton(button)
+	})
 	return b
 }
 func (b *implInlineKeyboardBuilder) GameButton(text string) InlineKeyboardBuilder {
-	button := _MapValue{
+	b.sepcialButton = _MapValue{
 		"text":          text,
 		"callback_game": struct{}{},
 	}
-	b.appendButton(button)
 	return b
 }
 func (b *implInlineKeyboardBuilder) PayButton(text string) InlineKeyboardBuilder {
-	button := _MapValue{
+	b.sepcialButton = _MapValue{
 		"text": text,
 		"pay":  true,
 	}
-	b.appendButton(button)
 	return b
 }
 func (b *implInlineKeyboardBuilder) Layout(rowSize ...int) InlineKeyboardBuilder {
-	b.setLayout(rowSize...)
+	b.setLayout(rowSize)
 	return b
 }
 func (b *implInlineKeyboardBuilder) Finish() {
-	data := _MapValue{
+	b.form.WithJson(b.name, _MapValue{
 		"inline_keyboard": b.makeKeyboard(),
-	}
-	b.form.WithJson(b.name, data)
+	})
 }
