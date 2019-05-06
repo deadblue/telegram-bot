@@ -13,7 +13,7 @@ type Bot struct {
 	// Get me
 	GetMe func() (*User, error)
 	// Get updates
-	GetUpdates func(args *arguments.GetUpdatesArgs) ([]Update, error)
+	GetUpdates func(args *arguments.GetUpdatesArgs) ([]*Update, error)
 	// Webhook management
 	SetWebhook     func(args *arguments.SetWebhookArgs) (bool, error)
 	DeleteWebhook  func() (bool, error)
@@ -57,7 +57,7 @@ type Bot struct {
 	GetUserProfilePhotos func(args *arguments.GetUserProfilePhotosArgs) (*UserProfilePhotos, error)
 	// Chat information
 	GetChat               func(args *arguments.ChatArgs) (*Chat, error)
-	GetChatAdministrators func(args *arguments.ChatArgs) ([]ChatMember, error)
+	GetChatAdministrators func(args *arguments.ChatArgs) ([]*ChatMember, error)
 	GetChatMembersCount   func(args *arguments.ChatArgs) (int, error)
 	GetChatMember         func(args *arguments.ChatMemberArgs) (*ChatMember, error)
 	// Chat management
