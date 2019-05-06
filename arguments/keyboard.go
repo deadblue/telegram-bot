@@ -1,6 +1,6 @@
 package arguments
 
-// The builder for assembling a reply keyboard
+// ReplyKeyboardBuilder is the builder to assemble reply keyboard.
 type ReplyKeyboardBuilder interface {
 	ArgumentBuilder
 
@@ -38,7 +38,7 @@ type ReplyKeyboardBuilder interface {
 	Layout(rowSize ...int) ReplyKeyboardBuilder
 }
 
-// The builder for assembling a inline keyboard
+// InlineKeyboardBuilder is the builder to assemble inline keyboard.
 type InlineKeyboardBuilder interface {
 	ArgumentBuilder
 
@@ -48,10 +48,12 @@ type InlineKeyboardBuilder interface {
 	// Add a callback button.
 	AddCallbackButton(text, data string) InlineKeyboardBuilder
 
-	// Add a game button.
+	// Set a game button. One inline keyboard can
+	// have only one game/pay button at most.
 	GameButton(text string) InlineKeyboardBuilder
 
-	// Add a pay button.
+	// Set a pay button. One inline keyboard can
+	// have only one game/pay button at most.
 	PayButton(text string) InlineKeyboardBuilder
 
 	// Define how the buttons are arranged.
