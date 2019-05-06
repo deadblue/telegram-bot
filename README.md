@@ -24,9 +24,9 @@ args := new(arguments.SendMessageArgs)
 args.ChatId(1234)
 args.Text("Hello, *world*!").Markdown()
 args.InlineKeyboard().
-    UrlButton("Github", "https://github.com/deadblue/telegroid").
-    UrlButton("Author", "tg://resolve?domain=deadbluex").
-    CallbackButton("Foo", "Bar").
+    AddUrlButton("Github", "https://github.com/deadblue/telegroid").
+    AddUrlButton("Author", "tg://resolve?domain=deadbluex").
+    AddCallbackButton("Foo", "Bar").
     Layout(2, 1).
     Finish()
 msg, err := bot.SendMessage(args)
@@ -41,11 +41,13 @@ if err != nil {
 Telegroid currently supports most of functions, **except**:
 
 * Inline mode
-* ~~Telegram Passport~~
-* ~~Payment~~
 
 These functions will be supported in the plan.
 
 # Reference
 
 * https://core.telegram.org/bots/api
+
+# LICENSE
+
+MIT
