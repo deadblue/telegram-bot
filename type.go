@@ -19,33 +19,33 @@ type WebhookInfo struct {
 	HasCustomCertificate bool     `json:"has_custom_certificate"`
 	PendingUpdateCount   int      `json:"pending_update_count"`
 	LastErrorDate        int      `json:"last_error_date"`
-	LastErrorMessage     *string  `json:"last_error_message"`
+	LastErrorMessage     string   `json:"last_error_message"`
 	MaxConnections       int      `json:"max_connections"`
 	AllowedUpdates       []string `json:"allowed_updates"`
 }
 
 type User struct {
-	Id           int     `json:"id"`
-	IsBot        bool    `json:"is_bot"`
-	FirstName    string  `json:"first_name"`
-	LastName     *string `json:"last_name"`
-	Username     *string `json:"username"`
-	LanguageCode *string `json:"language_code"`
+	Id           int    `json:"id"`
+	IsBot        bool   `json:"is_bot"`
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
+	Username     string `json:"username"`
+	LanguageCode string `json:"language_code"`
 }
 
 type Chat struct {
 	Id                          int        `json:"id"`
 	Type                        ChatType   `json:"type"`
-	Title                       *string    `json:"title"`
-	Username                    *string    `json:"username"`
-	FirstName                   *string    `json:"first_name"`
-	LastName                    *string    `json:"last_name"`
+	Title                       string     `json:"title"`
+	Username                    string     `json:"username"`
+	FirstName                   string     `json:"first_name"`
+	LastName                    string     `json:"last_name"`
 	AllMembersAreAdministrators bool       `json:"all_members_are_administrators"`
 	Photo                       *ChatPhoto `json:"photo"`
-	Description                 *string    `json:"description"`
-	InviteLink                  *string    `json:"invite_link"`
+	Description                 string     `json:"description"`
+	InviteLink                  string     `json:"invite_link"`
 	PinnedMessage               *Message   `json:"pinned_message"`
-	StickerSetName              *string    `json:"sticker_set_name"`
+	StickerSetName              string     `json:"sticker_set_name"`
 	CanSetStickerName           bool       `json:"can_set_sticker_name"`
 }
 
@@ -57,31 +57,33 @@ type Message struct {
 	ForwardFrom           *User              `json:"forward_from"`
 	ForwardFromChat       *Chat              `json:"forward_from_chat"`
 	ForwardFromMessageId  int                `json:"forward_from_message_id"`
-	ForwardSignature      *string            `json:"forward_signature"`
-	ForwardSenderName     *string            `json:"forward_sender_name"`
+	ForwardSignature      string             `json:"forward_signature"`
+	ForwardSenderName     string             `json:"forward_sender_name"`
 	ForwardDate           int                `json:"forward_date"`
 	ReplyToMessage        *Message           `json:"reply_to_message"`
 	EditDate              int                `json:"edit_date"`
-	MediaGroupId          *string            `json:"media_group_id"`
-	AuthorSignature       *string            `json:"author_signature"`
-	Text                  *string            `json:"text"`
-	Entities              []MessageEntity    `json:"entities"`
-	CaptionEntities       []MessageEntity    `json:"caption_entities"`
+	MediaGroupId          string             `json:"media_group_id"`
+	AuthorSignature       string             `json:"author_signature"`
+	Text                  string             `json:"text"`
+	Entities              []*MessageEntity   `json:"entities"`
+	CaptionEntities       []*MessageEntity   `json:"caption_entities"`
 	Audio                 *Audio             `json:"audio"`
 	Document              *Document          `json:"document"`
+	Animation             *Animation         `json:"animation"`
 	Game                  *Game              `json:"game"`
-	Photo                 []PhotoSize        `json:"photo"`
+	Photo                 []*PhotoSize       `json:"photo"`
 	Sticker               *Sticker           `json:"sticker"`
 	Video                 *Video             `json:"video"`
 	Voice                 *Voice             `json:"voice"`
 	VideoNote             *VideoNote         `json:"video_note"`
-	Caption               *string            `json:"caption"`
+	Caption               string             `json:"caption"`
 	Location              *Location          `json:"location"`
 	Venue                 *Venue             `json:"venue"`
-	NewChatMembers        []User             `json:"new_chat_members"`
+	Poll                  *Poll              `json:"poll"`
+	NewChatMembers        []*User            `json:"new_chat_members"`
 	LeftChatMember        *User              `json:"left_chat_member"`
-	NewChatTitle          *string            `json:"new_chat_title"`
-	NewChatPhoto          []PhotoSize        `json:"new_chat_photo"`
+	NewChatTitle          string             `json:"new_chat_title"`
+	NewChatPhoto          []*PhotoSize       `json:"new_chat_photo"`
 	DeleteChatPhoto       bool               `json:"delete_chat_photo"`
 	GroupChatCreated      bool               `json:"group_chat_created"`
 	SupergroupChatCreated bool               `json:"supergroup_chat_created"`
@@ -91,7 +93,7 @@ type Message struct {
 	PinnedMessage         *Message           `json:"pinned_message"`
 	Invoice               *Invoice           `json:"invoice"`
 	SuccessfulPayment     *SuccessfulPayment `json:"successful_payment"`
-	ConnectedWebsite      *string            `json:"connected_website"`
+	ConnectedWebsite      string             `json:"connected_website"`
 	PassportData          *PassportData      `json:"passport_data"`
 }
 
@@ -99,7 +101,7 @@ type MessageEntity struct {
 	Type   EntityType `json:"type"`
 	Offset int        `json:"offset"`
 	Length int        `json:"length"`
-	Url    *string    `json:"url"`
+	Url    string     `json:"url"`
 	User   *User      `json:"user"`
 }
 
@@ -110,44 +112,58 @@ type PhotoSize struct {
 	FileSize int    `json:"file_size"`
 }
 
-type MimeFile struct {
-	FileId   string  `json:"file_id"`
-	MimeType *string `json:"mime_type"`
-	FileSize int     `json:"file_size"`
-}
-
 type Audio struct {
-	MimeFile
-	Duration  int    `json:"duration"`
-	Performer string `json:"performer"`
-	Title     string `json:"title"`
+	FileId    string     `json:"file_id"`
+	FileSize  int        `json:"file_size"`
+	MimeType  string     `json:"mime_type"`
+	Duration  int        `json:"duration"`
+	Performer string     `json:"performer"`
+	Title     string     `json:"title"`
+	Thumb     *PhotoSize `json:"thumb"`
 }
 
 type Document struct {
-	MimeFile
+	FileId   string     `json:"file_id"`
+	FileSize int        `json:"file_size"`
+	MimeType string     `json:"mime_type"`
 	Thumb    *PhotoSize `json:"thumb"`
 	FileName string     `json:"file_name"`
 }
 
 type Video struct {
-	MimeFile
+	FileId   string     `json:"file_id"`
+	FileSize int        `json:"file_size"`
+	MimeType string     `json:"mime_type"`
 	Width    int        `json:"width"`
 	Height   int        `json:"height"`
 	Duration int        `json:"duration"`
 	Thumb    *PhotoSize `json:"thumb"`
 }
 
+type Animation struct {
+	FileId   string     `json:"file_id"`
+	FileSize int        `json:"file_size"`
+	MimeType string     `json:"mime_type"`
+	Width    int        `json:"width"`
+	Height   int        `json:"height"`
+	Duration int        `json:"duration"`
+	Thumb    *PhotoSize `json:"thumb"`
+	FileName string     `json:"file_name"`
+}
+
 type Voice struct {
-	MimeFile
+	FileId   string `json:"file_id"`
+	FileSize int    `json:"file_size"`
+	MimeType string `json:"mime_type"`
 	Duration string `json:"duration"`
 }
 
 type VideoNote struct {
 	FileId   string     `json:"file_id"`
+	FileSize int        `json:"file_size"`
 	Length   int        `json:"length"`
 	Duration int        `json:"duration"`
 	Thumb    *PhotoSize `json:"thumb"`
-	FileSize int        `json:"file_size"`
 }
 
 type Contact struct {
@@ -155,6 +171,7 @@ type Contact struct {
 	FirstName   string `json:"first_name"`
 	LastName    string `json:"last_name"`
 	UserId      int    `json:"user_id"`
+	VCard       string `json:"vcard"`
 }
 
 type Location struct {
@@ -163,10 +180,11 @@ type Location struct {
 }
 
 type Venue struct {
-	Location     Location `json:"location"`
-	Title        string   `json:"title"`
-	Address      string   `json:"address"`
-	FoursquareId string   `json:"foursquare_id"`
+	Location       *Location `json:"location"`
+	Title          string    `json:"title"`
+	Address        string    `json:"address"`
+	FoursquareId   string    `json:"foursquare_id"`
+	FoursquareType string    `json:"foursquare_type"`
 }
 
 type PollOption struct {
@@ -175,15 +193,15 @@ type PollOption struct {
 }
 
 type Poll struct {
-	Id       string       `json:"id"`
-	Question string       `json:"question"`
-	Options  []PollOption `json:"options"`
-	IsClosed bool         `json:"is_closed"`
+	Id       string        `json:"id"`
+	Question string        `json:"question"`
+	Options  []*PollOption `json:"options"`
+	IsClosed bool          `json:"is_closed"`
 }
 
 type UserProfilePhotos struct {
-	TotalCount int           `json:"total_count"`
-	Photos     [][]PhotoSize `json:"photos"`
+	TotalCount int            `json:"total_count"`
+	Photos     [][]*PhotoSize `json:"photos"`
 }
 
 type File struct {
@@ -194,12 +212,12 @@ type File struct {
 
 type CallbackQuery struct {
 	Id              string   `json:"id"`
-	From            User     `json:"from"`
+	From            *User    `json:"from"`
 	Message         *Message `json:"message"`
-	InlineMessageId *string  `json:"inline_message_id"`
+	InlineMessageId string   `json:"inline_message_id"`
 	ChatInstance    string   `json:"chat_instance"`
-	Data            *string  `json:"data"`
-	GameShortName   *string  `json:"game_short_name"`
+	Data            string   `json:"data"`
+	GameShortName   string   `json:"game_short_name"`
 }
 
 type ChatPhoto struct {
@@ -208,7 +226,7 @@ type ChatPhoto struct {
 }
 
 type ChatMember struct {
-	User                  User         `json:"user"`
+	User                  *User        `json:"user"`
 	Status                MemberStatus `json:"status"`
 	UntilDate             int          `json:"until_date"`
 	IsMember              bool         `json:"is_member"`
@@ -232,8 +250,8 @@ type Sticker struct {
 	Width        int           `json:"width"`
 	Height       int           `json:"height"`
 	Thumb        *PhotoSize    `json:"thumb"`
-	Emoji        *string       `json:"emoji"`
-	SetName      *string       `json:"set_name"`
+	Emoji        string        `json:"emoji"`
+	SetName      string        `json:"set_name"`
 	MaskPosition *MaskPosition `json:"mask_position"`
 	FileSize     int           `json:"file_size"`
 }
@@ -246,25 +264,19 @@ type MaskPosition struct {
 }
 
 type StickerSet struct {
-	Name         string    `json:"name"`
-	Title        string    `json:"title"`
-	ContainsMask bool      `json:"contains_mask"`
-	Stickers     []Sticker `json:"stickers"`
-}
-
-type Animation struct {
-	MimeFile
-	Thumb    *PhotoSize `json:"thumb"`
-	FileName *string    `json:"file_name"`
+	Name         string     `json:"name"`
+	Title        string     `json:"title"`
+	ContainsMask bool       `json:"contains_mask"`
+	Stickers     []*Sticker `json:"stickers"`
 }
 
 type Game struct {
-	Title        string          `json:"title"`
-	Description  string          `json:"description"`
-	Photo        []PhotoSize     `json:"photo"`
-	Text         *string         `json:"text"`
-	TextEntities []MessageEntity `json:"text_entities"`
-	Animation    *Animation      `json:"animation"`
+	Title        string           `json:"title"`
+	Description  string           `json:"description"`
+	Photo        []*PhotoSize     `json:"photo"`
+	Text         string           `json:"text"`
+	TextEntities []*MessageEntity `json:"text_entities"`
+	Animation    *Animation       `json:"animation"`
 }
 
 type CallbackGame struct{}
@@ -277,7 +289,7 @@ type GameHighScore struct {
 
 type InlineQuery struct {
 	Id       string    `json:"id"`
-	From     User      `json:"from"`
+	From     *User     `json:"from"`
 	Location *Location `json:"location"`
 	Query    string    `json:"query"`
 	Offset   string    `json:"offset"`
@@ -285,7 +297,7 @@ type InlineQuery struct {
 
 type ChosenInlineResult struct {
 	ResultId        string    `json:"result_id"`
-	From            User      `json:"from"`
+	From            *User     `json:"from"`
 	Location        *Location `json:"location"`
 	InlineMessageId string    `json:"inline_message_id"`
 	Query           string    `json:"query"`
@@ -300,37 +312,37 @@ type Invoice struct {
 }
 
 type SuccessfulPayment struct {
-	Currency                string    `json:"currency"`
-	TotalAmount             int       `json:"total_amount"`
-	InvoicePayload          string    `json:"invoice_payload"`
-	ShippingOptionId        string    `json:"shipping_option_id"`
-	OrderInfo               OrderInfo `json:"order_info"`
-	TelegramPaymentChargeId string    `json:"telegram_payment_charge_id"`
-	ProviderPaymentChargeId string    `json:"provider_payment_charge_id"`
+	Currency                string     `json:"currency"`
+	TotalAmount             int        `json:"total_amount"`
+	InvoicePayload          string     `json:"invoice_payload"`
+	ShippingOptionId        string     `json:"shipping_option_id"`
+	OrderInfo               *OrderInfo `json:"order_info"`
+	TelegramPaymentChargeId string     `json:"telegram_payment_charge_id"`
+	ProviderPaymentChargeId string     `json:"provider_payment_charge_id"`
 }
 
 type ShippingQuery struct {
-	Id              string          `json:"id"`
-	From            User            `json:"from"`
-	InvoicePayload  string          `json:"invoice_payload"`
-	ShippingAddress ShippingAddress `json:"shipping_address"`
+	Id              string           `json:"id"`
+	From            *User            `json:"from"`
+	InvoicePayload  string           `json:"invoice_payload"`
+	ShippingAddress *ShippingAddress `json:"shipping_address"`
 }
 
 type PreCheckoutQuery struct {
-	Id               string    `json:"id"`
-	From             User      `json:"from"`
-	Currency         string    `json:"currency"`
-	TotalAmount      int       `json:"total_amount"`
-	InvoicePayload   string    `json:"invoice_payload"`
-	ShippingOptionId string    `json:"shipping_option_id"`
-	OrderInfo        OrderInfo `json:"order_info"`
+	Id               string     `json:"id"`
+	From             *User      `json:"from"`
+	Currency         string     `json:"currency"`
+	TotalAmount      int        `json:"total_amount"`
+	InvoicePayload   string     `json:"invoice_payload"`
+	ShippingOptionId string     `json:"shipping_option_id"`
+	OrderInfo        *OrderInfo `json:"order_info"`
 }
 
 type OrderInfo struct {
-	Name            string          `json:"name"`
-	PhoneNumber     string          `json:"phone_number"`
-	Email           string          `json:"email"`
-	ShippingAddress ShippingAddress `json:"shipping_address"`
+	Name            string           `json:"name"`
+	PhoneNumber     string           `json:"phone_number"`
+	Email           string           `json:"email"`
+	ShippingAddress *ShippingAddress `json:"shipping_address"`
 }
 
 type ShippingAddress struct {
@@ -343,8 +355,8 @@ type ShippingAddress struct {
 }
 
 type PassportData struct {
-	Data        []EncryptedPassportElement `json:"data"`
-	Credentials EncryptedCredentials       `json:"credentials"`
+	Data        []*EncryptedPassportElement `json:"data"`
+	Credentials *EncryptedCredentials       `json:"credentials"`
 }
 
 type EncryptedPassportElement struct {
