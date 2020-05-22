@@ -1,5 +1,7 @@
 package telegroid
 
+import "io"
+
 func isUpper(ch rune) bool {
 	return ch >= 'A' && ch <= 'Z'
 }
@@ -18,4 +20,8 @@ func toMethodName(name string) string {
 		runes[0] = toLower(runes[0])
 		return string(runes)
 	}
+}
+
+func quietlyClose(c io.Closer) {
+	_ = c.Close()
 }

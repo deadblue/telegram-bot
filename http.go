@@ -68,21 +68,34 @@ func (b *Bot) invokeApi(url string, args, result interface{}) (err error) {
 			}
 		}
 	}
-	// Send request
-	resp, err := b.hc.Do(req)
-	if err != nil {
-		return
+	// Send request with retry
+	for retry := true; retry; {
+		resp, err := b.hc.Do(req)
+		// Retry when request error
+		if err != nil {
+			continue
+		}
+		// Parse response
+		gr := _GenericResponse{}
+		err = json.NewDecoder(resp.Body).Decode(&gr)
+		quietlyClose(resp.Body)
+		// Retry when response invalid
+		if err != nil {
+			continue
+		}
+		// Handle error
+		if !gr.Ok {
+			if params := gr.Parameters; params != nil && params.RetryAfter > 0 {
+				// Sleep before retry
+				time.Sleep(time.Second * time.Duration(params.RetryAfter))
+			} else {
+				err = errors.New(gr.Description)
+				retry = false
+			}
+		} else {
+			err = json.Unmarshal(gr.Result, result)
+			retry = false
+		}
 	}
-	defer resp.Body.Close()
-	// Parse response
-	gr := _GenericResponse{}
-	err = json.NewDecoder(resp.Body).Decode(&gr)
-	if err == nil && !gr.Ok {
-		err = errors.New(gr.Description)
-	}
-	if err != nil {
-		return
-	}
-	// Parse result
-	return json.Unmarshal(gr.Result, result)
+	return
 }
