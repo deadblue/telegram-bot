@@ -70,17 +70,17 @@ func (b *Bot) invokeApi(url string, args, result interface{}) (err error) {
 	}
 	// Send request with retry
 	for retry := true; retry; {
-		resp, err := b.hc.Do(req)
+		resp, ierr := b.hc.Do(req)
 		// Retry when request error
-		if err != nil {
+		if ierr != nil {
 			continue
 		}
 		// Parse response
 		gr := _GenericResponse{}
-		err = json.NewDecoder(resp.Body).Decode(&gr)
+		ierr = json.NewDecoder(resp.Body).Decode(&gr)
 		quietlyClose(resp.Body)
 		// Retry when response invalid
-		if err != nil {
+		if ierr != nil {
 			continue
 		}
 		// Handle error
