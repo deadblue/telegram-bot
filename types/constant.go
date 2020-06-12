@@ -3,6 +3,7 @@ package types
 type ParseMode string
 
 const (
+	ModePlain      ParseMode = ""
 	ModeHtml       ParseMode = "HTML"
 	ModeMarkdown   ParseMode = "Markdown"
 	ModeMarkdownV2 ParseMode = "MarkdownV2"

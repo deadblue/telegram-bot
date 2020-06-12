@@ -8,10 +8,10 @@ type ReplyKeyboardMarkup struct {
 }
 
 type KeyboardButton struct {
-	Text            string `json:"text"`
-	RequestContact  bool   `json:"request_contact"`
-	RequestLocation bool   `json:"request_location"`
-	RequestPoll     bool   `json:"request_poll"`
+	Text            string                  `json:"text"`
+	RequestContact  bool                    `json:"request_contact"`
+	RequestLocation bool                    `json:"request_location"`
+	RequestPoll     *KeyboardButtonPollType `json:"request_poll"`
 }
 
 type KeyboardButtonPollType struct {
