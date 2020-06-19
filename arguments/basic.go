@@ -11,7 +11,7 @@ type _BasicArgs struct {
 	form *_Form
 
 	// If this function is not nil, _BasicArgs will call it
-	// at the begin in Archive() method. With this, the XxxArgs
+	// at the begin in Archive() method. Set this, the XxxArgs
 	// struct need not override Archive function to do some work.
 	beforeArchive func()
 }
