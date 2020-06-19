@@ -1,5 +1,5 @@
 .idea
 
-*_test.go
+self_test.go
 
-arguments/inline.go
+go.sum
