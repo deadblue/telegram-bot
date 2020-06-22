@@ -117,6 +117,23 @@ type Bot struct {
 	// Delete a group sticker set from a supergroup.
 	DeleteChatStickerSet func(params *parameters.ChatParams) (bool, error)
 
+	// Send static .WEBP or animated .TGS stickers.
+	SendSticker func(params *parameters.SendStickerParams) (*types.Message, error)
+	// Get a sticker set.
+	GetStickerSet func(params *parameters.GetStickerSetParams) (*types.StickerSet, error)
+	// Upload a .PNG file with a sticker for later use.
+	UploadStickerFile func(params *parameters.UploadStickerFileParams) (*types.File, error)
+	// Create a new sticker set owned by a user.
+	CreateNewStickerSet func(params *parameters.CreateNewStickerSetParams) (bool, error)
+	// Add a new sticker to a set created by the bot.
+	AddStickerToSet func(params *parameters.AddStickerToSetParams) (bool, error)
+	// Move a sticker in a set created by the bot to a specific position.
+	SetStickerPositionInSet func(params *parameters.SetStickerPositionInSetParams) (bool, error)
+	// Delete a sticker from a set created by the bot.
+	DeleteStickerFromSet func(params *parameters.DeleteStickerFromSetParams) (bool, error)
+	// Set the thumbnail of a sticker set.
+	SetStickerSetThumb func(params *parameters.SetStickerSetThumbParams) (bool, error)
+
 	// Change the list of the bot's commands.
 	SetMyCommands func(params *parameters.SetMyCommandsParams) (bool, error)
 	// Get the current list of the bot's commands.
