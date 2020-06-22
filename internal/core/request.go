@@ -1,4 +1,4 @@
-package protocol
+package core
 
 import (
 	"encoding/json"
@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-type ApiRequest interface {
+type ApiParameters interface {
 	RequestFor(url string) (req *http.Request, err error)
 }
 
@@ -20,33 +20,33 @@ type file struct {
 	data io.Reader
 }
 
-type BaseApiRequest struct {
+type BaseApiParameters struct {
 	// Values
 	values urllib.Values
 	// Files
 	files map[string]file
 }
 
-func (ar *BaseApiRequest) Set(name string, value string) {
+func (ar *BaseApiParameters) Set(name string, value string) {
 	if ar.values == nil {
 		ar.values = urllib.Values{}
 	}
 	ar.values.Set(name, value)
 }
 
-func (ar *BaseApiRequest) SetInt(name string, value int) {
+func (ar *BaseApiParameters) SetInt(name string, value int) {
 	ar.Set(name, strconv.Itoa(value))
 }
 
-func (ar *BaseApiRequest) SetInt64(name string, value int64) {
+func (ar *BaseApiParameters) SetInt64(name string, value int64) {
 	ar.Set(name, strconv.FormatInt(value, 10))
 }
 
-func (ar *BaseApiRequest) SetBool(name string, value bool) {
+func (ar *BaseApiParameters) SetBool(name string, value bool) {
 	ar.Set(name, strconv.FormatBool(value))
 }
 
-func (ar *BaseApiRequest) SetJson(name string, value interface{}) {
+func (ar *BaseApiParameters) SetJson(name string, value interface{}) {
 	if value == nil {
 		return
 	}
@@ -54,7 +54,7 @@ func (ar *BaseApiRequest) SetJson(name string, value interface{}) {
 	ar.Set(name, string(data))
 }
 
-func (ar *BaseApiRequest) SetFile(name string, filename string, size int64, data io.Reader) {
+func (ar *BaseApiParameters) SetFile(name string, filename string, size int64, data io.Reader) {
 	if ar.files == nil {
 		ar.files = make(map[string]file)
 	}
@@ -65,7 +65,7 @@ func (ar *BaseApiRequest) SetFile(name string, filename string, size int64, data
 	}
 }
 
-func (ar *BaseApiRequest) RequestFor(url string) (req *http.Request, err error) {
+func (ar *BaseApiParameters) RequestFor(url string) (req *http.Request, err error) {
 	if ar.values == nil || len(ar.values) == 0 {
 		// Make a GET request
 		req, err = http.NewRequest(http.MethodGet, url, nil)

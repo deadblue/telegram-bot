@@ -1,12 +1,12 @@
 package parameters
 
 import (
-	"github.com/deadblue/telegroid/internal/protocol"
+	"github.com/deadblue/telegroid/internal/core"
 	"github.com/deadblue/telegroid/types"
 )
 
 type SendMessageParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *SendMessageParams) ChatId(chatId int64) *SendMessageParams {
@@ -49,7 +49,7 @@ func (p *SendMessageParams) DisableNotification() *SendMessageParams {
 }
 
 type ForwardMessageParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *ForwardMessageParams) Chat(chatId int64) *ForwardMessageParams {

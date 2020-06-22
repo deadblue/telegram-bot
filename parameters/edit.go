@@ -1,12 +1,12 @@
 package parameters
 
 import (
-	"github.com/deadblue/telegroid/internal/protocol"
+	"github.com/deadblue/telegroid/internal/core"
 	"github.com/deadblue/telegroid/types"
 )
 
 type EditMessageTextParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *EditMessageTextParams) ChatMessage(chatId int64, messageId int) *EditMessageTextParams {
@@ -40,7 +40,7 @@ func (p *EditMessageTextParams) InlineKeyboard(markup *types.InlineKeyboardMarku
 }
 
 type EditMessageCaptionParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *EditMessageCaptionParams) ChatMessage(chatId int64, messageId int) *EditMessageCaptionParams {
@@ -70,7 +70,7 @@ func (p *EditMessageCaptionParams) InlineKeyboard(markup *types.InlineKeyboardMa
 }
 
 type EditMessageReplyMarkupParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *EditMessageReplyMarkupParams) ChatMessage(chatId int64, messageId int) *EditMessageReplyMarkupParams {
@@ -93,7 +93,7 @@ func (p *EditMessageReplyMarkupParams) InlineKeyboard(markup *types.InlineKeyboa
 }
 
 type StopPollParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *StopPollParams) ChatMessage(chatId int64, messageId int) *StopPollParams {

@@ -1,9 +1,11 @@
 package parameters
 
-import "github.com/deadblue/telegroid/internal/protocol"
+import (
+	"github.com/deadblue/telegroid/internal/core"
+)
 
 type AnswerCallbackQueryParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *AnswerCallbackQueryParams) CallbackQueryId(queryId string) *AnswerCallbackQueryParams {

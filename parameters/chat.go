@@ -1,9 +1,11 @@
 package parameters
 
-import "github.com/deadblue/telegroid/internal/protocol"
+import (
+	"github.com/deadblue/telegroid/internal/core"
+)
 
 type ChatParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *ChatParams) ChatId(chatId int64) *ChatParams {
@@ -16,7 +18,7 @@ func (p *ChatParams) ChannelName(name string) *ChatParams {
 }
 
 type GetChatMemberParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *GetChatMemberParams) ChatId(chatId int64) *GetChatMemberParams {
@@ -33,7 +35,7 @@ func (p *GetChatMemberParams) UserId(userId int) *GetChatMemberParams {
 }
 
 type SetChatStickerSetParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *SetChatStickerSetParams) ChatId(chatId int64) *SetChatStickerSetParams {

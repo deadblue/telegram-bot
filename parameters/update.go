@@ -1,7 +1,7 @@
 package parameters
 
 import (
-	"github.com/deadblue/telegroid/internal/protocol"
+	"github.com/deadblue/telegroid/internal/core"
 	"strings"
 )
 
@@ -80,7 +80,7 @@ func (a AllowedUpdates) Value() string {
 }
 
 type GetUpdateParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *GetUpdateParams) Offset(offset int) *GetUpdateParams {
@@ -106,7 +106,7 @@ func (p *GetUpdateParams) AllowedUpdates(updates AllowedUpdates) *GetUpdateParam
 }
 
 type SetWebhookParams struct {
-	protocol.BaseApiRequest
+	core.BaseApiParameters
 }
 
 func (p *SetWebhookParams) Url(url string) *SetWebhookParams {
