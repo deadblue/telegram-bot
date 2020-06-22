@@ -1,6 +1,9 @@
 package parameters
 
-import "time"
+import (
+	"github.com/deadblue/telegroid/types"
+	"time"
+)
 
 type ChatParams struct {
 	implApiParameters
@@ -33,31 +36,62 @@ type RestrictChatMemberParams struct {
 	KickChatMemberParams
 }
 
-// TODO
+func (p *RestrictChatMemberParams) Permissions(permission *types.ChatPermissions) {
+	p.setJson("permissions", permission)
+}
 
 type PromoteChatMemberParams struct {
 	ChatMemberParams
 }
 
-// TODO
+func (p *PromoteChatMemberParams) CanChangeInfo() {
+	p.setBool("can_change_info", true)
+}
+func (p *PromoteChatMemberParams) CanPostMessage() {
+	p.setBool("can_post_messages", true)
+}
+func (p *PromoteChatMemberParams) CanEditMessages() {
+	p.setBool("can_edit_messages", true)
+}
+func (p *PromoteChatMemberParams) CanDeleteMessages() {
+	p.setBool("can_delete_messages", true)
+}
+func (p *PromoteChatMemberParams) CanInviteUsers() {
+	p.setBool("can_invite_users", true)
+}
+func (p *PromoteChatMemberParams) CanRestrictMembers() {
+	p.setBool("can_restrict_members", true)
+}
+func (p *PromoteChatMemberParams) CanPinMessages() {
+	p.setBool("can_pin_messages", true)
+}
+func (p *PromoteChatMemberParams) CanPromoteMembers() {
+	p.setBool("can_promote_members", true)
+}
 
 type SetChatAdministratorCustomTitleParams struct {
 	ChatMemberParams
 }
 
-// TODO
+func (p *SetChatAdministratorCustomTitleParams) CustomTitle(title string) {
+	p.set("custom_title", title)
+}
 
 type SetChatPermissionsParams struct {
 	ChatParams
 }
 
-// TODO
+func (p *SetChatPermissionsParams) Permissions(permission *types.ChatPermissions) {
+	p.setJson("permissions", permission)
+}
 
 type SetChatPhotoParams struct {
 	ChatParams
 }
 
-// TODO
+func (p *SetChatPhotoParams) Photo(file *InputFile) {
+	p.setFile("photo", file)
+}
 
 type SetChatTitleParams struct {
 	ChatParams
