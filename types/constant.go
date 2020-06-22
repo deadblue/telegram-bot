@@ -9,19 +9,29 @@ const (
 	ModeMarkdownV2 ParseMode = "MarkdownV2"
 )
 
+type InputMediaType string
+
+const (
+	MediaAnimation InputMediaType = "animation"
+	MediaAudio     InputMediaType = "audio"
+	MediaDocument  InputMediaType = "document"
+	MediaPhoto     InputMediaType = "photo"
+	MediaVideo     InputMediaType = "video"
+)
+
 type InlineQueryResultType string
 
 const (
-	TypeArticle  InlineQueryResultType = "article"
-	TypePhoto    InlineQueryResultType = "photo"
-	TypeGif      InlineQueryResultType = "gif"
-	TypeMpeg4Gif InlineQueryResultType = "mpeg4_gif"
-	TypeVideo    InlineQueryResultType = "video"
-	TypeAudio    InlineQueryResultType = "audio"
-	TypeVoice    InlineQueryResultType = "voice"
-	TypeDocument InlineQueryResultType = "document"
-	TypeLocation InlineQueryResultType = "location"
-	TypeVenue    InlineQueryResultType = "venue"
-	TypeContact  InlineQueryResultType = "contact"
-	TypeGame     InlineQueryResultType = "game"
+	ResultArticle  InlineQueryResultType = "article"
+	ResultPhoto    InlineQueryResultType = "photo"
+	ResultGif      InlineQueryResultType = "gif"
+	ResultMpeg4Gif InlineQueryResultType = "mpeg4_gif"
+	ResultVideo    InlineQueryResultType = "video"
+	ResultAudio    InlineQueryResultType = "audio"
+	ResultVoice    InlineQueryResultType = "voice"
+	ResultDocument InlineQueryResultType = "document"
+	ResultLocation InlineQueryResultType = "location"
+	ResultVenue    InlineQueryResultType = "venue"
+	ResultContact  InlineQueryResultType = "contact"
+	ResultGame     InlineQueryResultType = "game"
 )

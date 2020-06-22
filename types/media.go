@@ -23,7 +23,7 @@ type Animation struct {
 type Audio struct {
 	FileId       string     `json:"file_id"`
 	FileUniqueId string     `json:"file_unique_id"`
-	Duration     string     `json:"duration"`
+	Duration     int        `json:"duration"`
 	Performer    string     `json:"performer"`
 	Title        string     `json:"title"`
 	MimeType     string     `json:"mime_type"`

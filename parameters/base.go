@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-type file struct {
+type _file struct {
 	name string
 	size int64
 	data io.Reader
@@ -20,7 +20,7 @@ type implApiParameters struct {
 	// Values
 	values urllib.Values
 	// Files
-	files map[string]file
+	files map[string]_file
 }
 
 func (ar *implApiParameters) set(name string, value string) {
@@ -42,6 +42,10 @@ func (ar *implApiParameters) setBool(name string, value bool) {
 	ar.set(name, strconv.FormatBool(value))
 }
 
+func (ar *implApiParameters) setFloat(name string, value float64) {
+	ar.set(name, strconv.FormatFloat(value, 'f', -1, 64))
+}
+
 func (ar *implApiParameters) setJson(name string, value interface{}) {
 	if value == nil {
 		return
@@ -50,14 +54,18 @@ func (ar *implApiParameters) setJson(name string, value interface{}) {
 	ar.set(name, string(data))
 }
 
-func (ar *implApiParameters) setFile(name string, filename string, size int64, data io.Reader) {
-	if ar.files == nil {
-		ar.files = make(map[string]file)
-	}
-	ar.files[name] = file{
-		name: filename,
-		size: size,
-		data: data,
+func (ar *implApiParameters) setFile(name string, file *InputFile) {
+	if file.fileIdOrUrl != "" {
+		ar.set(name, file.fileIdOrUrl)
+	} else {
+		if ar.files == nil {
+			ar.files = make(map[string]_file)
+		}
+		ar.files[name] = _file{
+			name: file.name,
+			size: file.size,
+			data: file.data,
+		}
 	}
 }
 

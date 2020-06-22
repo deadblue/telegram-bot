@@ -4,108 +4,104 @@ import (
 	"github.com/deadblue/telegroid/types"
 )
 
-type EditMessageTextParams struct {
+type DeleteMessageParams struct {
 	implApiParameters
 }
 
-func (p *EditMessageTextParams) ChatMessage(chatId int64, messageId int) *EditMessageTextParams {
+func (p *DeleteMessageParams) ChatMessage(chatId int64, messageId int) {
 	p.setInt64("chat_id", chatId)
 	p.setInt("message_id", messageId)
-	return p
 }
-func (p *EditMessageTextParams) ChannelPost(name string, messageId int) *EditMessageTextParams {
-	p.set("chat_id", "@"+name)
+func (p *DeleteMessageParams) ChannelPost(channelName string, messageId int) {
+	p.set("chat_id", "@"+channelName)
 	p.setInt("message_id", messageId)
-	return p
 }
-func (p *EditMessageTextParams) InlineMessage(messageId int) *EditMessageTextParams {
-	p.setInt("inline_message_id", messageId)
-	return p
+
+type StopPollParams struct {
+	DeleteMessageParams
 }
-func (p *EditMessageTextParams) Text(text FormattedText) *EditMessageTextParams {
+
+func (p *StopPollParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) {
+	p.setJson("reply_markup", markup)
+}
+
+type EditMessageReplyMarkupParams struct {
+	DeleteMessageParams
+}
+
+func (p *EditMessageReplyMarkupParams) InlineMessage(inlineMessageId string) {
+	p.set("inline_message_id", inlineMessageId)
+}
+
+type EditMessageTextParams struct {
+	EditMessageReplyMarkupParams
+}
+
+func (p *EditMessageTextParams) Text(text FormattedText) {
 	p.set("text", text.text)
 	if text.mode != types.ModePlain {
 		p.set("parse_mode", string(text.mode))
 	}
-	return p
 }
-func (p *EditMessageTextParams) DisableWebPagePreview() *EditMessageTextParams {
+func (p *EditMessageTextParams) DisableWebPagePreview() {
 	p.setBool("disable_web_page_preview", true)
-	return p
-}
-func (p *EditMessageTextParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) *EditMessageTextParams {
-	p.setJson("reply_markup", markup)
-	return p
 }
 
 type EditMessageCaptionParams struct {
-	implApiParameters
+	EditMessageReplyMarkupParams
 }
 
-func (p *EditMessageCaptionParams) ChatMessage(chatId int64, messageId int) *EditMessageCaptionParams {
-	p.setInt64("chat_id", chatId)
-	p.setInt("message_id", messageId)
-	return p
-}
-func (p *EditMessageCaptionParams) ChannelPost(name string, messageId int) *EditMessageCaptionParams {
-	p.set("chat_id", "@"+name)
-	p.setInt("message_id", messageId)
-	return p
-}
-func (p *EditMessageCaptionParams) InlineMessage(messageId int) *EditMessageCaptionParams {
-	p.setInt("inline_message_id", messageId)
-	return p
-}
-func (p *EditMessageCaptionParams) Caption(text FormattedText) *EditMessageCaptionParams {
+func (p *EditMessageCaptionParams) Caption(text FormattedText) {
 	p.set("caption", text.text)
 	if text.mode != types.ModePlain {
 		p.set("parse_mode", string(text.mode))
 	}
-	return p
-}
-func (p *EditMessageCaptionParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) *EditMessageCaptionParams {
-	p.setJson("reply_markup", markup)
-	return p
 }
 
-type EditMessageReplyMarkupParams struct {
-	implApiParameters
+type EditMessageMediaParams struct {
+	EditMessageReplyMarkupParams
 }
 
-func (p *EditMessageReplyMarkupParams) ChatMessage(chatId int64, messageId int) *EditMessageReplyMarkupParams {
-	p.setInt64("chat_id", chatId)
-	p.setInt("message_id", messageId)
-	return p
+func (p *EditMessageMediaParams) Animation(media *types.InputMediaAnimation) {
+	if media.Type == "" {
+		media.Type = types.MediaAnimation
+	}
+	p.setJson("media", media)
 }
-func (p *EditMessageReplyMarkupParams) ChannelPost(name string, messageId int) *EditMessageReplyMarkupParams {
-	p.set("chat_id", "@"+name)
-	p.setInt("message_id", messageId)
-	return p
+func (p *EditMessageMediaParams) Audio(media *types.InputMediaAudio) {
+	if media.Type == "" {
+		media.Type = types.MediaAudio
+	}
+	p.setJson("media", media)
 }
-func (p *EditMessageReplyMarkupParams) InlineMessage(messageId int) *EditMessageReplyMarkupParams {
-	p.setInt("inline_message_id", messageId)
-	return p
+func (p *EditMessageMediaParams) Document(media *types.InputMediaDocument) {
+	if media.Type == "" {
+		media.Type = types.MediaDocument
+	}
+	p.setJson("media", media)
 }
-func (p *EditMessageReplyMarkupParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) *EditMessageReplyMarkupParams {
-	p.setJson("reply_markup", markup)
-	return p
+func (p *EditMessageMediaParams) Photo(media *types.InputMediaPhoto) {
+	if media.Type == "" {
+		media.Type = types.MediaPhoto
+	}
+	p.setJson("media", media)
+}
+func (p *EditMessageMediaParams) Video(media *types.InputMediaVideo) {
+	if media.Type == "" {
+		media.Type = types.MediaVideo
+	}
+	p.setJson("media", media)
 }
 
-type StopPollParams struct {
-	implApiParameters
+type EditMessageLiveLocation struct {
+	EditMessageReplyMarkupParams
 }
 
-func (p *StopPollParams) ChatMessage(chatId int64, messageId int) *StopPollParams {
-	p.setInt64("chat_id", chatId)
-	p.setInt("message_id", messageId)
-	return p
+func (p *EditMessageLiveLocation) Location(latitude, longitude float64) {
+	p.setFloat("latitude", latitude)
+	p.setFloat("longitude", longitude)
 }
-func (p *StopPollParams) ChannelPost(name string, messageId int) *StopPollParams {
-	p.set("chat_id", "@"+name)
-	p.setInt("message_id", messageId)
-	return p
-}
-func (p *StopPollParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) *StopPollParams {
-	p.setJson("reply_markup", markup)
-	return p
+
+type StopMessageLiveLocation struct {
+	EditMessageReplyMarkupParams
 }
