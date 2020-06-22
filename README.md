@@ -1,14 +1,14 @@
 # Telegroid
 
-A _Telegram Bot API_ wrapper for Golang.
+A Telegram Bot API wrapper for Go.
 
-Currently supports Bot API 4.2 without some rarely-used (~~in my opinion~~) functions.
+Supported Bot API version 4.9.
 
 # Example
 
 ```Go
 import "github.com/deadblue/telegroid"
-import "github.com/deadblue/telegroid/arguments"
+import "github.com/deadblue/telegroid/parameters"
 
 // Create a bot instance
 bot := telegroid.New("your_bot_token")
@@ -20,29 +20,14 @@ if err != nil {
 }
 
 // Send markdown text message with inline keyboard
-args := new(arguments.SendMessageArgs)
+params := new(parameters.SendMessageParams)
 args.ChatId(1234)
-args.Text("Hello, *world*!").Markdown()
-args.InlineKeyboard().
-    AddUrlButton("Github", "https://github.com/deadblue/telegroid").
-    AddUrlButton("Author", "tg://resolve?domain=deadbluex").
-    AddCallbackButton("Foo", "Bar").
-    Layout(2, 1).
-    Finish()
+args.Text(parameters.MarkdownV2Text("**Hello, world**"))
 msg, err := bot.SendMessage(args)
 if err != nil {
     panic(err)
 }
-
 ```
-
-# Feature:
-
-Telegroid currently supports most of functions, **except**:
-
-* Inline mode
-
-These functions will be supported in the plan.
 
 # Reference
 
