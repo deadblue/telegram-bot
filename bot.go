@@ -121,6 +121,13 @@ type Bot struct {
 	SetMyCommands func(params *parameters.SetMyCommandsParams) (bool, error)
 	// Get the current list of the bot's commands.
 	GetMyCommands func() ([]*types.BotCommand, error)
+
+	// Send invoice.
+	SendInvoice func(params *parameters.SendInvoiceParams) (*types.Message, error)
+	// Answer the shipping_query from update.
+	AnswerShippingQuery func(params *parameters.AnswerShippingQueryParams) (bool, error)
+	// Answer the final confirmation from update.
+	AnswerPreCheckoutQuery func(params *parameters.AnswerPreCheckoutQueryParams) (bool, error)
 }
 
 /*
