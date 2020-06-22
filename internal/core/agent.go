@@ -20,7 +20,7 @@ type Agent struct {
 // Send API request, and parse the response.
 func (a *Agent) Send(url string, params, result interface{}) (err error) {
 	// Make request
-	req, err := internalMakeRequest(url, params)
+	req, err := makeRequest(url, params)
 	if err != nil {
 		return
 	}
@@ -49,23 +49,6 @@ func (a *Agent) Send(url string, params, result interface{}) (err error) {
 	// Parse response.result
 	if result != nil {
 		err = json.Unmarshal(ar.Result, result)
-	}
-	return
-}
-
-var (
-	errInvalidParams = errors.New("invalid API parameters")
-)
-
-func internalMakeRequest(url string, params interface{}) (req *http.Request, err error) {
-	if params == nil {
-		req, err = http.NewRequest(http.MethodGet, url, nil)
-	} else {
-		if ap, ok := params.(ApiParameters); ok {
-			req, err = ap.RequestFor(url)
-		} else {
-			err = errInvalidParams
-		}
 	}
 	return
 }

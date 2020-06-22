@@ -1,7 +1,6 @@
 package parameters
 
 import (
-	"github.com/deadblue/telegroid/internal/core"
 	"strings"
 )
 
@@ -80,47 +79,47 @@ func (a AllowedUpdates) Value() string {
 }
 
 type GetUpdateParams struct {
-	core.BaseApiParameters
+	implApiParameters
 }
 
 func (p *GetUpdateParams) Offset(offset int) *GetUpdateParams {
-	p.SetInt("offset", offset)
+	p.setInt("offset", offset)
 	return p
 }
 
 func (p *GetUpdateParams) Limit(limit int) *GetUpdateParams {
-	p.SetInt("limit", limit)
+	p.setInt("limit", limit)
 	return p
 }
 
 func (p *GetUpdateParams) Timeout(timeout int) *GetUpdateParams {
-	p.SetInt("timeout", timeout)
+	p.setInt("timeout", timeout)
 	return p
 }
 
 func (p *GetUpdateParams) AllowedUpdates(updates AllowedUpdates) *GetUpdateParams {
 	if updates != nil {
-		p.Set("allowed_updates", updates.Value())
+		p.set("allowed_updates", updates.Value())
 	}
 	return p
 }
 
 type SetWebhookParams struct {
-	core.BaseApiParameters
+	implApiParameters
 }
 
 func (p *SetWebhookParams) Url(url string) *SetWebhookParams {
-	p.Set("url", url)
+	p.set("url", url)
 	return p
 }
 func (p *SetWebhookParams) MaxConnections(maxConns int) *SetWebhookParams {
-	p.SetInt("max_connections", maxConns)
+	p.setInt("max_connections", maxConns)
 	return p
 }
 
 func (p *SetWebhookParams) AllowedUpdates(updates AllowedUpdates) *SetWebhookParams {
 	if updates != nil {
-		p.Set("allowed_updates", updates.Value())
+		p.set("allowed_updates", updates.Value())
 	}
 	return p
 }
