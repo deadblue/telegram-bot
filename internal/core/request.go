@@ -74,6 +74,9 @@ func (ar *BaseApiParameters) RequestFor(url string) (req *http.Request, err erro
 			// Url-encoded form
 			req, err = http.NewRequest(http.MethodPost, url,
 				strings.NewReader(ar.values.Encode()))
+			if req != nil {
+				req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+			}
 		} else {
 			// Multipart form
 			form := multipart.New()
