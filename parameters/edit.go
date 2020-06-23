@@ -26,7 +26,7 @@ func (p *StopPollParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) {
 }
 
 type EditMessageReplyMarkupParams struct {
-	DeleteMessageParams
+	StopPollParams
 }
 
 func (p *EditMessageReplyMarkupParams) InlineMessage(inlineMessageId string) {
