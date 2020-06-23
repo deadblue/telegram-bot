@@ -28,6 +28,12 @@ func (p *baseSendParams) RemoveKeyboard(seletive bool) {
 		Selective:      seletive,
 	})
 }
+func (p *baseSendParams) ReplyKeyboard(markup *types.ReplyKeyboardMarkup) {
+	p.setJson("reply_markup", markup)
+}
+func (p *baseSendParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) {
+	p.setJson("reply_markup", markup)
+}
 
 // Parameters holder for sending text message.
 type SendMessageParams struct {
