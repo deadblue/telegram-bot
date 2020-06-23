@@ -6,8 +6,8 @@ type SendInvoiceParams struct {
 	implApiParameters
 }
 
-func (p *SendInvoiceParams) ChatId(chatId int) {
-	p.setInt("chat_id", chatId)
+func (p *SendInvoiceParams) ChatId(chatId int64) {
+	p.setInt64("chat_id", chatId)
 }
 func (p *SendInvoiceParams) Product(title, description string) {
 	p.set("title", title)

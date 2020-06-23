@@ -4,23 +4,16 @@ type AnswerCallbackQueryParams struct {
 	implApiParameters
 }
 
-func (p *AnswerCallbackQueryParams) CallbackQueryId(queryId string) *AnswerCallbackQueryParams {
+func (p *AnswerCallbackQueryParams) QueryId(queryId string) {
 	p.set("callback_query_id", queryId)
-	return p
 }
-func (p *AnswerCallbackQueryParams) Text(text string) *AnswerCallbackQueryParams {
+func (p *AnswerCallbackQueryParams) Notification(text string, alert bool) {
 	p.set("text", text)
-	return p
+	p.setBool("show_alert", alert)
 }
-func (p *AnswerCallbackQueryParams) Url(url string) *AnswerCallbackQueryParams {
+func (p *AnswerCallbackQueryParams) Url(url string) {
 	p.set("url", url)
-	return p
 }
-func (p *AnswerCallbackQueryParams) CacheTime(seconds int) *AnswerCallbackQueryParams {
+func (p *AnswerCallbackQueryParams) CacheTime(seconds int) {
 	p.setInt("cache_time", seconds)
-	return p
-}
-func (p *AnswerCallbackQueryParams) ShowAlert() *AnswerCallbackQueryParams {
-	p.setBool("show_alert", true)
-	return p
 }

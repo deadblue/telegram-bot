@@ -19,7 +19,7 @@ type WebhookInfo struct {
 	Url                  string   `json:"url"`
 	HasCustomCertificate bool     `json:"has_custom_certificate"`
 	PendingUpdateCount   int      `json:"pending_update_count"`
-	LastErrorDate        int      `json:"last_error_date"`
+	LastErrorDate        int64    `json:"last_error_date"`
 	LastErrorMessage     string   `json:"last_error_message"`
 	MaxConnections       int      `json:"max_connections"`
 	AllowedUpdates       []string `json:"allowed_updates"`
@@ -28,7 +28,7 @@ type WebhookInfo struct {
 type File struct {
 	FileId       string `json:"file_id"`
 	FileUniqueId string `json:"file_unique_id"`
-	FileSize     int    `json:"file_size"`
+	FileSize     int64  `json:"file_size"`
 	FilePath     string `json:"file_path"`
 }
 

@@ -29,8 +29,8 @@ type EditMessageReplyMarkupParams struct {
 	StopPollParams
 }
 
-func (p *EditMessageReplyMarkupParams) InlineMessage(inlineMessageId string) {
-	p.set("inline_message_id", inlineMessageId)
+func (p *EditMessageReplyMarkupParams) InlineMessage(messageId string) {
+	p.set("inline_message_id", messageId)
 }
 
 type EditMessageTextParams struct {

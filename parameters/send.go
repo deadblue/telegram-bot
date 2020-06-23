@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-// Base struct for all send operation parameters.
 type baseSendParams struct {
 	ChatParams
 }
@@ -35,7 +34,6 @@ func (p *baseSendParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) {
 	p.setJson("reply_markup", markup)
 }
 
-// Parameters holder for sending text message.
 type SendMessageParams struct {
 	baseSendParams
 }
@@ -50,7 +48,6 @@ func (p *SendMessageParams) DisableWebPagePreview() {
 	p.setBool("disable_web_page_preview", true)
 }
 
-// Base parameters holder for sending media message.
 type baseSendMediaParams struct {
 	baseSendParams
 }
@@ -180,6 +177,25 @@ func (p *SendLocationParams) LivePeriod(period int) {
 	if period >= 60 && period <= 86400 {
 		p.setInt("live_period", period)
 	}
+}
+
+type SendVenueParams struct {
+	baseSendParams
+}
+
+func (p *SendVenueParams) Location(latitude, longitude float64) {
+	p.setFloat("latitude", latitude)
+	p.setFloat("longitude", longitude)
+}
+func (p *SendVenueParams) Title(title string) {
+	p.set("title", title)
+}
+func (p *SendVenueParams) Address(address string) {
+	p.set("address", address)
+}
+func (p *SendVenueParams) Foursquare(fsId, fsType string) {
+	p.set("foursquare_id", fsId)
+	p.set("foursquare_type", fsType)
 }
 
 type SendContactParams struct {

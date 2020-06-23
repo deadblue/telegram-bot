@@ -7,8 +7,22 @@ import (
 
 // Telegram Bot API wrapper
 type Bot struct {
+
 	// Get basic information about the bot.
 	GetMe func() (*types.User, error)
+	// Change the list of the bot's commands.
+	SetMyCommands func(params *parameters.SetMyCommandsParams) (bool, error)
+	// Get the current list of the bot's commands.
+	GetMyCommands func() ([]*types.BotCommand, error)
+
+	// Receive incoming updates using long polling.
+	GetUpdate func(params *parameters.GetUpdateParams) ([]*types.Update, error)
+	// Specify a url and receive incoming updates via an outgoing webhook.
+	SetWebhook func(params *parameters.SetWebhookParams) (bool, error)
+	// Remove webhook integration.
+	DeleteWebhook func() (bool, error)
+	// Get current webhook status.
+	GetWebhookInfo func() (*types.WebhookInfo, error)
 
 	// Send text message.
 	SendMessage func(params *parameters.SendMessageParams) (*types.Message, error)
@@ -26,10 +40,11 @@ type Bot struct {
 	SendVoice func(params *parameters.SendVoiceParams) (*types.Message, error)
 	// Send rounded square mp4 video message, up to 1 minute long.
 	SendVideoNote func(params *parameters.SendVideoNoteParams) (*types.Message, error)
-	// TODO: SendMediaGroup
+	// TODO: SendMediaGroup()
 	// Send point on the map.
 	SendLocation func(params *parameters.SendLocationParams) (*types.Message, error)
-	// TODO: SendVenue
+	// Send information about a venue.
+	SendVenue func(params *parameters.SendVenueParams) (*types.Message, error)
 	// Send phone contacts.
 	SendContact func(params *parameters.SendContactParams) (*types.Message, error)
 	// Send a native poll.
@@ -47,34 +62,22 @@ type Bot struct {
 	GetFile func(params *parameters.FileParams) (*types.File, error)
 
 	// Edit text and game messages.
-	EditMessageText func(params *parameters.EditMessageTextParams) (bool, error)
+	EditMessageText func(params *parameters.EditMessageTextParams) (*types.EditMessageResult, error)
 	// Edit captions of messages.
-	EditMessageCaption func(params *parameters.EditMessageCaptionParams) (bool, error)
+	EditMessageCaption func(params *parameters.EditMessageCaptionParams) (*types.EditMessageResult, error)
 	// Edit animation, audio, document, photo, or video messages.
-	EditMessageMedia func(params *parameters.EditMessageMediaParams) (bool, error)
+	EditMessageMedia func(params *parameters.EditMessageMediaParams) (*types.EditMessageResult, error)
 	// Edit only the reply markup of messages.
-	EditMessageReplyMarkup func(params *parameters.EditMessageReplyMarkupParams) (bool, error)
-	// Edit text and game message which was sent by the bot.
-	EditMyMessageText func(params *parameters.EditMessageTextParams) (*types.Message, error) `method:"editMessageText"`
-	// Edit captions of message which was sent by the bot.
-	EditMyMessageCaption func(params *parameters.EditMessageCaptionParams) (*types.Message, error) `method:"editMessageCaption"`
-	// Edit animation, audio, document, photo, or video message which was sent by the bot.
-	EditMyMessageMedia func(params *parameters.EditMessageMediaParams) (*types.Message, error) `method:"editMessageMedia"`
-	// Edit only the reply markup of message  which was sent by the bot.
-	EditMyMessageReplyMarkup func(params *parameters.EditMessageReplyMarkupParams) (*types.Message, error) `method:"editMessageReplyMarkup"`
+	EditMessageReplyMarkup func(params *parameters.EditMessageReplyMarkupParams) (*types.EditMessageResult, error)
 	// Stop a poll which was sent by the bot.
 	StopPoll func(params *parameters.StopPollParams) (*types.Poll, error)
 	// Delete a message, including service messages.
 	DeleteMessage func(params *parameters.DeleteMessageParams) (bool, error)
 
 	// Edit live location message.
-	EditMessageLiveLocation func(params *parameters.EditMessageLiveLocation) (bool, error)
+	EditMessageLiveLocation func(params *parameters.EditMessageLiveLocation) (*types.EditMessageResult, error)
 	// Stop updating a live location message before it expires.
-	StopMessageLiveLocation func(params *parameters.StopMessageLiveLocation) (bool, error)
-	// Edit live location message.
-	EditMyMessageLiveLocation func(params *parameters.EditMessageLiveLocation) (*types.Message, error) `method:"editMessageLiveLocation"`
-	// Stop updating a live location message before it expires.
-	StopMyMessageLiveLocation func(params *parameters.StopMessageLiveLocation) (*types.Message, error) `method:"stopMessageLiveLocation"`
+	StopMessageLiveLocation func(params *parameters.StopMessageLiveLocation) (*types.EditMessageResult, error)
 
 	// Kick a user from a group, a supergroup or a channel.
 	KickChatMember func(params *parameters.KickChatMemberParams) (bool, error)
@@ -117,6 +120,9 @@ type Bot struct {
 	// Delete a group sticker set from a supergroup.
 	DeleteChatStickerSet func(params *parameters.ChatParams) (bool, error)
 
+	// Send answers to callback queries sent from inline keyboards.
+	AnswerCallbackQuery func(params *parameters.AnswerCallbackQueryParams) (bool, error)
+
 	// Send static .WEBP or animated .TGS stickers.
 	SendSticker func(params *parameters.SendStickerParams) (*types.Message, error)
 	// Get a sticker set.
@@ -134,10 +140,14 @@ type Bot struct {
 	// Set the thumbnail of a sticker set.
 	SetStickerSetThumb func(params *parameters.SetStickerSetThumbParams) (bool, error)
 
-	// Change the list of the bot's commands.
-	SetMyCommands func(params *parameters.SetMyCommandsParams) (bool, error)
-	// Get the current list of the bot's commands.
-	GetMyCommands func() ([]*types.BotCommand, error)
+	// Send a game
+	SendGame func(params *parameters.SendGameParams) (*types.Message, error)
+	// Set the score of the specified user in a game.
+	SetGameScore func(params *parameters.SetGameScoreParams) (*types.EditMessageResult, error)
+	// Get data for high score tables.
+	GetGameHighScores func(params *parameters.GetGameHighScoresParams) ([]*types.GameHighScore, error)
+
+	// TODO: AnswerInlineQuery()
 
 	// Send invoice.
 	SendInvoice func(params *parameters.SendInvoiceParams) (*types.Message, error)
@@ -145,6 +155,8 @@ type Bot struct {
 	AnswerShippingQuery func(params *parameters.AnswerShippingQueryParams) (bool, error)
 	// Answer the final confirmation from update.
 	AnswerPreCheckoutQuery func(params *parameters.AnswerPreCheckoutQueryParams) (bool, error)
+
+	// TODO: SetPassportDataErrors()
 }
 
 /*
