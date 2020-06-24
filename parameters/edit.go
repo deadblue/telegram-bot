@@ -46,9 +46,9 @@ type EditMessageTextParams struct {
 }
 
 func (p *EditMessageTextParams) Text(text FormattedText) {
-	p.set("text", text.text)
-	if text.mode != types.ModePlain {
-		p.set("parse_mode", string(text.mode))
+	p.set("text", text.String())
+	if mode := text.Mode(); mode != types.ModePlain {
+		p.set("parse_mode", string(mode))
 	}
 }
 func (p *EditMessageTextParams) DisableWebPagePreview() {
@@ -62,9 +62,9 @@ type EditMessageCaptionParams struct {
 }
 
 func (p *EditMessageCaptionParams) Caption(text FormattedText) {
-	p.set("caption", text.text)
-	if text.mode != types.ModePlain {
-		p.set("parse_mode", string(text.mode))
+	p.set("caption", text.String())
+	if mode := text.Mode(); mode != types.ModePlain {
+		p.set("parse_mode", string(mode))
 	}
 }
 
@@ -79,9 +79,11 @@ func (p *EditMessageMediaParams) Photo(photo *InputPhoto) {
 		return
 	}
 	info := &types.InputMediaPhoto{
-		Type:      types.MediaPhoto,
-		Caption:   photo.caption.text,
-		ParseMode: photo.caption.mode,
+		Type: types.MediaPhoto,
+	}
+	if caption := photo.caption; caption != nil {
+		info.Caption = caption.String()
+		info.ParseMode = caption.Mode()
 	}
 	if photo.media.fileIdOrUrl != "" {
 		info.Media = photo.media.fileIdOrUrl
@@ -99,12 +101,14 @@ func (p *EditMessageMediaParams) Video(video *InputVideo) {
 	}
 	info := &types.InputMediaVideo{
 		Type:              types.MediaVideo,
-		Caption:           video.caption.text,
-		ParseMode:         video.caption.mode,
 		Width:             video.width,
 		Height:            video.height,
 		Duration:          video.duration,
 		SupportsStreaming: video.supportsStreaming,
+	}
+	if caption := video.caption; caption != nil {
+		info.Caption = caption.String()
+		info.ParseMode = caption.Mode()
 	}
 	if video.media.fileIdOrUrl != "" {
 		info.Media = video.media.fileIdOrUrl
@@ -130,12 +134,14 @@ func (p *EditMessageMediaParams) Animation(animation *InputAnimation) {
 		return
 	}
 	info := &types.InputMediaAnimation{
-		Type:      types.MediaAnimation,
-		Caption:   animation.caption.text,
-		ParseMode: animation.caption.mode,
-		Width:     animation.width,
-		Height:    animation.height,
-		Duration:  animation.duration,
+		Type:     types.MediaAnimation,
+		Width:    animation.width,
+		Height:   animation.height,
+		Duration: animation.duration,
+	}
+	if caption := animation.caption; caption != nil {
+		info.Caption = caption.String()
+		info.ParseMode = caption.Mode()
 	}
 	if animation.media.fileIdOrUrl != "" {
 		info.Media = animation.media.fileIdOrUrl
@@ -162,11 +168,13 @@ func (p *EditMessageMediaParams) Audio(audio *InputAudio) {
 	}
 	info := &types.InputMediaAudio{
 		Type:      types.MediaAudio,
-		Caption:   audio.caption.text,
-		ParseMode: audio.caption.mode,
 		Duration:  audio.duration,
 		Performer: audio.performer,
 		Title:     audio.title,
+	}
+	if caption := audio.caption; caption != nil {
+		info.Caption = caption.String()
+		info.ParseMode = caption.Mode()
 	}
 	if audio.media.fileIdOrUrl != "" {
 		info.Media = audio.media.fileIdOrUrl
@@ -192,9 +200,11 @@ func (p *EditMessageMediaParams) Document(document *InputDocument) {
 		return
 	}
 	info := &types.InputMediaDocument{
-		Type:      types.MediaDocument,
-		Caption:   document.caption.text,
-		ParseMode: document.caption.mode,
+		Type: types.MediaDocument,
+	}
+	if caption := document.caption; caption != nil {
+		info.Caption = caption.String()
+		info.ParseMode = caption.Mode()
 	}
 	if document.media.fileIdOrUrl != "" {
 		info.Media = document.media.fileIdOrUrl

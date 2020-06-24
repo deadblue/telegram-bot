@@ -1,36 +1,47 @@
 package parameters
 
-import "github.com/deadblue/telegroid/types"
+import (
+	"fmt"
+	"github.com/deadblue/telegroid/types"
+)
 
-type FormattedText struct {
-	text string
-	mode types.ParseMode
+type FormattedText interface {
+	fmt.Stringer
+	Mode() types.ParseMode
 }
 
-func PlainText(text string) FormattedText {
-	return FormattedText{
-		text: text,
-		mode: types.ModePlain,
-	}
+type PlainText string
+
+func (t PlainText) String() string {
+	return string(t)
+}
+func (t PlainText) Mode() types.ParseMode {
+	return types.ModePlain
 }
 
-func HTMLText(text string) FormattedText {
-	return FormattedText{
-		text: text,
-		mode: types.ModeHtml,
-	}
+type HTMLText string
+
+func (t HTMLText) String() string {
+	return string(t)
+}
+func (t HTMLText) Mode() types.ParseMode {
+	return types.ModeHtml
 }
 
-func MarkdownText(text string) FormattedText {
-	return FormattedText{
-		text: text,
-		mode: types.ModeMarkdown,
-	}
+type MarkdownText string
+
+func (t MarkdownText) String() string {
+	return string(t)
+}
+func (t MarkdownText) Mode() types.ParseMode {
+	return types.ModeMarkdown
 }
 
-func MarkdownV2Text(text string) FormattedText {
-	return FormattedText{
-		text: text,
-		mode: types.ModeMarkdownV2,
-	}
+type MarkdownV2Text string
+
+func (t MarkdownV2Text) String() string {
+	return string(t)
+}
+func (t MarkdownV2Text) Mode() types.ParseMode {
+	return types.ModeMarkdownV2
 }

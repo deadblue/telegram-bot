@@ -42,9 +42,9 @@ type SendMessageParams struct {
 }
 
 func (p *SendMessageParams) Text(text FormattedText) {
-	p.set("text", text.text)
-	if text.mode != types.ModePlain {
-		p.set("parse_mode", string(text.mode))
+	p.set("text", text.String())
+	if mode := text.Mode(); mode != types.ModePlain {
+		p.set("parse_mode", string(mode))
 	}
 }
 func (p *SendMessageParams) DisableWebPagePreview() {
@@ -56,9 +56,9 @@ type baseSendMediaParams struct {
 }
 
 func (p *baseSendMediaParams) Caption(text FormattedText) {
-	p.set("caption", text.text)
-	if text.mode != types.ModePlain {
-		p.set("parse_mode", string(text.mode))
+	p.set("caption", text.String())
+	if mode := text.Mode(); mode != types.ModePlain {
+		p.set("parse_mode", string(mode))
 	}
 }
 
@@ -201,9 +201,11 @@ func (p *SendMediaGroupParams) Media(media ...InputMedia) {
 		case *InputPhoto:
 			if photo := item.(*InputPhoto); photo.media != nil {
 				info := &types.InputMediaPhoto{
-					Type:      types.MediaPhoto,
-					Caption:   photo.caption.text,
-					ParseMode: photo.caption.mode,
+					Type: types.MediaPhoto,
+				}
+				if caption := photo.caption; caption != nil {
+					info.Caption = caption.String()
+					info.ParseMode = caption.Mode()
 				}
 				if photo.media.fileIdOrUrl != "" {
 					info.Media = photo.media.fileIdOrUrl
@@ -218,12 +220,14 @@ func (p *SendMediaGroupParams) Media(media ...InputMedia) {
 			if video := item.(*InputVideo); video.media != nil {
 				info := &types.InputMediaVideo{
 					Type:              types.MediaVideo,
-					Caption:           video.caption.text,
-					ParseMode:         video.caption.mode,
 					Width:             video.width,
 					Height:            video.height,
 					Duration:          video.duration,
 					SupportsStreaming: video.supportsStreaming,
+				}
+				if caption := video.caption; caption != nil {
+					info.Caption = caption.String()
+					info.ParseMode = caption.Mode()
 				}
 				if video.media.fileIdOrUrl != "" {
 					info.Media = video.media.fileIdOrUrl
@@ -328,10 +332,13 @@ func (p *SendPollParams) AllowsMultipleAnswers() {
 func (p *SendPollParams) QuizMode(correctOptionId int, explanation FormattedText) {
 	p.set("type", "quiz")
 	p.setInt("correct_option_id", correctOptionId)
-	p.set("explanation", explanation.text)
-	if explanation.mode != types.ModePlain {
-		p.set("explanation_parse_mode", string(explanation.mode))
+	if explanation != nil {
+		p.set("explanation", explanation.String())
+		if mode := explanation.Mode(); mode != types.ModePlain {
+			p.set("explanation_parse_mode", string(mode))
+		}
 	}
+
 }
 func (p *SendPollParams) OpenPeriod(period int) {
 	if period >= 5 && period <= 600 {
