@@ -148,7 +148,8 @@ type Bot struct {
 	// Get data for high score tables.
 	GetGameHighScores func(params *parameters.GetGameHighScoresParams) ([]*types.GameHighScore, error)
 
-	// TODO: AnswerInlineQuery()
+	// Send answers to an inline query.
+	AnswerInlineQuery func(params *parameters.AnswerInlineQueryParams) (bool, error)
 
 	// Send invoice.
 	SendInvoice func(params *parameters.SendInvoiceParams) (*types.Message, error)
@@ -156,8 +157,6 @@ type Bot struct {
 	AnswerShippingQuery func(params *parameters.AnswerShippingQueryParams) (bool, error)
 	// Answer the final confirmation from update.
 	AnswerPreCheckoutQuery func(params *parameters.AnswerPreCheckoutQueryParams) (bool, error)
-
-	// TODO: SetPassportDataErrors()
 }
 
 /*
