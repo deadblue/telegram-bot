@@ -24,6 +24,7 @@ func (a *Agent) Send(url string, params, result interface{}) (err error) {
 	if err != nil {
 		return
 	}
+	req.Header.Set("User-Agent", UserAgent)
 	// Wait for CD
 	if cdTime, now := atomic.LoadInt64(a.cdTime), time.Now().Unix(); cdTime > now {
 		time.Sleep(time.Duration(cdTime-now) * time.Second)
