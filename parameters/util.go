@@ -6,9 +6,13 @@ import (
 	"io"
 )
 
+const schemeAttach = "attach://"
+
 // Generate a random name for attachment.
-func randomAttachName() string {
+func randomAttachNameAndUri() (name string, uri string) {
 	buf := make([]byte, 10)
 	_, _ = io.ReadFull(rand.Reader, buf)
-	return hex.EncodeToString(buf)
+	name = hex.EncodeToString(buf)
+	uri = schemeAttach + name
+	return
 }

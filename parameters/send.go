@@ -35,7 +35,7 @@ func (p *baseSendParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) {
 	p.setJson("reply_markup", markup)
 }
 
-// Parameters for sendMessage.
+// Parameters for sendMessage method.
 // Reference: https://core.telegram.org/bots/api#sendmessage
 type SendMessageParams struct {
 	baseSendParams
@@ -62,7 +62,7 @@ func (p *baseSendMediaParams) Caption(text FormattedText) {
 	}
 }
 
-// Parameters for sendPhoto.
+// Parameters for sendPhoto method.
 // Reference: https://core.telegram.org/bots/api#sendphoto
 type SendPhotoParams struct {
 	baseSendMediaParams
@@ -72,7 +72,7 @@ func (p *SendPhotoParams) Photo(file *InputFile) {
 	p.setFile("photo", file)
 }
 
-// Parameters for sendAudio.
+// Parameters for sendAudio method.
 // Reference: https://core.telegram.org/bots/api#sendaudio
 type SendAudioParams struct {
 	baseSendMediaParams
@@ -94,7 +94,7 @@ func (p *SendAudioParams) Thumb(file *InputFile) {
 	p.setFile("thumb", file)
 }
 
-// Parameters for sendDocument.
+// Parameters for sendDocument method.
 // Reference: https://core.telegram.org/bots/api#senddocument
 type SendDocumentParams struct {
 	baseSendMediaParams
@@ -107,7 +107,7 @@ func (p *SendDocumentParams) Thumb(file *InputFile) {
 	p.setFile("thumb", file)
 }
 
-// Parameters for sendVideo.
+// Parameters for sendVideo method.
 // Reference: https://core.telegram.org/bots/api#sendvideo
 type SendVideoParams struct {
 	baseSendMediaParams
@@ -130,7 +130,7 @@ func (p *SendVideoParams) SupportsStreaming() {
 	p.setBool("supports_streaming", true)
 }
 
-// Parameters for sendAnimation.
+// Parameters for sendAnimation method.
 // Reference: https://core.telegram.org/bots/api#sendanimation
 type SendAnimationParams struct {
 	baseSendMediaParams
@@ -150,7 +150,7 @@ func (p *SendAnimationParams) Thumb(file *InputFile) {
 	p.setFile("thumb", file)
 }
 
-// Parameters for sendVoice.
+// Parameters for sendVoice method.
 // Reference: https://core.telegram.org/bots/api#sendvoice
 type SendVoiceParams struct {
 	baseSendMediaParams
@@ -163,7 +163,7 @@ func (p *SendVoiceParams) Duration(duration int) {
 	p.setInt("duration", duration)
 }
 
-// Parameters for sendVideoNote.
+// Parameters for sendVideoNote method.
 // Reference: https://core.telegram.org/bots/api#sendvideonote
 type SendVideoNoteParams struct {
 	baseSendMediaParams
@@ -182,7 +182,7 @@ func (p *SendVideoNoteParams) Thumb(file *InputFile) {
 	p.setFile("thumb", file)
 }
 
-// Parameters for sendMediaGroup
+// Parameters for sendMediaGroup method method.
 // Reference: https://core.telegram.org/bots/api#sendmediagroup
 type SendMediaGroupParams struct {
 	ChatParams
@@ -208,8 +208,9 @@ func (p *SendMediaGroupParams) Media(media ...InputMedia) {
 				if photo.media.fileIdOrUrl != "" {
 					info.Media = photo.media.fileIdOrUrl
 				} else {
-					info.Media = randomAttachName()
-					files[info.Media] = photo.media
+					name, uri := randomAttachNameAndUri()
+					files[name] = photo.media
+					info.Media = uri
 				}
 				infos = append(infos, info)
 			}
@@ -227,15 +228,17 @@ func (p *SendMediaGroupParams) Media(media ...InputMedia) {
 				if video.media.fileIdOrUrl != "" {
 					info.Media = video.media.fileIdOrUrl
 				} else {
-					info.Media = randomAttachName()
-					files[info.Media] = video.media
+					name, uri := randomAttachNameAndUri()
+					files[name] = video.media
+					info.Media = uri
 				}
 				if video.thumb != nil {
 					if video.thumb.fileIdOrUrl != "" {
 						info.Thumb = video.thumb.fileIdOrUrl
 					} else {
-						info.Thumb = randomAttachName()
-						files[info.Thumb] = video.thumb
+						name, uri := randomAttachNameAndUri()
+						files[name] = video.thumb
+						info.Thumb = uri
 					}
 				}
 				infos = append(infos, info)
@@ -250,7 +253,7 @@ func (p *SendMediaGroupParams) Media(media ...InputMedia) {
 	}
 }
 
-// Parameters for sendLocation.
+// Parameters for sendLocation method.
 // Reference: https://core.telegram.org/bots/api#sendlocation
 type SendLocationParams struct {
 	baseSendParams
@@ -266,7 +269,7 @@ func (p *SendLocationParams) LivePeriod(period int) {
 	}
 }
 
-// Parameters for sendVenue.
+// Parameters for sendVenue method.
 // Reference: https://core.telegram.org/bots/api#sendvenue
 type SendVenueParams struct {
 	baseSendParams
@@ -287,7 +290,7 @@ func (p *SendVenueParams) Foursquare(fsId, fsType string) {
 	p.set("foursquare_type", fsType)
 }
 
-// Parameters for sendContact.
+// Parameters for sendContact method.
 // Reference: https://core.telegram.org/bots/api#sendcontact
 type SendContactParams struct {
 	baseSendParams
@@ -306,7 +309,7 @@ func (p *SendContactParams) Vcard(vcard string) {
 	p.set("vcard", vcard)
 }
 
-// Parameters for sendPoll.
+// Parameters for sendPoll method.
 // Reference: https://core.telegram.org/bots/api#sendpoll
 type SendPollParams struct {
 	baseSendParams
@@ -342,7 +345,7 @@ func (p *SendPollParams) Closed() {
 	p.setBool("is_closed", true)
 }
 
-// Parameters for sendDice
+// Parameters for sendDice method.
 // Reference: https://core.telegram.org/bots/api#senddice
 type SendDiceParams struct {
 	baseSendParams
@@ -358,7 +361,7 @@ func (p *SendDiceParams) Basketball() {
 	p.set("emoji", "🏀")
 }
 
-// Parameters for forwardMessage.
+// Parameters for forwardMessage method.
 // Reference: https://core.telegram.org/bots/api#forwardmessage
 type ForwardMessageParams struct {
 	ChatParams

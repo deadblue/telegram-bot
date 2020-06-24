@@ -4,7 +4,7 @@ import (
 	"github.com/deadblue/telegroid/types"
 )
 
-// Parameters for deleteMessage.
+// Parameters for deleteMessage method.
 // Reference: https://core.telegram.org/bots/api#deletemessage
 type DeleteMessageParams struct {
 	implApiParameters
@@ -19,7 +19,7 @@ func (p *DeleteMessageParams) ChannelPost(channelName string, messageId int) {
 	p.setInt("message_id", messageId)
 }
 
-// Parameters for stopPoll.
+// Parameters for stopPoll method.
 // Reference: https://core.telegram.org/bots/api#stoppoll
 type StopPollParams struct {
 	DeleteMessageParams
@@ -29,7 +29,7 @@ func (p *StopPollParams) InlineKeyboard(markup *types.InlineKeyboardMarkup) {
 	p.setJson("reply_markup", markup)
 }
 
-// Parameters for editMessageReplyMarkup.
+// Parameters for editMessageReplyMarkup method.
 // Reference: https://core.telegram.org/bots/api#editmessagereplymarkup
 type EditMessageReplyMarkupParams struct {
 	StopPollParams
@@ -39,7 +39,7 @@ func (p *EditMessageReplyMarkupParams) InlineMessage(messageId string) {
 	p.set("inline_message_id", messageId)
 }
 
-// Parameters for editMessageText.
+// Parameters for editMessageText method.
 // Reference: https://core.telegram.org/bots/api#editmessagetext
 type EditMessageTextParams struct {
 	EditMessageReplyMarkupParams
@@ -55,7 +55,7 @@ func (p *EditMessageTextParams) DisableWebPagePreview() {
 	p.setBool("disable_web_page_preview", true)
 }
 
-// Parameters for editMessageCaption.
+// Parameters for editMessageCaption method.
 // Reference: https://core.telegram.org/bots/api#editmessagecaption
 type EditMessageCaptionParams struct {
 	EditMessageReplyMarkupParams
@@ -68,7 +68,7 @@ func (p *EditMessageCaptionParams) Caption(text FormattedText) {
 	}
 }
 
-// Parameters for editMessageMedia.
+// Parameters for editMessageMedia method.
 // Reference: https://core.telegram.org/bots/api#editmessagemedia
 type EditMessageMediaParams struct {
 	EditMessageReplyMarkupParams
@@ -86,8 +86,9 @@ func (p *EditMessageMediaParams) Photo(photo *InputPhoto) {
 	if photo.media.fileIdOrUrl != "" {
 		info.Media = photo.media.fileIdOrUrl
 	} else {
-		info.Media = randomAttachName()
-		p.setFile(info.Media, photo.media)
+		name, uri := randomAttachNameAndUri()
+		p.setFile(name, photo.media)
+		info.Media = uri
 	}
 	p.setJson("media", info)
 }
@@ -108,15 +109,17 @@ func (p *EditMessageMediaParams) Video(video *InputVideo) {
 	if video.media.fileIdOrUrl != "" {
 		info.Media = video.media.fileIdOrUrl
 	} else {
-		info.Media = randomAttachName()
-		p.setFile(info.Media, video.media)
+		name, uri := randomAttachNameAndUri()
+		p.setFile(name, video.media)
+		info.Media = uri
 	}
 	if video.thumb != nil {
 		if video.thumb.fileIdOrUrl != "" {
 			info.Thumb = video.thumb.fileIdOrUrl
 		} else {
-			info.Thumb = randomAttachName()
-			p.setFile(info.Thumb, video.thumb)
+			name, uri := randomAttachNameAndUri()
+			p.setFile(name, video.thumb)
+			info.Thumb = uri
 		}
 	}
 	p.setJson("media", info)
@@ -137,15 +140,17 @@ func (p *EditMessageMediaParams) Animation(animation *InputAnimation) {
 	if animation.media.fileIdOrUrl != "" {
 		info.Media = animation.media.fileIdOrUrl
 	} else {
-		info.Media = randomAttachName()
-		p.setFile(info.Media, animation.media)
+		name, uri := randomAttachNameAndUri()
+		p.setFile(name, animation.media)
+		info.Media = uri
 	}
 	if animation.thumb != nil {
 		if animation.thumb.fileIdOrUrl != "" {
 			info.Thumb = animation.thumb.fileIdOrUrl
 		} else {
-			info.Thumb = randomAttachName()
-			p.setFile(info.Thumb, animation.thumb)
+			name, uri := randomAttachNameAndUri()
+			p.setFile(name, animation.thumb)
+			info.Thumb = uri
 		}
 	}
 	p.setJson("media", info)
@@ -166,15 +171,17 @@ func (p *EditMessageMediaParams) Audio(audio *InputAudio) {
 	if audio.media.fileIdOrUrl != "" {
 		info.Media = audio.media.fileIdOrUrl
 	} else {
-		info.Media = randomAttachName()
-		p.setFile(info.Media, audio.media)
+		name, uri := randomAttachNameAndUri()
+		p.setFile(name, audio.media)
+		info.Media = uri
 	}
 	if audio.thumb != nil {
 		if audio.thumb.fileIdOrUrl != "" {
 			info.Thumb = audio.thumb.fileIdOrUrl
 		} else {
-			info.Thumb = randomAttachName()
-			p.setFile(info.Thumb, audio.thumb)
+			name, uri := randomAttachNameAndUri()
+			p.setFile(name, audio.thumb)
+			info.Thumb = uri
 		}
 	}
 	p.setJson("media", info)
@@ -192,21 +199,23 @@ func (p *EditMessageMediaParams) Document(document *InputDocument) {
 	if document.media.fileIdOrUrl != "" {
 		info.Media = document.media.fileIdOrUrl
 	} else {
-		info.Media = randomAttachName()
-		p.setFile(info.Media, document.media)
+		name, uri := randomAttachNameAndUri()
+		p.setFile(name, document.media)
+		info.Media = uri
 	}
 	if document.thumb != nil {
 		if document.thumb.fileIdOrUrl != "" {
 			info.Thumb = document.thumb.fileIdOrUrl
 		} else {
-			info.Thumb = randomAttachName()
-			p.setFile(info.Thumb, document.thumb)
+			name, uri := randomAttachNameAndUri()
+			p.setFile(name, document.thumb)
+			info.Thumb = uri
 		}
 	}
 	p.setJson("media", info)
 }
 
-// Parameters for editMessageLiveLocation.
+// Parameters for editMessageLiveLocation method.
 // Reference: https://core.telegram.org/bots/api#editmessagelivelocation
 type EditMessageLiveLocation struct {
 	EditMessageReplyMarkupParams
@@ -217,7 +226,7 @@ func (p *EditMessageLiveLocation) Location(latitude, longitude float64) {
 	p.setFloat("longitude", longitude)
 }
 
-// Parameters for stopMessageLiveLocation, which is as same as EditMessageReplyMarkupParams.
+// Parameters for stopMessageLiveLocation method, which is as same as EditMessageReplyMarkupParams.
 // Reference: https://core.telegram.org/bots/api#stopmessagelivelocation
 type StopMessageLiveLocation struct {
 	EditMessageReplyMarkupParams
