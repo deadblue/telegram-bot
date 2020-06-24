@@ -40,7 +40,8 @@ type Bot struct {
 	SendVoice func(params *parameters.SendVoiceParams) (*types.Message, error)
 	// Send rounded square mp4 video message, up to 1 minute long.
 	SendVideoNote func(params *parameters.SendVideoNoteParams) (*types.Message, error)
-	// TODO: SendMediaGroup()
+	// Send a group of photos or videos as an album.
+	SendMediaGroup func(params *parameters.SendMediaGroupParams) ([]*types.Message, error)
 	// Send point on the map.
 	SendLocation func(params *parameters.SendLocationParams) (*types.Message, error)
 	// Send information about a venue.

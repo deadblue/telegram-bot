@@ -6,12 +6,15 @@ import (
 	"os"
 )
 
+// A placeholder for InputFile
+// Reference: https://core.telegram.org/bots/api#inputfile
 type InputFile struct {
-	// file Id on telegram server.
+	// file Id or URL.
 	fileIdOrUrl string
-	// file data from local.
+	// file information
 	name string
 	size int64
+	// file stream
 	data io.Reader
 }
 

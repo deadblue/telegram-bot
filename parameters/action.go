@@ -1,5 +1,7 @@
 package parameters
 
+// Parameters for sendChatAction.
+// Reference: https://core.telegram.org/bots/api#sendchataction
 type SendChatActionParams struct {
 	ChatParams
 }
