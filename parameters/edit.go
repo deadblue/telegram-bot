@@ -1,7 +1,7 @@
 package parameters
 
 import (
-	"github.com/deadblue/telegroid/types"
+	"github.com/deadblue/telegram-bot/types"
 )
 
 // Parameters for deleteMessage method.

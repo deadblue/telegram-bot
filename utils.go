@@ -1,4 +1,4 @@
-package telegroid
+package telegram
 
 func isUpper(ch rune) bool {
 	return ch >= 'A' && ch <= 'Z'

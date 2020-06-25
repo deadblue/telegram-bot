@@ -1,8 +1,8 @@
-package telegroid
+package telegram
 
 import (
-	"github.com/deadblue/telegroid/parameters"
-	"github.com/deadblue/telegroid/types"
+	"github.com/deadblue/telegram-bot/parameters"
+	"github.com/deadblue/telegram-bot/types"
 )
 
 // Telegram Bot API wrapper

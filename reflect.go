@@ -1,8 +1,8 @@
-package telegroid
+package telegram
 
 import (
 	"fmt"
-	"github.com/deadblue/telegroid/internal/core"
+	"github.com/deadblue/telegram-bot/internal/core"
 	"reflect"
 )
 

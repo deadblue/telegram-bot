@@ -1,6 +1,6 @@
 package parameters
 
-import "github.com/deadblue/telegroid/types"
+import "github.com/deadblue/telegram-bot/types"
 
 type SendInvoiceParams struct {
 	implApiParameters

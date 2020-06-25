@@ -2,7 +2,7 @@ package parameters
 
 import (
 	"fmt"
-	"github.com/deadblue/telegroid/types"
+	"github.com/deadblue/telegram-bot/types"
 )
 
 type FormattedText interface {

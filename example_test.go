@@ -1,4 +1,4 @@
-package telegroid
+package telegram
 
 import "log"
 

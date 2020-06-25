@@ -1,6 +1,6 @@
 package parameters
 
-import "github.com/deadblue/telegroid/types"
+import "github.com/deadblue/telegram-bot/types"
 
 // Interface for all InputMedia
 // Reference: https://core.telegram.org/bots/api#inputmedia

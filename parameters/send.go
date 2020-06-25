@@ -1,7 +1,7 @@
 package parameters
 
 import (
-	"github.com/deadblue/telegroid/types"
+	"github.com/deadblue/telegram-bot/types"
 	"time"
 )
 
@@ -16,16 +16,16 @@ func (p *baseSendParams) DisableNotification() {
 func (p *baseSendParams) PeplyToMessage(messageId int) {
 	p.setInt("reply_to_message_id", messageId)
 }
-func (p *baseSendParams) ForceReply(seletive bool) {
+func (p *baseSendParams) ForceReply(selective bool) {
 	p.setJson("reply_markup", &types.ForceReply{
 		ForceReply: true,
-		Selective:  seletive,
+		Selective:  selective,
 	})
 }
-func (p *baseSendParams) RemoveKeyboard(seletive bool) {
+func (p *baseSendParams) RemoveKeyboard(selective bool) {
 	p.setJson("reply_markup", &types.ReplyKeyboardRemove{
 		RemoveKeyboard: true,
-		Selective:      seletive,
+		Selective:      selective,
 	})
 }
 func (p *baseSendParams) ReplyKeyboard(markup *types.ReplyKeyboardMarkup) {

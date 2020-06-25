@@ -1,11 +1,11 @@
-# Telegroid
+# Telegram Bot
 
 ![](https://img.shields.io/badge/Release-v0.0.5-brightgreen.svg?style=flat-square)
 ![](https://img.shields.io/badge/Develop-v0.1.0-orange.svg?style=flat-square)
 [![Reference](https://img.shields.io/badge/Go-Reference-blue.svg?style=flat-square)](https://pkg.go.dev/github.com/deadblue/telegroid)
-![](https://img.shields.io/github/license/deadblue/telegroid?style=flat-square)
+![](https://img.shields.io/github/license/deadblue/telegram-bot?style=flat-square)
 
-A Telegram Bot API wrapper for Go.
+Go bindings for Telegram Bot API.
 
 Supports most Bot APIs in version 4.9, except:
 
@@ -16,11 +16,11 @@ Supports most Bot APIs in version 4.9, except:
 # Example
 
 ```Go
-import "github.com/deadblue/telegroid"
-import "github.com/deadblue/telegroid/parameters"
+import "github.com/deadblue/telegram-bot"
+import "github.com/deadblue/telegram-bot/parameters"
 
 // Create a bot instance
-bot := telegroid.New("your_bot_token")
+bot := telegram.New("your_bot_token")
 
 // Get bot information
 me, err := bot.GetMe()
@@ -31,7 +31,7 @@ if err != nil {
 // Send markdown text message with inline keyboard
 params := new(parameters.SendMessageParams)
 args.ChatId(1234)
-args.Text(parameters.MarkdownV2Text("**Hello, world**"))
+args.Text(parameters.MarkdownV2Text("*Hello, world*"))
 msg, err := bot.SendMessage(args)
 if err != nil {
     panic(err)
