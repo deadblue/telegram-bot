@@ -1,4 +1,4 @@
-module github.com/deadblue/telegroid
+module github.com/deadblue/telegram-bot
 
 require (
 	github.com/deadblue/gostream v0.0.2

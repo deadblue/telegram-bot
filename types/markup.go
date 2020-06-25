@@ -29,13 +29,13 @@ type InlineKeyboardMarkup struct {
 
 type InlineKeyboardButton struct {
 	Text                         string        `json:"text"`
-	Url                          string        `json:"url"`
-	LoginUrl                     *LoginUrl     `json:"login_url"`
-	CallbackData                 string        `json:"callback_data"`
-	SwitchInlineQuery            string        `json:"switch_inline_query"`
-	SwitchInlineQueryCurrentChat string        `json:"switch_inline_query_current_chat"`
-	CallbackGame                 *CallbackGame `json:"callback_game"`
-	Pay                          bool          `json:"pay"`
+	Url                          string        `json:"url,omitempty"`
+	LoginUrl                     *LoginUrl     `json:"login_url,omitempty"`
+	CallbackData                 string        `json:"callback_data,omitempty"`
+	SwitchInlineQuery            string        `json:"switch_inline_query,omitempty"`
+	SwitchInlineQueryCurrentChat string        `json:"switch_inline_query_current_chat,omitempty"`
+	CallbackGame                 *CallbackGame `json:"callback_game,omitempty"`
+	Pay                          bool          `json:"pay,omitempty"`
 }
 
 type LoginUrl struct {

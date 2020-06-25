@@ -33,4 +33,4 @@ Example:
 	}
 
 */
-package telegroid
+package telegram
