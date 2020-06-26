@@ -1,15 +1,15 @@
 /*
-A Telegram Bot API wrapper.
+Go bindings for Telegram Bot API.
 
-Current supports Bot API version is 4.2.
+Supports API version 4.9.
 
 Example:
 
-	import "github.com/deadblue/telegroid"
-	import "github.com/deadblue/telegroid/arguments"
+	import "github.com/deadblue/telegram-bot"
+	import "github.com/deadblue/telegram-bot/parameters"
 
 	// Create a bot instance
-	bot := telegroid.New("your_bot_token")
+	bot := telegram.New("your_bot_token")
 
 	// Get bot information
 	me, err := bot.GetMe()
@@ -18,16 +18,10 @@ Example:
 	}
 
 	// Send markdown text message with an inline keyboard
-	args := new(arguments.SendMessageArgs)
-	args.ChatId(1234)
-	args.Text("Hello, *world*!").Markdown()
-	args.InlineKeyboard().
-		AddUrlButton("Github", "https://github.com/deadblue/telegroid").
-		AddUrlButton("Author", "tg://resolve?domain=deadbluex").
-		AddCallbackButton("Foo", "Bar").
-		Layout(2, 1).
-		Finish()
-	msg, err := bot.SendMessage(args)
+	params := new(parameters.SendMessageParams)
+	params.ChatId(1234)
+	params.Text(parameters.MarkdownV2Text("*Hello, world\\!*"))
+	msg, err := bot.SendMessage(params)
 	if err != nil {
 		panic(err)
 	}
