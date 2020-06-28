@@ -3,11 +3,11 @@ package parameters
 import (
 	"encoding/json"
 	"github.com/deadblue/gostream/multipart"
+	"github.com/deadblue/telegram-bot/internal/urlencoded"
 	"io"
 	"net/http"
 	urllib "net/url"
 	"strconv"
-	"strings"
 )
 
 type _file struct {
@@ -76,11 +76,7 @@ func (ar *implApiParameters) RequestFor(url string) (req *http.Request, err erro
 	} else {
 		if ar.files == nil || len(ar.files) == 0 {
 			// Url-encoded form
-			req, err = http.NewRequest(http.MethodPost, url,
-				strings.NewReader(ar.values.Encode()))
-			if req != nil {
-				req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-			}
+			req, err = urlencoded.NewRequest(url, ar.values)
 		} else {
 			// Multipart form
 			form := multipart.New()
@@ -93,7 +89,7 @@ func (ar *implApiParameters) RequestFor(url string) (req *http.Request, err erro
 				f := ar.files[name]
 				form.AddFileData(name, f.name, f.size, f.data)
 			}
-			req, err = multipart.MakeRequest(url, form)
+			req, err = multipart.NewRequest(url, form)
 		}
 	}
 	return
