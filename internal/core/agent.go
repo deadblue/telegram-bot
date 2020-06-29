@@ -54,7 +54,7 @@ func (a *Agent) Send(url string, params, result interface{}) (err error) {
 	return
 }
 
-func New(client *http.Client) *Agent {
+func NewAgent(client *http.Client) *Agent {
 	if client == nil {
 		client = defaultHttpClient()
 	}

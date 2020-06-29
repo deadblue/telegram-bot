@@ -1,6 +1,7 @@
 package telegram
 
 import (
+	"github.com/deadblue/telegram-bot/internal/core"
 	"github.com/deadblue/telegram-bot/parameters"
 	"github.com/deadblue/telegram-bot/types"
 )
@@ -168,6 +169,6 @@ multiple goroutines.
 */
 func New(token string) *Bot {
 	bot := new(Bot)
-	upUpDownDownLeftRightLeftRightBA(bot, token)
+	core.Bind(bot, token)
 	return bot
 }

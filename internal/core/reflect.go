@@ -1,42 +1,42 @@
-package telegram
+package core
 
 import (
 	"fmt"
-	"github.com/deadblue/telegram-bot/internal/core"
 	"reflect"
 )
 
 const (
 	apiTemplate = "https://api.telegram.org/bot%s/%s"
-	tagMethod   = "method"
 )
 
-// Make all API functions for Bot, this function should be called ONLY ONCE for each Bot.
-func upUpDownDownLeftRightLeftRightBA(b *Bot, token string) {
-	// Agent for performing API request
-	agent := core.New(nil)
-	// Scan functions from the bot
-	rv := reflect.Indirect(reflect.ValueOf(b))
-	rt := reflect.TypeOf(b).Elem()
+// Bind create invoke functions for all function type fields on bot.
+func Bind(bot interface{}, token string) {
+	// HTTP agent for perform HTTP request
+	agent := NewAgent(nil)
+	// Scan functions from bot
+	rv := reflect.Indirect(reflect.ValueOf(bot))
+	rt := reflect.TypeOf(bot).Elem()
 	for i := 0; i < rv.NumField(); i++ {
 		fv, ft := rv.Field(i), rt.Field(i)
 		if fv.Kind() != reflect.Func {
 			continue
 		}
-		// Get API method name
-		methodName := ft.Tag.Get(tagMethod)
-		if len(methodName) == 0 {
-			// If not set, use field name
-			methodName = toMethodName(ft.Name)
-		}
-		// Make API url
-		url := fmt.Sprintf(apiTemplate, token, methodName)
+		// Make API URL
+		url := fmt.Sprintf(apiTemplate, token, toMethodName(ft.Name))
 		// Create invoker
 		fv.Set(createFunction(agent, url, fv.Type()))
 	}
 }
 
-func createFunction(agent *core.Agent, url string, funcType reflect.Type) reflect.Value {
+func toMethodName(name string) string {
+	runes := []rune(name)
+	if runes[0] >= 'A' && runes[0] <= 'Z' {
+		runes[0] -= 'A' - 'a'
+	}
+	return string(runes)
+}
+
+func createFunction(agent *Agent, url string, funcType reflect.Type) reflect.Value {
 	apiFunc := func(args []reflect.Value) (results []reflect.Value) {
 		// API function MUST has two out
 		resultVal := reflect.New(funcType.Out(0))
