@@ -15,11 +15,11 @@ type Agent struct {
 	// HTTP client
 	hc *http.Client
 	// Cooling down time
-	cdTime *int64
+	cdTime int64
 }
 
-// Send API request, and parse the response.
-func (a *Agent) Send(url string, params, result interface{}) (err error) {
+// Invoke the API.
+func (a *Agent) Invoke(url string, params, result interface{}) (err error) {
 	// Make request
 	req, err := makeRequest(url, params)
 	if err != nil {
@@ -27,7 +27,7 @@ func (a *Agent) Send(url string, params, result interface{}) (err error) {
 	}
 	req.Header.Set("User-Agent", UserAgent)
 	// Wait for CD
-	if cdTime, now := atomic.LoadInt64(a.cdTime), time.Now().Unix(); cdTime > now {
+	if cdTime, now := atomic.LoadInt64(&a.cdTime), time.Now().Unix(); cdTime > now {
 		time.Sleep(time.Duration(cdTime-now) * time.Second)
 	}
 	// Send request
@@ -37,7 +37,7 @@ func (a *Agent) Send(url string, params, result interface{}) (err error) {
 	} else if !ar.Ok {
 		// Update CD time
 		if ar.Parameters != nil && ar.Parameters.RetryAfter > 0 {
-			atomic.StoreInt64(a.cdTime,
+			atomic.StoreInt64(&a.cdTime,
 				time.Now().Unix()+int64(ar.Parameters.RetryAfter))
 		}
 		return errors.New(ar.Description)
@@ -82,9 +82,8 @@ func NewAgent(client *http.Client) *Agent {
 	if client == nil {
 		client = defaultHttpClient()
 	}
-	cdTime := int64(0)
 	return &Agent{
 		hc:     client,
-		cdTime: &cdTime,
+		cdTime: 0,
 	}
 }
