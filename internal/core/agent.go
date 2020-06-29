@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/deadblue/gostream/quietly"
+	"io"
 	"net/http"
 	"sync/atomic"
 	"time"
@@ -30,14 +31,8 @@ func (a *Agent) Send(url string, params, result interface{}) (err error) {
 		time.Sleep(time.Duration(cdTime-now) * time.Second)
 	}
 	// Send request
-	resp, err := a.hc.Do(req)
-	if err != nil {
-		return
-	}
-	defer quietly.Close(resp.Body)
-	// Parse response
 	ar := &ApiResponse{}
-	if err = json.NewDecoder(resp.Body).Decode(ar); err != nil {
+	if err = a.httpSend(req, ar); err != nil {
 		return
 	} else if !ar.Ok {
 		// Update CD time
@@ -52,6 +47,35 @@ func (a *Agent) Send(url string, params, result interface{}) (err error) {
 		err = json.Unmarshal(ar.Result, result)
 	}
 	return
+}
+
+func (a *Agent) httpSend(req *http.Request, ar *ApiResponse) (err error) {
+	resp := (*http.Response)(nil)
+	// Send request with retry
+	for {
+		resp, err = a.hc.Do(req)
+		// Break retry when success
+		if err == nil {
+			break
+		}
+		// Check if the request can be re-send or not.
+		if req.Body != nil {
+			s, ok := req.Body.(io.Seeker)
+			// CAN NOT retry for unseekable request body.
+			if !ok {
+				break
+			}
+			// CAN NOT retry when seek failed.
+			if _, err := s.Seek(0, io.SeekStart); err != nil {
+				break
+			}
+		}
+	}
+	if err != nil {
+		return
+	}
+	defer quietly.Close(resp.Body)
+	return json.NewDecoder(resp.Body).Decode(ar)
 }
 
 func NewAgent(client *http.Client) *Agent {
