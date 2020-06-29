@@ -92,7 +92,7 @@ type SetWebhookParams struct {
 func (p *SetWebhookParams) Url(url string) {
 	p.set("url", url)
 }
-func (p *SetWebhookParams) Certificate(file *InputFile) {
+func (p *SetWebhookParams) Certificate(file InputFile) {
 	p.setFile("certificate", file)
 }
 func (p *SetWebhookParams) MaxConnections(maxConns int) {

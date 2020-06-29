@@ -1,12 +1,14 @@
 package parameters
 
-import "github.com/deadblue/telegram-bot/types"
+import (
+	"github.com/deadblue/telegram-bot/types"
+)
 
 type SendStickerParams struct {
 	baseSendParams
 }
 
-func (p *SendStickerParams) Sticker(file *InputFile) {
+func (p *SendStickerParams) Sticker(file InputFile) {
 	p.setFile("sticker", file)
 }
 
@@ -25,7 +27,7 @@ type UploadStickerFileParams struct {
 func (p *UploadStickerFileParams) UserId(userId int) {
 	p.setInt("user_id", userId)
 }
-func (p *UploadStickerFileParams) PngSticker(file *InputFile) {
+func (p *UploadStickerFileParams) PngSticker(file InputFile) {
 	p.setFile("png_sticker", file)
 }
 
@@ -39,10 +41,10 @@ func (p *AddStickerToSetParams) UserId(userId int) {
 func (p *AddStickerToSetParams) Emojis(emojis string) {
 	p.set("emojis", emojis)
 }
-func (p *AddStickerToSetParams) PngSticker(file *InputFile) {
+func (p *AddStickerToSetParams) PngSticker(file InputFile) {
 	p.setFile("png_sticker", file)
 }
-func (p *AddStickerToSetParams) TgsSticker(file *InputFile) {
+func (p *AddStickerToSetParams) TgsSticker(file InputFile) {
 	p.setFile("tgs_sticker", file)
 }
 func (p *AddStickerToSetParams) MaskPosition(position *types.MaskPosition) {
@@ -83,6 +85,6 @@ type SetStickerSetThumbParams struct {
 func (p *SetStickerSetThumbParams) UserId(userId int) {
 	p.setInt("user_id", userId)
 }
-func (p *SetStickerSetThumbParams) Thumb(file *InputFile) {
+func (p *SetStickerSetThumbParams) Thumb(file InputFile) {
 	p.setFile("thumb", file)
 }

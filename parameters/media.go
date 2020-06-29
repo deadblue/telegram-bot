@@ -1,6 +1,8 @@
 package parameters
 
-import "github.com/deadblue/telegram-bot/types"
+import (
+	"github.com/deadblue/telegram-bot/types"
+)
 
 // Interface for all InputMedia
 // Reference: https://core.telegram.org/bots/api#inputmedia
@@ -11,14 +13,14 @@ type InputMedia interface {
 // Information for InputMediaPhoto
 // Reference: https://core.telegram.org/bots/api#inputmediaphoto
 type InputPhoto struct {
-	media   *InputFile
+	media   InputFile
 	caption FormattedText
 }
 
 func (i *InputPhoto) Type() types.InputMediaType {
 	return types.MediaPhoto
 }
-func (i *InputPhoto) Media(file *InputFile) *InputPhoto {
+func (i *InputPhoto) Media(file InputFile) *InputPhoto {
 	i.media = file
 	return i
 }
@@ -30,15 +32,15 @@ func (i *InputPhoto) Caption(text FormattedText) *InputPhoto {
 // Information for InputMediaDocument
 // Reference: https://core.telegram.org/bots/api#inputmediadocument
 type InputDocument struct {
-	media   *InputFile
+	media   InputFile
 	caption FormattedText
-	thumb   *InputFile
+	thumb   InputFile
 }
 
 func (i *InputDocument) Type() types.InputMediaType {
 	return types.MediaDocument
 }
-func (i *InputDocument) Media(file *InputFile) *InputDocument {
+func (i *InputDocument) Media(file InputFile) *InputDocument {
 	i.media = file
 	return i
 }
@@ -46,7 +48,7 @@ func (i *InputDocument) Caption(text FormattedText) *InputDocument {
 	i.caption = text
 	return i
 }
-func (i *InputDocument) Thumb(file *InputFile) *InputDocument {
+func (i *InputDocument) Thumb(file InputFile) *InputDocument {
 	i.thumb = file
 	return i
 }
@@ -54,9 +56,9 @@ func (i *InputDocument) Thumb(file *InputFile) *InputDocument {
 // Information for InputMediaAnimation
 // Reference: https://core.telegram.org/bots/api#inputmediaanimation
 type InputAnimation struct {
-	media    *InputFile
+	media    InputFile
 	caption  FormattedText
-	thumb    *InputFile
+	thumb    InputFile
 	width    int
 	height   int
 	duration int
@@ -65,7 +67,7 @@ type InputAnimation struct {
 func (i *InputAnimation) Type() types.InputMediaType {
 	return types.MediaAnimation
 }
-func (i *InputAnimation) Media(file *InputFile) *InputAnimation {
+func (i *InputAnimation) Media(file InputFile) *InputAnimation {
 	i.media = file
 	return i
 }
@@ -73,7 +75,7 @@ func (i *InputAnimation) Caption(text FormattedText) *InputAnimation {
 	i.caption = text
 	return i
 }
-func (i *InputAnimation) Thumb(file *InputFile) *InputAnimation {
+func (i *InputAnimation) Thumb(file InputFile) *InputAnimation {
 	i.thumb = file
 	return i
 }
@@ -89,9 +91,9 @@ func (i *InputAnimation) Duration(duration int) *InputAnimation {
 // Information for InputMediaVideo
 // Reference: https://core.telegram.org/bots/api#inputmediavideo
 type InputVideo struct {
-	media             *InputFile
+	media             InputFile
 	caption           FormattedText
-	thumb             *InputFile
+	thumb             InputFile
 	width             int
 	height            int
 	duration          int
@@ -101,7 +103,7 @@ type InputVideo struct {
 func (i *InputVideo) Type() types.InputMediaType {
 	return types.MediaVideo
 }
-func (i *InputVideo) Media(file *InputFile) *InputVideo {
+func (i *InputVideo) Media(file InputFile) *InputVideo {
 	i.media = file
 	return i
 }
@@ -109,7 +111,7 @@ func (i *InputVideo) Caption(text FormattedText) *InputVideo {
 	i.caption = text
 	return i
 }
-func (i *InputVideo) Thumb(file *InputFile) *InputVideo {
+func (i *InputVideo) Thumb(file InputFile) *InputVideo {
 	i.thumb = file
 	return i
 }
@@ -129,9 +131,9 @@ func (i *InputVideo) SupportsStreaming() *InputVideo {
 // Information for InputMediaAudio
 // Reference: https://core.telegram.org/bots/api#inputmediaaudio
 type InputAudio struct {
-	media     *InputFile
+	media     InputFile
 	caption   FormattedText
-	thumb     *InputFile
+	thumb     InputFile
 	duration  int
 	title     string
 	performer string
@@ -140,7 +142,7 @@ type InputAudio struct {
 func (i *InputAudio) Type() types.InputMediaType {
 	return types.MediaAudio
 }
-func (i *InputAudio) Media(file *InputFile) *InputAudio {
+func (i *InputAudio) Media(file InputFile) *InputAudio {
 	i.media = file
 	return i
 }
@@ -148,7 +150,7 @@ func (i *InputAudio) Caption(text FormattedText) *InputAudio {
 	i.caption = text
 	return i
 }
-func (i *InputAudio) Thumb(file *InputFile) *InputAudio {
+func (i *InputAudio) Thumb(file InputFile) *InputAudio {
 	i.thumb = file
 	return i
 }

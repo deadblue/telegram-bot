@@ -68,7 +68,7 @@ type SendPhotoParams struct {
 	baseSendMediaParams
 }
 
-func (p *SendPhotoParams) Photo(file *InputFile) {
+func (p *SendPhotoParams) Photo(file InputFile) {
 	p.setFile("photo", file)
 }
 
@@ -78,7 +78,7 @@ type SendAudioParams struct {
 	baseSendMediaParams
 }
 
-func (p *SendAudioParams) Audio(file *InputFile) {
+func (p *SendAudioParams) Audio(file InputFile) {
 	p.setFile("audio", file)
 }
 func (p *SendAudioParams) Duration(duration int) {
@@ -90,7 +90,7 @@ func (p *SendAudioParams) Performer(performer string) {
 func (p *SendAudioParams) Title(title string) {
 	p.set("title", title)
 }
-func (p *SendAudioParams) Thumb(file *InputFile) {
+func (p *SendAudioParams) Thumb(file InputFile) {
 	p.setFile("thumb", file)
 }
 
@@ -100,10 +100,10 @@ type SendDocumentParams struct {
 	baseSendMediaParams
 }
 
-func (p *SendDocumentParams) Document(file *InputFile) {
+func (p *SendDocumentParams) Document(file InputFile) {
 	p.setFile("document", file)
 }
-func (p *SendDocumentParams) Thumb(file *InputFile) {
+func (p *SendDocumentParams) Thumb(file InputFile) {
 	p.setFile("thumb", file)
 }
 
@@ -113,7 +113,7 @@ type SendVideoParams struct {
 	baseSendMediaParams
 }
 
-func (p *SendVideoParams) Video(file *InputFile) {
+func (p *SendVideoParams) Video(file InputFile) {
 	p.setFile("video", file)
 }
 func (p *SendVideoParams) Duration(duration int) {
@@ -123,7 +123,7 @@ func (p *SendVideoParams) Dimension(width, height int) {
 	p.setInt("width", width)
 	p.setInt("height", height)
 }
-func (p *SendVideoParams) Thumb(file *InputFile) {
+func (p *SendVideoParams) Thumb(file InputFile) {
 	p.setFile("thumb", file)
 }
 func (p *SendVideoParams) SupportsStreaming() {
@@ -136,7 +136,7 @@ type SendAnimationParams struct {
 	baseSendMediaParams
 }
 
-func (p *SendAnimationParams) Animation(file *InputFile) {
+func (p *SendAnimationParams) Animation(file InputFile) {
 	p.setFile("animation", file)
 }
 func (p *SendAnimationParams) Duration(duration int) {
@@ -146,7 +146,7 @@ func (p *SendAnimationParams) Size(width, height int) {
 	p.setInt("width", width)
 	p.setInt("height", height)
 }
-func (p *SendAnimationParams) Thumb(file *InputFile) {
+func (p *SendAnimationParams) Thumb(file InputFile) {
 	p.setFile("thumb", file)
 }
 
@@ -156,7 +156,7 @@ type SendVoiceParams struct {
 	baseSendMediaParams
 }
 
-func (p *SendVoiceParams) Voice(file *InputFile) {
+func (p *SendVoiceParams) Voice(file InputFile) {
 	p.setFile("voice", file)
 }
 func (p *SendVoiceParams) Duration(duration int) {
@@ -169,7 +169,7 @@ type SendVideoNoteParams struct {
 	baseSendMediaParams
 }
 
-func (p *SendVideoNoteParams) VideoNote(file *InputFile) {
+func (p *SendVideoNoteParams) VideoNote(file InputFile) {
 	p.setFile("video_note", file)
 }
 func (p *SendVideoNoteParams) Duration(duration int) {
@@ -178,7 +178,7 @@ func (p *SendVideoNoteParams) Duration(duration int) {
 func (p *SendVideoNoteParams) SideLength(length int) {
 	p.setInt("length", length)
 }
-func (p *SendVideoNoteParams) Thumb(file *InputFile) {
+func (p *SendVideoNoteParams) Thumb(file InputFile) {
 	p.setFile("thumb", file)
 }
 
@@ -195,7 +195,7 @@ func (p *SendMediaGroupParams) ReplyToMessage(messageId int) {
 	p.setInt("reply_to_message_id", messageId)
 }
 func (p *SendMediaGroupParams) Media(media ...InputMedia) {
-	infos, files := make([]interface{}, 0), make(map[string]*InputFile)
+	infos, files := make([]interface{}, 0), make(map[string]InputFile)
 	for _, item := range media {
 		switch item.(type) {
 		case *InputPhoto:
@@ -207,8 +207,8 @@ func (p *SendMediaGroupParams) Media(media ...InputMedia) {
 					info.Caption = caption.String()
 					info.ParseMode = caption.Mode()
 				}
-				if photo.media.fileIdOrUrl != "" {
-					info.Media = photo.media.fileIdOrUrl
+				if photo.media.Id() != "" {
+					info.Media = photo.media.Id()
 				} else {
 					name, uri := randomAttachNameAndUri()
 					files[name] = photo.media
@@ -229,16 +229,16 @@ func (p *SendMediaGroupParams) Media(media ...InputMedia) {
 					info.Caption = caption.String()
 					info.ParseMode = caption.Mode()
 				}
-				if video.media.fileIdOrUrl != "" {
-					info.Media = video.media.fileIdOrUrl
+				if video.media.Id() != "" {
+					info.Media = video.media.Id()
 				} else {
 					name, uri := randomAttachNameAndUri()
 					files[name] = video.media
 					info.Media = uri
 				}
 				if video.thumb != nil {
-					if video.thumb.fileIdOrUrl != "" {
-						info.Thumb = video.thumb.fileIdOrUrl
+					if video.thumb.Id() != "" {
+						info.Thumb = video.thumb.Id()
 					} else {
 						name, uri := randomAttachNameAndUri()
 						files[name] = video.thumb
@@ -251,8 +251,8 @@ func (p *SendMediaGroupParams) Media(media ...InputMedia) {
 	}
 	if count := len(infos); count >= 2 && count <= 10 {
 		p.setJson("media", infos)
-		for name, file := range files {
-			p.setFile(name, file)
+		for name, f := range files {
+			p.setFile(name, f)
 		}
 	}
 }

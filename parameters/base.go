@@ -54,17 +54,18 @@ func (ar *implApiParameters) setJson(name string, value interface{}) {
 	ar.set(name, string(data))
 }
 
-func (ar *implApiParameters) setFile(name string, file *InputFile) {
-	if file.fileIdOrUrl != "" {
-		ar.set(name, file.fileIdOrUrl)
+func (ar *implApiParameters) setFile(name string, file InputFile) {
+	if file.Id() != "" {
+		ar.set(name, file.Id())
 	} else {
 		if ar.files == nil {
 			ar.files = make(map[string]_file)
 		}
+		fname, fsize, fdata := file.File()
 		ar.files[name] = _file{
-			name: file.name,
-			size: file.size,
-			data: file.data,
+			name: fname,
+			size: fsize,
+			data: fdata,
 		}
 	}
 }

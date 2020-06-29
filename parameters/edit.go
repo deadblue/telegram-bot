@@ -85,8 +85,8 @@ func (p *EditMessageMediaParams) Photo(photo *InputPhoto) {
 		info.Caption = caption.String()
 		info.ParseMode = caption.Mode()
 	}
-	if photo.media.fileIdOrUrl != "" {
-		info.Media = photo.media.fileIdOrUrl
+	if photo.media.Id() != "" {
+		info.Media = photo.media.Id()
 	} else {
 		name, uri := randomAttachNameAndUri()
 		p.setFile(name, photo.media)
@@ -110,16 +110,16 @@ func (p *EditMessageMediaParams) Video(video *InputVideo) {
 		info.Caption = caption.String()
 		info.ParseMode = caption.Mode()
 	}
-	if video.media.fileIdOrUrl != "" {
-		info.Media = video.media.fileIdOrUrl
+	if video.media.Id() != "" {
+		info.Media = video.media.Id()
 	} else {
 		name, uri := randomAttachNameAndUri()
 		p.setFile(name, video.media)
 		info.Media = uri
 	}
 	if video.thumb != nil {
-		if video.thumb.fileIdOrUrl != "" {
-			info.Thumb = video.thumb.fileIdOrUrl
+		if video.thumb.Id() != "" {
+			info.Thumb = video.thumb.Id()
 		} else {
 			name, uri := randomAttachNameAndUri()
 			p.setFile(name, video.thumb)
@@ -143,16 +143,16 @@ func (p *EditMessageMediaParams) Animation(animation *InputAnimation) {
 		info.Caption = caption.String()
 		info.ParseMode = caption.Mode()
 	}
-	if animation.media.fileIdOrUrl != "" {
-		info.Media = animation.media.fileIdOrUrl
+	if animation.media.Id() != "" {
+		info.Media = animation.media.Id()
 	} else {
 		name, uri := randomAttachNameAndUri()
 		p.setFile(name, animation.media)
 		info.Media = uri
 	}
 	if animation.thumb != nil {
-		if animation.thumb.fileIdOrUrl != "" {
-			info.Thumb = animation.thumb.fileIdOrUrl
+		if animation.thumb.Id() != "" {
+			info.Thumb = animation.thumb.Id()
 		} else {
 			name, uri := randomAttachNameAndUri()
 			p.setFile(name, animation.thumb)
@@ -176,16 +176,16 @@ func (p *EditMessageMediaParams) Audio(audio *InputAudio) {
 		info.Caption = caption.String()
 		info.ParseMode = caption.Mode()
 	}
-	if audio.media.fileIdOrUrl != "" {
-		info.Media = audio.media.fileIdOrUrl
+	if audio.media.Id() != "" {
+		info.Media = audio.media.Id()
 	} else {
 		name, uri := randomAttachNameAndUri()
 		p.setFile(name, audio.media)
 		info.Media = uri
 	}
 	if audio.thumb != nil {
-		if audio.thumb.fileIdOrUrl != "" {
-			info.Thumb = audio.thumb.fileIdOrUrl
+		if audio.thumb.Id() != "" {
+			info.Thumb = audio.thumb.Id()
 		} else {
 			name, uri := randomAttachNameAndUri()
 			p.setFile(name, audio.thumb)
@@ -206,16 +206,16 @@ func (p *EditMessageMediaParams) Document(document *InputDocument) {
 		info.Caption = caption.String()
 		info.ParseMode = caption.Mode()
 	}
-	if document.media.fileIdOrUrl != "" {
-		info.Media = document.media.fileIdOrUrl
+	if document.media.Id() != "" {
+		info.Media = document.media.Id()
 	} else {
 		name, uri := randomAttachNameAndUri()
 		p.setFile(name, document.media)
 		info.Media = uri
 	}
 	if document.thumb != nil {
-		if document.thumb.fileIdOrUrl != "" {
-			info.Thumb = document.thumb.fileIdOrUrl
+		if document.thumb.Id() != "" {
+			info.Thumb = document.thumb.Id()
 		} else {
 			name, uri := randomAttachNameAndUri()
 			p.setFile(name, document.thumb)
