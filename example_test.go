@@ -2,6 +2,7 @@ package telegram
 
 import (
 	"github.com/deadblue/telegram-bot/parameters"
+	"github.com/deadblue/telegram-bot/parameters/keyboard"
 	"github.com/deadblue/telegram-bot/parameters/text"
 	"log"
 )
@@ -30,7 +31,9 @@ func ExampleBot_SendMessage() {
 	params := new(parameters.SendMessageParams)
 	params.ChatId(12345678)
 	params.Text(text.MarkdownV2("Hello, world"))
-	params.DisableNotification()
+	params.InlineKeyboard((&keyboard.InlineBuilder{}).
+		AddUrlButton("URL", "https://dead.blue").
+		Build())
 	msg, err := bot.SendMessage(params)
 	if err != nil {
 		log.Fatalf("Call sendMessage error: %s", err)

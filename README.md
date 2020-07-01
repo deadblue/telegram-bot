@@ -9,15 +9,17 @@ Go bindings for Telegram Bot API.
 
 Supports most Bot APIs in version 4.9, except:
 
-* Passport: https://core.telegram.org/bots/api#telegram-passport
+* [Passport](https://core.telegram.org/bots/api#telegram-passport)
 
-**Plan to change the package name.**
+## Example
 
-# Example
-
-```Go
-import "github.com/deadblue/telegram-bot"
-import "github.com/deadblue/telegram-bot/parameters"
+```go
+import (
+    "github.com/deadblue/telegram-bot"
+    "github.com/deadblue/telegram-bot/parameters"
+    "github.com/deadblue/telegram-bot/parameters/keyboard"
+	"github.com/deadblue/telegram-bot/parameters/text"
+)
 
 // Create a bot instance
 bot := telegram.New("your_bot_token")
@@ -28,20 +30,24 @@ if err != nil {
     panic(err)
 }
 
-// Send markdown text message with inline keyboard
+// Prepare text message parameters
 params := new(parameters.SendMessageParams)
-args.ChatId(1234)
-args.Text(parameters.MarkdownV2Text("*Hello, world*"))
-msg, err := bot.SendMessage(args)
+params.ChatId(1234) 
+params.Text(text.MarkdownV2("*Hello, world*"))
+params.InlineKeyboard( (&keyboard.InlineBuilder{}).
+    AddUrlButton("URL", "https://dead.blue").
+    Build() )
+// Send message
+msg, err := bot.SendMessage(params)
 if err != nil {
     panic(err)
 }
 ```
 
-# Reference
+## Reference
 
 * https://core.telegram.org/bots/api
 
-# LICENSE
+## LICENSE
 
 MIT
