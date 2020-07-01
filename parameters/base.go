@@ -1,6 +1,7 @@
 package parameters
 
 import (
+	"context"
 	"encoding/json"
 	"github.com/deadblue/gostream/multipart"
 	"github.com/deadblue/telegram-bot/internal/urlencoded"
@@ -70,14 +71,14 @@ func (ar *implApiParameters) setFile(name string, file InputFile) {
 	}
 }
 
-func (ar *implApiParameters) RequestFor(url string) (req *http.Request, err error) {
+func (ar *implApiParameters) RequestFor(ctx context.Context, url string) (req *http.Request, err error) {
 	if ar.values == nil || len(ar.values) == 0 {
 		// Make a GET request
-		req, err = http.NewRequest(http.MethodGet, url, nil)
+		req, err = http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	} else {
 		if ar.files == nil || len(ar.files) == 0 {
 			// Url-encoded form
-			req, err = urlencoded.NewRequest(url, ar.values)
+			req, err = urlencoded.NewRequestWithContext(ctx, url, ar.values)
 		} else {
 			// Multipart form
 			form := multipart.New()
@@ -90,7 +91,7 @@ func (ar *implApiParameters) RequestFor(url string) (req *http.Request, err erro
 				f := ar.files[name]
 				form.AddFileData(name, f.name, f.size, f.data)
 			}
-			req, err = multipart.NewRequest(url, form)
+			req, err = multipart.NewRequestWithContext(ctx, url, form)
 		}
 	}
 	return

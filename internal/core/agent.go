@@ -1,6 +1,7 @@
 package core
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"github.com/deadblue/gostream/quietly"
@@ -19,9 +20,9 @@ type Agent struct {
 }
 
 // Invoke the API.
-func (a *Agent) Invoke(url string, params, result interface{}) (err error) {
+func (a *Agent) Invoke(ctx context.Context, url string, params, result interface{}) (err error) {
 	// Make request
-	req, err := makeRequest(url, params)
+	req, err := makeRequest(ctx, url, params)
 	if err != nil {
 		return
 	}

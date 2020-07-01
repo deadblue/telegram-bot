@@ -44,9 +44,9 @@ func createFunction(agent *Agent, url string, funcType reflect.Type) reflect.Val
 		// Call API
 		var err error
 		if len(args) == 0 {
-			err = agent.Invoke(url, nil, resultVal.Interface())
+			err = agent.Invoke(nil, url, nil, resultVal.Interface())
 		} else {
-			err = agent.Invoke(url, args[0].Interface(), resultVal.Interface())
+			err = agent.Invoke(nil, url, args[0].Interface(), resultVal.Interface())
 		}
 		// Check error
 		if err != nil {
