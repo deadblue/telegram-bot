@@ -1,11 +1,12 @@
 package telegram
 
 import (
+	"github.com/deadblue/telegram-bot/internal/core"
 	"github.com/deadblue/telegram-bot/parameters"
 	"github.com/deadblue/telegram-bot/types"
 )
 
-// Telegram Bot API wrapper
+// Bot wraps almost all Telegram Bot API.
 type Bot struct {
 
 	// Get basic information about the bot.
@@ -160,7 +161,7 @@ type Bot struct {
 }
 
 /*
-Create a Bot with token.
+New creates a Bot with token.
 
 There is some reflect operations during creating a bot, it is recommended
 to create only one bot for each bot account, the bot is safe to use in
@@ -168,6 +169,6 @@ multiple goroutines.
 */
 func New(token string) *Bot {
 	bot := new(Bot)
-	upUpDownDownLeftRightLeftRightBA(bot, token)
+	core.Bind(bot, false, token)
 	return bot
 }

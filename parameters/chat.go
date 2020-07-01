@@ -89,7 +89,7 @@ type SetChatPhotoParams struct {
 	ChatParams
 }
 
-func (p *SetChatPhotoParams) Photo(file *InputFile) {
+func (p *SetChatPhotoParams) Photo(file InputFile) {
 	p.setFile("photo", file)
 }
 

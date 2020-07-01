@@ -1,13 +1,14 @@
 package parameters
 
 import (
+	"context"
 	"encoding/json"
 	"github.com/deadblue/gostream/multipart"
+	"github.com/deadblue/telegram-bot/internal/urlencoded"
 	"io"
 	"net/http"
 	urllib "net/url"
 	"strconv"
-	"strings"
 )
 
 type _file struct {
@@ -54,33 +55,30 @@ func (ar *implApiParameters) setJson(name string, value interface{}) {
 	ar.set(name, string(data))
 }
 
-func (ar *implApiParameters) setFile(name string, file *InputFile) {
-	if file.fileIdOrUrl != "" {
-		ar.set(name, file.fileIdOrUrl)
+func (ar *implApiParameters) setFile(name string, file InputFile) {
+	if file.Id() != "" {
+		ar.set(name, file.Id())
 	} else {
 		if ar.files == nil {
 			ar.files = make(map[string]_file)
 		}
+		fname, fsize, fdata := file.File()
 		ar.files[name] = _file{
-			name: file.name,
-			size: file.size,
-			data: file.data,
+			name: fname,
+			size: fsize,
+			data: fdata,
 		}
 	}
 }
 
-func (ar *implApiParameters) RequestFor(url string) (req *http.Request, err error) {
+func (ar *implApiParameters) RequestFor(ctx context.Context, url string) (req *http.Request, err error) {
 	if ar.values == nil || len(ar.values) == 0 {
 		// Make a GET request
-		req, err = http.NewRequest(http.MethodGet, url, nil)
+		req, err = http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	} else {
 		if ar.files == nil || len(ar.files) == 0 {
 			// Url-encoded form
-			req, err = http.NewRequest(http.MethodPost, url,
-				strings.NewReader(ar.values.Encode()))
-			if req != nil {
-				req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-			}
+			req, err = urlencoded.NewRequestWithContext(ctx, url, ar.values)
 		} else {
 			// Multipart form
 			form := multipart.New()
@@ -93,7 +91,7 @@ func (ar *implApiParameters) RequestFor(url string) (req *http.Request, err erro
 				f := ar.files[name]
 				form.AddFileData(name, f.name, f.size, f.data)
 			}
-			req, err = multipart.MakeRequest(url, form)
+			req, err = multipart.NewRequestWithContext(ctx, url, form)
 		}
 	}
 	return
