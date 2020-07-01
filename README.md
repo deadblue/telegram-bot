@@ -18,7 +18,7 @@ import (
     "github.com/deadblue/telegram-bot"
     "github.com/deadblue/telegram-bot/parameters"
     "github.com/deadblue/telegram-bot/parameters/keyboard"
-	"github.com/deadblue/telegram-bot/parameters/text"
+    "github.com/deadblue/telegram-bot/parameters/text"
 )
 
 // Create a bot instance
