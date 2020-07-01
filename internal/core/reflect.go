@@ -1,6 +1,7 @@
 package core
 
 import (
+	"context"
 	"fmt"
 	"reflect"
 )
@@ -10,7 +11,7 @@ const (
 )
 
 // Bind create invoke functions for all function type fields on bot.
-func Bind(bot interface{}, token string) {
+func Bind(bot interface{}, withContext bool, token string) {
 	// HTTP agent for perform HTTP request
 	agent := NewAgent(nil)
 	// Scan functions from bot
@@ -24,7 +25,7 @@ func Bind(bot interface{}, token string) {
 		// Make API URL
 		url := fmt.Sprintf(apiTemplate, token, toMethodName(ft.Name))
 		// Create invoker
-		fv.Set(createFunction(agent, url, fv.Type()))
+		fv.Set(createFunction(agent, url, fv.Type(), withContext))
 	}
 }
 
@@ -36,17 +37,21 @@ func toMethodName(name string) string {
 	return string(runes)
 }
 
-func createFunction(agent *Agent, url string, funcType reflect.Type) reflect.Value {
+func createFunction(agent *Agent, url string, funcType reflect.Type, withContext bool) reflect.Value {
 	apiFunc := func(args []reflect.Value) (results []reflect.Value) {
 		// API function MUST has two out
 		resultVal := reflect.New(funcType.Out(0))
 		errVal := reflect.New(funcType.Out(1))
 		// Call API
-		var err error
+		ctx, err := context.Context(nil), error(nil)
+		if withContext {
+			ctx = args[0].Interface().(context.Context)
+			args = args[1:]
+		}
 		if len(args) == 0 {
-			err = agent.Invoke(nil, url, nil, resultVal.Interface())
+			err = agent.Invoke(ctx, url, nil, resultVal.Interface())
 		} else {
-			err = agent.Invoke(nil, url, args[0].Interface(), resultVal.Interface())
+			err = agent.Invoke(ctx, url, args[0].Interface(), resultVal.Interface())
 		}
 		// Check error
 		if err != nil {
