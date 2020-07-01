@@ -1,8 +1,7 @@
 # Telegram Bot
 
-![](https://img.shields.io/badge/Release-v0.0.5-brightgreen.svg?style=flat-square)
-![](https://img.shields.io/badge/Develop-v0.1.0-orange.svg?style=flat-square)
-[![Reference](https://img.shields.io/badge/Go-Reference-blue.svg?style=flat-square)](https://pkg.go.dev/github.com/deadblue/telegroid)
+![](https://img.shields.io/badge/Release-v0.1.0-brightgreen.svg?style=flat-square)
+[![Reference](https://img.shields.io/badge/Go-Reference-blue.svg?style=flat-square)](https://pkg.go.dev/github.com/deadblue/telegram-bot)
 ![](https://img.shields.io/github/license/deadblue/telegram-bot?style=flat-square)
 
 Go bindings for Telegram Bot API.
@@ -18,7 +17,7 @@ import (
     "github.com/deadblue/telegram-bot"
     "github.com/deadblue/telegram-bot/parameters"
     "github.com/deadblue/telegram-bot/parameters/keyboard"
-	"github.com/deadblue/telegram-bot/parameters/text"
+    "github.com/deadblue/telegram-bot/parameters/text"
 )
 
 // Create a bot instance
